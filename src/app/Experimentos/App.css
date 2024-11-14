@@ -1,0 +1,421 @@
+/* Fondo blanco para toda la página */
+body, html {
+  background-color: white;
+  margin: 0;
+  padding: 5px 0 0 0;
+  font-family: 'Montserrat', sans-serif;
+  overflow-x: hidden; /* Evita el desbordamiento horizontal */
+}
+
+/* Barra de navegación */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1440px;
+  width: 100%; /* Ajusta el ancho para que sea responsive */
+  height: 96px;
+  margin: 0 auto; /* Centrado horizontal */
+  padding: 0 1vw; /* Padding horizontal basado en el ancho del viewport */
+  background-color: #ffffff;
+  box-sizing: border-box; /* Incluye el padding dentro del ancho total */
+}
+
+.logo {
+  width: 308px;
+  height: auto; /* Ajuste automático según el aspecto del logo */
+  display: flex; /* Asegura alineación vertical */
+  align-items: center; /* Centra el logo verticalmente */
+  margin-right: 40px; /* Espacio entre el logo y las opciones del menú */
+}
+
+.menu {
+  display: flex;
+  gap: 30px; /* Espacio entre las opciones del menú */
+  align-items: center; /* Alinea verticalmente las opciones del menú */
+  list-style: none; /* Elimina los bullets de lista */
+  padding: 0; /* Elimina padding por defecto de listas */
+  margin: 0; /* Ajusta el margen a cero */
+}
+
+.menu-item {
+  color: #000000;
+  font-size: 16px;
+  font-weight: 600; /* SemiBold */
+  font-family: 'Montserrat', sans-serif;
+  text-decoration: none; /* Elimina el subrayado de los enlaces */
+  display: block; /* Asegura un manejo adecuado del espacio y eventos de clic */
+  white-space: nowrap; /* Impide que el texto se divida en varias líneas */
+  overflow: hidden; /* Oculta cualquier texto que desborde el área asignada */
+  text-overflow: ellipsis; /* Añade puntos suspensivos si el texto es truncado */
+  max-width: 200px; /* Establece un ancho máximo para el item del menú */
+}
+.menu-item:hover {
+  text-decoration: none; /* Asegura que no aparezca subrayado al pasar el mouse */
+}
+
+.menu-icon {
+  display: none; /* Esconde el ícono del menú por defecto */
+  font-size: 30px; /* Tamaño del ícono del menú hamburguesa */
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .menu {
+      display: none; /* Esconde el menú en dispositivos móviles */
+      flex-direction: column; /* Organiza los elementos del menú verticalmente */
+      width: 100%; /* Ajusta el ancho del menú desplegable */
+  }
+
+  .menu-icon {
+      display: block; /* Muestra el ícono del menú en dispositivos móviles */
+  }
+
+  .navbar {
+      justify-content: space-between; /* Ajusta la distribución de elementos en la barra */
+  }
+}
+
+/* Ajustes para el contenido general */
+.app {
+  padding: 5px 80px; /* Padding lateral fijo de 80px */
+  max-width: auto;
+  margin: 0 auto; /* Ajusta el margen para centrar correctamente */
+  box-sizing: border-box; /* Asegura que el padding no agregue ancho adicional */
+}
+
+h1 {
+  text-align: center;
+  font-weight: 600; /* SemiBold */
+}
+
+.input-section,
+.results-section,
+.hidrograma-section,
+.chart-section {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+input, select {
+  margin-left: 0px; /* Eliminar margen izquierdo */
+  padding: 5px;
+  width: 200px;
+}
+
+button {
+  margin-right: 10px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.chart-section {
+  margin-top: 20px;
+}
+
+.experiment-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px; /* Ajusta el margen según sea necesario */
+}
+
+.back-arrow {
+  color: rgba(0, 60, 105, 1);
+  font-size: 28px;
+  cursor: pointer;
+  margin-right: 10px; /* Espacio entre la flecha y el título */
+}
+
+.experiment-title {
+  text-align: left;
+  font-size: 28px;
+  font-weight: bold;
+  font-family: 'Montserrat', sans-serif;
+  color: rgba(0, 60, 105, 1);
+}
+
+/* Estilo general del contenedor principal de contenido */
+.content-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px; /* Espacio entre la parte superior y la parte de parámetros */
+}
+
+/* Estilo de las columnas izquierda, central y derecha */
+.left-section, .center-section, .right-section {
+  width: 37%; /* Cada sección ocupa el 30% del ancho del contenedor */
+  padding: 0 20px; /* Espacio interno para que no queden pegadas entre sí */
+  box-sizing: border-box; /* Para incluir padding en el ancho total */
+  flex: 1;
+}
+
+/* Mayor separación entre las secciones */
+.left-section {
+  margin-right: 40px; /* Mayor espacio a la derecha de la sección de entrada */
+}
+
+.center-section {
+  margin-right: 40px; /* Mayor espacio a la derecha de la sección de resultados */
+}
+
+/* Estilo de los títulos de las secciones (Entrada de Datos, Resultados, etc.) */
+.section-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 600; /* SemiBold */
+  margin-bottom: 20px;
+}
+
+/* Espaciado entre las secciones de entrada, resultados y parámetros */
+.input-section, .results-section, .hidrograma-section {
+  margin-bottom: 1px; /* Incrementa la separación entre secciones */
+}
+
+/* Estilo de las casillas de entrada */
+.input-section input, .results-section input, .hidrograma-section input {
+  width: 460px; /* Ancho fijo de 460px */
+  height: 48px; /* Altura fija de 48px */
+  margin-bottom: 20px; /* Asegura separación entre las casillas */
+  padding: 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  box-sizing: border-box;
+  border-radius: 8px; /* Borde redondeado */
+  border: 1px solid rgba(227, 227, 227, 1); /* Color y grosor del borde */
+  background-color: #ffffff; /* Color de fondo blanco */
+}
+
+/* Estilo de la sección de parámetros */
+.parameters-section {
+  margin-top: 20px; /* Espacio entre los datos de entrada y los parámetros */
+  padding: 0 20px; /* Alineación con las otras secciones */
+}
+
+.parameters-section label {
+  display: block;
+  margin-bottom: 10px; /* Espacio entre el texto y el cuadro de texto */
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px; /* Tamaño de letra Montserrat 16px */
+  font-weight: 600; /* SemiBold */
+}
+
+.parameters-section input {
+  width: 460px; /* Igual ancho que las casillas de entrada */
+  height: 48px; /* Igual altura que las casillas de entrada */
+  padding: 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px; /* Tamaño de texto de las casillas */
+  box-sizing: border-box;
+  border-radius: 8px; /* Borde redondeado */
+  border: 1px solid rgba(227, 227, 227, 1); /* Color del borde */
+  background-color: #ffffff; /* Fondo blanco */
+  margin-bottom: 20px; /* Espacio entre cada casilla */
+}
+
+/* Estilo de la imagen guía en la sección derecha */
+.guide-image {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Estilo del contenedor de las gráficas */
+.chart-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px; /* Espacio entre los parámetros y las gráficas */
+}
+
+/* Estilo de cada sección de gráfica */
+.chart-section {
+  width: 48%;
+}
+
+/* Estilo de los botones */
+button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Estilo del botón Calcular */
+.calculate-button {
+  width: 460px; /* Igual tamaño que las casillas de entrada */
+  height: 48px; /* Igual altura que las casillas de entrada */
+  background: linear-gradient(to right, rgba(0, 60, 105, 1), rgba(13, 122, 171, 1)); /* Degradado de color */
+  color: white; /* Texto en color blanco */
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 600; /* SemiBold */
+  border: none; /* Sin borde */
+  border-radius: 8px; /* Borde redondeado */
+  cursor: pointer;
+  margin-bottom: 5; /* Espacio debajo del botón */
+}
+
+.calculate-button:hover {
+  background: linear-gradient(to right, rgba(0, 60, 105, 0.8), rgba(13, 122, 171, 0.8)); /* Degradado más oscuro al pasar el ratón */
+}
+
+/* Contenedor para los botones secundarios */
+.secondary-buttons {
+  display: flex;
+  justify-content: space-between; /* Espacio entre los botones */
+  width: 460px; /* Asegura que el ancho total sea igual al del botón Calcular */
+  margin-top: 5px;
+}
+
+/* Estilo de los botones Ejemplo y Limpiar */
+.example-button, .clear-button {
+  width: calc(50% - 10px); /* Cada botón ocupa la mitad del espacio menos 10px para el gap */
+  height: 48px; /* Igual altura que las casillas de entrada */
+  background-color: white; /* Fondo blanco */
+  color: rgba(1, 82, 139, 1); /* Texto de color */
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 600; /* SemiBold */
+  border: 1px solid rgba(1, 82, 139, 1); /* Borde del mismo color que el texto */
+  border-radius: 8px; /* Borde redondeado */
+  cursor: pointer;
+}
+
+.example-button:hover, .clear-button:hover {
+  background-color: rgba(227, 227, 227, 1); /* Fondo gris claro al pasar el ratón */
+}
+
+/* Estilo para los íconos en los botones */
+.button-icon {
+  font-size: 16px; /* Igual tamaño que la letra */
+  color: rgba(1, 82, 139, 1); /* Mismo color que el texto */
+  margin-right: 8px; /* Espacio entre el ícono y el texto */
+}
+/* Estilo de los botones Ejemplo y Limpiar */
+.example-button, .clear-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(50% - 10px); /* Cada botón ocupa la mitad del espacio menos 10px para el gap */
+  height: 48px; /* Igual altura que las casillas de entrada */
+  background-color: white; /* Fondo blanco */
+  color: rgba(1, 82, 139, 1); /* Texto de color */
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 600; /* SemiBold */
+  border: 1px solid rgba(1, 82, 139, 1); /* Borde del mismo color que el texto */
+  border-radius: 8px; /* Borde redondeado */
+  cursor: pointer;
+}
+
+.example-button:hover, .clear-button:hover {
+  background-color: rgba(227, 227, 227, 1); /* Fondo gris claro al pasar el ratón */
+}
+
+/* Estilo para los íconos en los botones */
+.button-icon {
+  font-size: 20px; /* Ajuste del tamaño del ícono para que esté alineado */
+  color: rgba(1, 82, 139, 1); /* Mismo color que el texto */
+  margin-right: 8px; /* Espacio entre el ícono y el texto */
+}
+
+/* Asegurar que el texto esté bien alineado */
+.button-text {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1; /* Alinea el texto verticalmente */
+}
+
+/* Estilo del botón Generar Hidrogramas */
+.hidrograma-section {
+  display: flex;
+  flex-direction: column; /* Asegura que los elementos estén uno debajo del otro */
+}
+
+.generate-button {
+  width: 460px; /* Igual tamaño que las casillas de entrada */
+  height: 48px; /* Igual altura que las casillas de entrada */
+  background: linear-gradient(to right, rgba(0, 60, 105, 1), rgba(13, 122, 171, 1)); /* Degradado de color */
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.generate-button:hover {
+  background: linear-gradient(to right, rgba(0, 60, 105, 0.8), rgba(13, 122, 171, 0.8)); /* Degradado más oscuro al pasar el ratón */
+}
+
+/* Contenedor para los parámetros y las gráficas */
+.parameters-and-charts-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Alinea los elementos al inicio */
+  margin-top: 10px; /* Espacio adicional arriba del contenedor */
+}
+
+/* Ajusta la sección de parámetros para que ocupe menos espacio horizontal */
+.parameters-section {
+  width: 50%; /* La mitad del ancho del contenedor */
+  padding-right: 20px; /* Espacio a la derecha para separar las gráficas */
+  margin-top: 50px;
+}
+
+/* Estilo del contenedor de las gráficas */
+.chart-wrapper {
+  width: 50%; /* La otra mitad del ancho del contenedor */
+  display: flex;
+  flex-direction: column; /* Las gráficas se apilan verticalmente */
+  gap: 20px; /* Espacio entre las dos gráficas */
+}
+
+/* Estilo de cada sección de gráfica */
+.chart-section {
+  width: 100%; /* Ocupa todo el ancho disponible */
+}
+
+/* Estilo para los títulos de las gráficas */
+.chart-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 600; /* SemiBold */
+  margin-bottom: 10px; /* Espacio debajo del título */
+}
+
+/* Ajuste de los cuadros de selección */
+.input-section select {
+  width: 460px; /* Mismo ancho que las casillas de entrada */
+  height: 48px; /* Mismo alto que las casillas de entrada */
+  padding: 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px; /* Mantiene el tamaño correcto */
+  box-sizing: border-box;
+  border-radius: 8px; /* Borde redondeado */
+  border: 1px solid rgba(227, 227, 227, 1); /* Color del borde */
+  background-color: #ffffff; /* Fondo blanco */
+  color: #000000; /* Texto negro */
+  margin-bottom: 20px; /* Espacio entre los cuadros de selección */
+  margin-top: 10px; /* Espacio entre el texto anterior y el select */
+  appearance: none; /* Elimina el estilo por defecto del navegador */
+}
