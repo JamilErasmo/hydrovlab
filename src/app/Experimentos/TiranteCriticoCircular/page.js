@@ -1,4 +1,6 @@
+'use client';
 import React, { useState } from 'react';
+import '../App.css';
 
 const TiranteCriticoCircular = () => {
     const [caudal, setCaudal] = useState('');
@@ -57,43 +59,63 @@ const TiranteCriticoCircular = () => {
                 setErrorVisible(true);
                 break;
             }
-
         } while (Math.abs(y1 - y) > 0.0001);
 
         setTiranteCritico(y.toFixed(15));
     };
 
     return (
-        <div>
-            <h1>Tirante Crítico en Sección Circular</h1>
+        <div className="app">
+            <h1 className="experiment-title">Tirante Crítico en Sección Circular</h1>
 
-            <div>
-                <h3>Datos de Entrada</h3>
-                <label>Caudal Q (m³/s): </label>
-                <input type="number" value={caudal} onChange={(e) => setCaudal(e.target.value)} /><br />
-
-                <label>Diámetro D (m): </label>
-                <input type="number" value={diametro} onChange={(e) => setDiametro(e.target.value)} /><br />
-
-                <label>Tirante Inicial Y (m): </label>
-                <input type="number" value={tiranteInicial} onChange={(e) => setTiranteInicial(e.target.value)} /><br />
+            <div className="input-section">
+                <h3 className="section-title">Datos de Entrada</h3>
+                <label>Caudal Q (m³/s):</label>
+                <input
+                    type="number"
+                    value={caudal}
+                    onChange={(e) => setCaudal(e.target.value)}
+                    className="input-field"
+                />
+                <label>Diámetro D (m):</label>
+                <input
+                    type="number"
+                    value={diametro}
+                    onChange={(e) => setDiametro(e.target.value)}
+                    className="input-field"
+                />
+                <label>Tirante Inicial Y (m):</label>
+                <input
+                    type="number"
+                    value={tiranteInicial}
+                    onChange={(e) => setTiranteInicial(e.target.value)}
+                    className="input-field"
+                />
             </div>
 
-            <div style={{ marginTop: '20px' }}>
-                <button onClick={cargarEjemplo}>Ejemplo</button>
-                <button onClick={calcular} style={{ marginLeft: '10px' }}>Calcular</button>
-                <button onClick={limpiarCampos} style={{ marginLeft: '10px' }}>Limpiar</button>
+            <div className="secondary-buttons">
+                <button onClick={cargarEjemplo} className="example-button">
+                    <span className="button-text">Ejemplo</span>
+                </button>
+                <button onClick={calcular} className="calculate-button">
+                    <span className="button-text">Calcular</span>
+                </button>
+                <button onClick={limpiarCampos} className="clear-button">
+                    <span className="button-text">Limpiar</span>
+                </button>
             </div>
 
             {tiranteCritico && (
-                <div style={{ marginTop: '30px' }}>
-                    <h2>Resultados</h2>
-                    <p><strong>Tirante Crítico:</strong> {tiranteCritico} m</p>
+                <div className="results-section">
+                    <h2 className="section-title">Resultados</h2>
+                    <p>
+                        <strong>Tirante Crítico:</strong> {tiranteCritico} m
+                    </p>
                 </div>
             )}
 
             {errorVisible && (
-                <div style={{ marginTop: '20px', color: 'red' }}>
+                <div className="error-section">
                     <p><strong>Error:</strong> El valor de y1 supera el diámetro D.</p>
                 </div>
             )}

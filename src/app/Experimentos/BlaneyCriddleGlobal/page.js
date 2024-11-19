@@ -1,13 +1,12 @@
-'use client'
+'use client';
 import React, { useState } from 'react';
-
 import '../App.css';
 
 const BlaneyCriddleGlobal = () => {
   const [latitud, setLatitud] = useState('');
   const [latitudValor, setLatitudValor] = useState('');
   const [cultivo, setCultivo] = useState('');
-  const [ciclo, setCiclo] = useState([]); // Inicializar como un array vacío
+  const [ciclo, setCiclo] = useState([]);
   const [coeficiente, setCoeficiente] = useState([]);
   const [coeficienteSeleccionado, setCoeficienteSeleccionado] = useState('');
   const [mesSiembra, setMesSiembra] = useState('');
@@ -30,54 +29,12 @@ const BlaneyCriddleGlobal = () => {
   const [totalFi, setTotalFi] = useState(0);
   const [zonaNormal, setZonaNormal] = useState(0);
 
-  // Lista de cultivos con ciclos y coeficientes globales
   const cultivos = [
     { nombre: 'Aguacate', ciclos: [12], coeficientes: ['0.50 - 0.55'] },
-    { nombre: 'Ajonjoli', ciclos: [12], coeficientes: ['0.80'] },
-    { nombre: 'Alfalfa Heladas', ciclos: [3], coeficientes: ['0.80 - 0.85'] },
-    { nombre: 'Alfalfa Invierno', ciclos: [3], coeficientes: ['0.60'] },
-    { nombre: 'Algodon', ciclos: [6, 7], coeficientes: ['0.60 - 0.65'] },
     { nombre: 'Arroz', ciclos: [3, 5], coeficientes: ['1.00 - 1.20'] },
-    { nombre: 'Cacahuate', ciclos: [5], coeficientes: ['0.60 - 0.65'] },
-    { nombre: 'Cacao', ciclos: [12], coeficientes: ['0.75 - 0.80'] },
-    { nombre: 'Cafe', ciclos: [12], coeficientes: ['0.75 - 0.80'] },
-    { nombre: 'Camote', ciclos: [5, 6], coeficientes: ['0.60'] },
     { nombre: 'Caña de azucar', ciclos: [12], coeficientes: ['0.75 - 0.90'] },
-    { nombre: 'Cartamo', ciclos: [5, 8], coeficientes: ['0.55 - 0.65'] },
-    { nombre: 'Cereales de grano pequeño', ciclos: [3, 6], coeficientes: ['0.75 - 0.85'] },
-    { nombre: 'Citricos', ciclos: [7, 8], coeficientes: ['0.50 - 0.65'] },
-    { nombre: 'Chile', ciclos: [3, 4], coeficientes: ['0.60'] },
-    { nombre: 'Esparrago', ciclos: [6, 7], coeficientes: ['0.60'] },
-    { nombre: 'Fresa', ciclos: [12], coeficientes: ['0.45 - 0.60'] },
     { nombre: 'Frijol', ciclos: [3, 4], coeficientes: ['0.60 - 0.70'] },
-    { nombre: 'Frutales de hueso', ciclos: ['Entre heladas'], coeficientes: ['0.60 - 0.70'] },
-    { nombre: 'Garbanzo', ciclos: [4, 5], coeficientes: ['0.60 - 0.70'] },
-    { nombre: 'Girasol', ciclos: [4], coeficientes: ['0.50 - 0.65'] },
-    { nombre: 'Gladiola', ciclos: [3, 4], coeficientes: ['0.60'] },
-    { nombre: 'Haba', ciclos: [4, 5], coeficientes: ['0.60 - 0.70'] },
-    { nombre: 'Hortalizas', ciclos: [2, 4], coeficientes: ['0.60'] },
-    { nombre: 'Jitomate', ciclos: [4], coeficientes: ['0.70'] },
-    { nombre: 'Lechuga y col', ciclos: [3], coeficientes: ['0.70'] },
-    { nombre: 'Lenteja', ciclos: [4], coeficientes: ['0.60 - 0.70'] },
-    { nombre: 'Maiz 1', ciclos: [4], coeficientes: ['0.60 - 0.70'] },
-    { nombre: 'Maiz 2', ciclos: [4, 7], coeficientes: ['0.75 - 0.85'] },
-    { nombre: 'Mango', ciclos: [12], coeficientes: ['0.75 - 0.80'] },
-    { nombre: 'Melon', ciclos: [3, 4], coeficientes: ['0.60'] },
-    { nombre: 'Nogal', ciclos: ['Entre heladas'], coeficientes: ['0.70'] },
-    { nombre: 'Papa', ciclos: [3, 5], coeficientes: ['0.65 - 0.75'] },
-    { nombre: 'Palma datilera', ciclos: [12], coeficientes: ['0.65 - 0.80'] },
-    { nombre: 'Palma cocotera', ciclos: [12], coeficientes: ['0.80 - 0.90'] },
-    { nombre: 'Papaya', ciclos: [12], coeficientes: ['0.60 - 0.80'] },
-    { nombre: 'Platano', ciclos: [12], coeficientes: ['0.80 - 1.00'] },
-    { nombre: 'Pastos de gramirias', ciclos: [12], coeficientes: ['0.75'] },
-    { nombre: 'Remolacha', ciclos: [6], coeficientes: ['0.65 - 0.75'] },
-    { nombre: 'Sandia', ciclos: [3, 4], coeficientes: ['0.60'] },
-    { nombre: 'Sorbo', ciclos: [3, 5], coeficientes: ['0.60'] },
-    { nombre: 'Soya', ciclos: [3, 5], coeficientes: ['0.60 - 0.70'] },
-    { nombre: 'Tabaco', ciclos: [4, 5], coeficientes: ['0.70 - 0.80'] },
-    { nombre: 'Tomate', ciclos: [4, 5], coeficientes: ['0.70 - 0.80'] },
-    { nombre: 'Trebol ladino', ciclos: [12], coeficientes: ['0.80 - 0.85'] },
-    { nombre: 'Zanahoria', ciclos: [2, 4], coeficientes: ['0.60'] },
+    { nombre: 'Maiz', ciclos: [4, 7], coeficientes: ['0.75 - 0.85'] },
   ];
 
   const handleTemperaturaChange = (event) => {
@@ -88,7 +45,6 @@ const BlaneyCriddleGlobal = () => {
     }));
   };
 
-  // Función para manejar el cambio de cultivo
   const handleCultivoChange = (event) => {
     const cultivoSeleccionado = event.target.value;
     const cultivoData = cultivos.find((c) => c.nombre === cultivoSeleccionado);
@@ -96,13 +52,12 @@ const BlaneyCriddleGlobal = () => {
       setCultivo(cultivoSeleccionado);
       setCiclo(cultivoData.ciclos);
       setCoeficiente(cultivoData.coeficientes);
-      setCoeficienteSeleccionado(''); // Limpiar el valor del coeficiente seleccionado
+      setCoeficienteSeleccionado('');
     }
   };
 
-  // Función para calcular Pi
   const calcularPi = (latitud, mes) => {
-    const valoresPiNorte = {
+    const valoresPi = {
       abril: 8.62,
       mayo: 9.36,
       junio: 9.26,
@@ -111,15 +66,13 @@ const BlaneyCriddleGlobal = () => {
       septiembre: 8.32,
       octubre: 8.07,
     };
-    return valoresPiNorte[mes.toLowerCase()];
+    return valoresPi[mes.toLowerCase()];
   };
 
-  // Función para calcular Fi
   const calcularFi = (pi, temp) => {
     return pi * ((parseFloat(temp) + 17.8) / 21.8);
   };
 
-  // Función para calcular los resultados
   const calcularResultados = () => {
     const meses = ['abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre'];
 
@@ -145,13 +98,12 @@ const BlaneyCriddleGlobal = () => {
     setResultados(nuevosResultados);
   };
 
-  // Función para llenar el formulario con datos de ejemplo
   const cargarEjemplo = () => {
     setLatitud('Norte');
     setLatitudValor('25.5');
-    setCultivo('Algodon');
-    setCiclo([6, 7]);
-    setCoeficiente(['0.60 - 0.65']);
+    setCultivo('Maiz');
+    setCiclo([4, 7]);
+    setCoeficiente(['0.75 - 0.85']);
     setMesSiembra('Abril');
     setTemperaturas({
       enero: '13',
@@ -170,7 +122,6 @@ const BlaneyCriddleGlobal = () => {
     setZona('Normal');
   };
 
-  // Función para limpiar todos los campos y la tabla
   const limpiarCampos = () => {
     setLatitud('');
     setLatitudValor('');
@@ -200,132 +151,118 @@ const BlaneyCriddleGlobal = () => {
   };
 
   return (
-    <div>
+    <div className="app">
+      <div className="content-wrapper">
+        <div className="left-section">
+          <h2 className="section-title">Configuración</h2>
+          <div className="input-row">
+            <label>Latitud:</label>
+            <select
+              className="input-field"
+              value={latitud}
+              onChange={(e) => setLatitud(e.target.value)}
+            >
+              <option value="">Seleccione la latitud</option>
+              <option value="Norte">Norte</option>
+              <option value="Sur">Sur</option>
+            </select>
+          </div>
 
-      <div>
-        <label>Latitud:</label>
-        <select value={latitud} onChange={(e) => setLatitud(e.target.value)}>
-          <option value="">Seleccione la latitud</option>
-          <option value="Norte">Norte</option>
-          <option value="Sur">Sur</option>
-        </select>
-      </div>
+          <div className="input-row">
+            <label>Valor de Latitud:</label>
+            <input
+              className="input-field"
+              type="number"
+              value={latitudValor}
+              onChange={(e) => setLatitudValor(e.target.value)}
+              placeholder="Ingrese el valor de la latitud"
+            />
+          </div>
 
-      <div>
-        <label>Valor de Latitud:</label>
-        <input
-          type="number"
-          value={latitudValor}
-          onChange={(e) => setLatitudValor(e.target.value)}
-          placeholder="Ingrese el valor de la latitud"
-        />
-      </div>
+          <div className="input-row">
+            <label>Cultivo:</label>
+            <select
+              className="input-field"
+              value={cultivo}
+              onChange={handleCultivoChange}
+            >
+              <option value="">Seleccione un cultivo</option>
+              {cultivos.map((cultivo, index) => (
+                <option key={index} value={cultivo.nombre}>
+                  {cultivo.nombre}
+                </option>
+              ))}
+            </select>
+          </div>
 
-      <div>
-        <label>Cultivo:</label>
-        <select value={cultivo} onChange={handleCultivoChange}>
-          <option value="">Seleccione un cultivo</option>
-          {cultivos.map((cultivo, index) => (
-            <option key={index} value={cultivo.nombre}>
-              {cultivo.nombre}
-            </option>
+          <div className="input-row">
+            <label>Ciclo Vegetativo:</label>
+            <select
+              className="input-field"
+              value={ciclo[0] || ''}
+              onChange={(e) => setCiclo([e.target.value])}
+            >
+              <option value="">Seleccione el ciclo vegetativo</option>
+              {Array.isArray(ciclo) &&
+                ciclo.map((c, index) => (
+                  <option key={index} value={c}>
+                    {c}
+                  </option>
+                ))}
+            </select>
+          </div>
+
+          <div className="input-row">
+            <label>Coeficiente Global:</label>
+            <select
+              className="input-field"
+              value={coeficienteSeleccionado}
+              onChange={(e) => setCoeficienteSeleccionado(e.target.value)}
+            >
+              <option value="">Seleccione el coeficiente global</option>
+              {Array.isArray(coeficiente) &&
+                coeficiente.map((c, index) => (
+                  <option key={index} value={c}>
+                    {c}
+                  </option>
+                ))}
+            </select>
+          </div>
+        </div>
+
+        <div className="center-section">
+          <h2 className="section-title">Temperaturas (°C)</h2>
+          {Object.keys(temperaturas).map((mes) => (
+            <div key={mes} className="input-row">
+              <label>{mes.charAt(0).toUpperCase() + mes.slice(1)}:</label>
+              <input
+                className="input-field"
+                type="number"
+                name={mes}
+                value={temperaturas[mes]}
+                onChange={handleTemperaturaChange}
+              />
+            </div>
           ))}
-        </select>
-      </div>
-
-      <div>
-        <label>Ciclo Vegetativo:</label>
-        <select value={ciclo[0] || ''} onChange={(e) => setCiclo([e.target.value])}>
-          <option value="">Seleccione el ciclo vegetativo</option>
-          {Array.isArray(ciclo) &&
-            ciclo.map((c, index) => (
-              <option key={index} value={c}>
-                {c}
-              </option>
-            ))}
-        </select>
-      </div>
-
-      <div>
-        <label>Coeficiente Global:</label>
-        <select
-          value={coeficienteSeleccionado}
-          onChange={(e) => setCoeficienteSeleccionado(e.target.value)}
-        >
-          <option value="">Seleccione el coeficiente global</option>
-          {Array.isArray(coeficiente) &&
-            coeficiente.map((c, index) => (
-              <option key={index} value={c}>
-                {c}
-              </option>
-            ))}
-        </select>
-      </div>
-
-      <div>
-        <label>Mes de Siembra:</label>
-        <select value={mesSiembra} onChange={(e) => setMesSiembra(e.target.value)}>
-          <option value="">Seleccione el mes de siembra</option>
-          <option value="Enero">Enero</option>
-          <option value="Febrero">Febrero</option>
-          <option value="Marzo">Marzo</option>
-          <option value="Abril">Abril</option>
-          <option value="Mayo">Mayo</option>
-          <option value="Junio">Junio</option>
-          <option value="Julio">Julio</option>
-          <option value="Agosto">Agosto</option>
-          <option value="Septiembre">Septiembre</option>
-          <option value="Octubre">Octubre</option>
-          <option value="Noviembre">Noviembre</option>
-          <option value="Diciembre">Diciembre</option>
-        </select>
-      </div>
-
-      <div>
-        <label>Zona:</label>
-        <div>
-          <input
-            type="radio"
-            id="normal"
-            name="zona"
-            value="Normal"
-            checked={zona === 'Normal'}
-            onChange={(e) => setZona(e.target.value)}
-          />
-          <label htmlFor="normal">Normal</label>
-          <input
-            type="radio"
-            id="arida"
-            name="zona"
-            value="Árida"
-            checked={zona === 'Árida'}
-            onChange={(e) => setZona(e.target.value)}
-          />
-          <label htmlFor="arida">Árida</label>
         </div>
       </div>
 
-      <h3>Temperaturas (°C)</h3>
-      {Object.keys(temperaturas).map((mes) => (
-        <div key={mes}>
-          <label>{mes.charAt(0).toUpperCase() + mes.slice(1)}:</label>
-          <input
-            type="number"
-            name={mes}
-            value={temperaturas[mes]}
-            onChange={handleTemperaturaChange}
-          />
-        </div>
-      ))}
-
-      <button onClick={calcularResultados}>Calcular</button>
-      <button onClick={cargarEjemplo}>Ejemplo</button>
-      <button onClick={limpiarCampos}>Limpiar</button>
+      <div className="secondary-buttons">
+        <button className="calculate-button" onClick={calcularResultados}>
+          Calcular
+        </button>
+        <button className="example-button" onClick={cargarEjemplo}>
+          Ejemplo
+        </button>
+        <button className="clear-button" onClick={limpiarCampos}>
+          Limpiar
+        </button>
+      </div>
 
       {resultados.length > 0 && (
-        <div>
-          <h3>Resultados</h3>
-          <table>
+        <div className="results-section">
+          <h2 className="section-title">Resultados</h2>
+          <table className="results-table">
             <thead>
               <tr>
                 <th>Mes</th>
@@ -351,7 +288,7 @@ const BlaneyCriddleGlobal = () => {
               </tr>
             </tbody>
           </table>
-          <p>Zona normal: {zonaNormal}</p>
+          <p className="results-summary">Zona normal: {zonaNormal}</p>
         </div>
       )}
     </div>

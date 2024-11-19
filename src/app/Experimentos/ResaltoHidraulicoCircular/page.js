@@ -1,4 +1,6 @@
+'use client';
 import React, { useState } from 'react';
+import '../App.css';
 
 const TiranteConjugadoCircular = () => {
     const [caudal, setCaudal] = useState('');
@@ -12,7 +14,7 @@ const TiranteConjugadoCircular = () => {
         mensajeFlujo: ''
     });
 
-    // Función para cargar los valores de ejemplo
+    // Función para cargar el ejemplo con valores predeterminados
     const cargarEjemplo = () => {
         setCaudal(2);
         setDiametro(2);
@@ -47,7 +49,7 @@ const TiranteConjugadoCircular = () => {
 
     // Función para calcular la energía
     const calcularEnergia = (caudal, tirante, diametro) => {
-        const g = 9.81; // gravedad
+        const g = 9.81; // Gravedad
         const area = calcularArea(tirante, diametro);
         const energia = tirante + (Math.pow(caudal, 2) / (2 * g * Math.pow(area, 2)));
         return energia;
@@ -75,19 +77,14 @@ const TiranteConjugadoCircular = () => {
             const y3 = Math.abs(y2 - y1); // Altura del resalto hidráulico
 
             // Determinar si el flujo es subcrítico o supercrítico
-            let mensajeFlujo = '';
-            if (y2 > y1) {
-                mensajeFlujo = "El tirante es subcrítico";
-            } else {
-                mensajeFlujo = "El tirante es supercrítico";
-            }
+            let mensajeFlujo = y2 > y1 ? "El tirante es subcrítico" : "El tirante es supercrítico";
 
             // Mostrar resultados
             setResultados({
-                energiaE: E2.toFixed(12),  // Energía final
-                perdidaEnergiaE3: E3.toFixed(16),  // Pérdida de energía
-                alturaResaltoY3: y3.toFixed(12),  // Altura del resalto
-                mensajeFlujo  // Mensaje sobre el flujo
+                energiaE: E2.toFixed(12),
+                perdidaEnergiaE3: E3.toFixed(16),
+                alturaResaltoY3: y3.toFixed(12),
+                mensajeFlujo
             });
         } catch (error) {
             console.error("Error en el cálculo:", error);
@@ -96,37 +93,64 @@ const TiranteConjugadoCircular = () => {
     };
 
     return (
-        <div>
-            <h1>Análisis de Tirante Conjugado en Sección Circular</h1>
+        <div className="app">
+            <h1 className="experiment-title">Análisis de Tirante Conjugado en Sección Circular</h1>
 
-            <div>
-                <h3>Datos de Entrada</h3>
-                <label>Caudal Q (m³/s): </label>
-                <input type="number" value={caudal} onChange={(e) => setCaudal(e.target.value)} /><br />
+            <div className="input-section">
+                <label>Caudal Q (m³/s):</label>
+                <input
+                    type="number"
+                    value={caudal}
+                    onChange={(e) => setCaudal(e.target.value)}
+                    className="input-field"
+                />
 
-                <label>Diámetro D (m): </label>
-                <input type="number" value={diametro} onChange={(e) => setDiametro(e.target.value)} /><br />
+                <label>Diámetro D (m):</label>
+                <input
+                    type="number"
+                    value={diametro}
+                    onChange={(e) => setDiametro(e.target.value)}
+                    className="input-field"
+                />
 
-                <label>Tirante Conjugado Y1 (m): </label>
-                <input type="number" value={tiranteConjugado} onChange={(e) => setTiranteConjugado(e.target.value)} /><br />
+                <label>Tirante Conjugado Y1 (m):</label>
+                <input
+                    type="number"
+                    value={tiranteConjugado}
+                    onChange={(e) => setTiranteConjugado(e.target.value)}
+                    className="input-field"
+                />
 
-                <label>Valor Inicial del Tirante Y2 (m): </label>
-                <input type="number" value={tiranteInicial} onChange={(e) => setTiranteInicial(e.target.value)} /><br />
+                <label>Valor Inicial del Tirante Y2 (m):</label>
+                <input
+                    type="number"
+                    value={tiranteInicial}
+                    onChange={(e) => setTiranteInicial(e.target.value)}
+                    className="input-field"
+                />
             </div>
 
-            <div style={{ marginTop: '20px' }}>
-                <button onClick={cargarEjemplo}>Ejemplo</button>
-                <button onClick={calcular} style={{ marginLeft: '10px' }}>Calcular</button>
-                <button onClick={limpiarCampos} style={{ marginLeft: '10px' }}>Limpiar</button>
+            <div className="secondary-buttons">
+                <button onClick={cargarEjemplo} className="example-button">
+                    <span className="button-text">Ejemplo</span>
+                </button>
+                <button onClick={limpiarCampos} className="clear-button">
+                    <span className="button-text">Limpiar</span>
+                </button>
+            </div>
+            <div>
+                <button onClick={calcular} className="calculate-button">
+                    Calcular
+                </button>
             </div>
 
             {resultados.energiaE && (
-                <div style={{ marginTop: '30px' }}>
-                    <h2>Resultados</h2>
+                <div className="results-section">
+                    <h2 className="section-title">Resultados</h2>
                     <p>ENERGÍA E: {resultados.energiaE}</p>
                     <p>PERDIDA DE ENERGÍA E3: {resultados.perdidaEnergiaE3}</p>
                     <p>ALTURA DEL RESALTO HIDRÁULICO Y3: {resultados.alturaResaltoY3} m</p>
-                    <p>{resultados.mensajeFlujo}</p> {/* Mostrar el mensaje de flujo */}
+                    <p>{resultados.mensajeFlujo}</p>
                 </div>
             )}
         </div>

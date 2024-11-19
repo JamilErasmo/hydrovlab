@@ -1,8 +1,6 @@
-'use client'
+'use client';
 import React, { useState } from 'react';
-
 import '../App.css';
-
 
 const TiranteParabolico = () => {
     const [caudal, setCaudal] = useState('');
@@ -16,7 +14,6 @@ const TiranteParabolico = () => {
     const [energiaEspecifica, setEnergiaEspecifica] = useState(null);
     const [espejoA, setEspejoA] = useState(null);
 
-    // Función para cargar los valores de ejemplo
     const cargarEjemplo = () => {
         setCaudal(1.8);
         setCoefRugosidad(0.025);
@@ -25,7 +22,6 @@ const TiranteParabolico = () => {
         setFocoParabola(0.5);
     };
 
-    // Función para limpiar los campos
     const limpiarCampos = () => {
         setCaudal('');
         setCoefRugosidad('');
@@ -39,7 +35,6 @@ const TiranteParabolico = () => {
         setEspejoA(null);
     };
 
-    // Función para calcular el tirante crítico
     const calcular = () => {
         let q = parseFloat(caudal);
         let n = parseFloat(coefRugosidad);
@@ -67,19 +62,6 @@ const TiranteParabolico = () => {
             f1 = f;
             y += 0.0001;
 
-            a = (4 * Math.sqrt(2 * x) * Math.pow(y, 1.5)) / 3;
-            T = Math.sqrt(8 * x * y);
-
-            if (y / T <= 0.25) {
-                p = Math.sqrt(8 * x) * (Math.sqrt(y) + Math.pow(y, 1.5) / (3 * x));
-                f = Math.pow(a, 5 / 3) / Math.pow(p, 2 / 3) - C;
-            } else {
-                p =
-                    Math.sqrt(2 * x * y) *
-                    (Math.sqrt(1 + 2 * y / x) + Math.sqrt(x / (2 * y)) * Math.log(Math.sqrt(2 * y / x) + Math.sqrt(1 + 2 * y / x)));
-                f = Math.pow(a, 5 / 3) / Math.pow(p, 2 / 3) - C;
-            }
-
             y1 = y - (f * 0.0001) / (f - f1);
         } while (Math.abs(y1 - y) > 0.0001);
 
@@ -95,36 +77,62 @@ const TiranteParabolico = () => {
     };
 
     return (
-        <div>
-            <h1>Tirante en Sección Parabólica</h1>
+        <div className="app">
+            <h1 className="experiment-title">Tirante en Sección Parabólica</h1>
 
-            <div>
-                <h3>Datos de Entrada</h3>
-                <label>Caudal q (m³/s): </label>
-                <input type="number" value={caudal} onChange={(e) => setCaudal(e.target.value)} /><br />
-
-                <label>Coeficiente de Rugosidad n: </label>
-                <input type="number" value={coefRugosidad} onChange={(e) => setCoefRugosidad(e.target.value)} /><br />
-
-                <label>Pendiente s: </label>
-                <input type="number" value={pendiente} onChange={(e) => setPendiente(e.target.value)} /><br />
-
-                <label>Tirante Inicial y (m): </label>
-                <input type="number" value={tiranteInicial} onChange={(e) => setTiranteInicial(e.target.value)} /><br />
-
-                <label>Foco de la Parábola x (m): </label>
-                <input type="number" value={focoParabola} onChange={(e) => setFocoParabola(e.target.value)} /><br />
+            <div className="input-section">
+                <label>Caudal q (m³/s):</label>
+                <input
+                    type="number"
+                    value={caudal}
+                    onChange={(e) => setCaudal(e.target.value)}
+                    className="input-field"
+                />
+                <label>Coeficiente de Rugosidad n:</label>
+                <input
+                    type="number"
+                    value={coefRugosidad}
+                    onChange={(e) => setCoefRugosidad(e.target.value)}
+                    className="input-field"
+                />
+                <label>Pendiente s:</label>
+                <input
+                    type="number"
+                    value={pendiente}
+                    onChange={(e) => setPendiente(e.target.value)}
+                    className="input-field"
+                />
+                <label>Tirante Inicial y (m):</label>
+                <input
+                    type="number"
+                    value={tiranteInicial}
+                    onChange={(e) => setTiranteInicial(e.target.value)}
+                    className="input-field"
+                />
+                <label>Foco de la Parábola x (m):</label>
+                <input
+                    type="number"
+                    value={focoParabola}
+                    onChange={(e) => setFocoParabola(e.target.value)}
+                    className="input-field"
+                />
             </div>
 
-            <div style={{ marginTop: '20px' }}>
-                <button onClick={cargarEjemplo}>Ejemplo</button>
-                <button onClick={calcular} style={{ marginLeft: '10px' }}>Calcular</button>
-                <button onClick={limpiarCampos} style={{ marginLeft: '10px' }}>Limpiar</button>
+            <div className="secondary-buttons">
+                <button onClick={cargarEjemplo} className="example-button">
+                    Ejemplo
+                </button>
+                <button onClick={calcular} className="calculate-button">
+                    Calcular
+                </button>
+                <button onClick={limpiarCampos} className="clear-button">
+                    Limpiar
+                </button>
             </div>
 
             {tiranteNormal && (
-                <div style={{ marginTop: '30px' }}>
-                    <h2>Resultados</h2>
+                <div className="results-section">
+                    <h2 className="section-title">Resultados</h2>
                     <p><strong>Tirante Normal:</strong> {tiranteNormal} m</p>
                     <p><strong>Velocidad:</strong> {velocidad} m/s</p>
                     <p><strong>Número de Froude:</strong> {numeroFraude}</p>

@@ -78,7 +78,7 @@ body, html {
 
 /* Ajustes para el contenido general */
 .app {
-  padding: 5px 80px; /* Padding lateral fijo de 80px */
+  padding: 45px 80px; /* Padding lateral fijo de 80px */
   max-width: auto;
   margin: 0 auto; /* Ajusta el margen para centrar correctamente */
   box-sizing: border-box; /* Asegura que el padding no agregue ancho adicional */
@@ -180,7 +180,7 @@ button:hover {
 
 /* Espaciado entre las secciones de entrada, resultados y parámetros */
 .input-section, .results-section, .hidrograma-section {
-  margin-bottom: 1px; /* Incrementa la separación entre secciones */
+  margin-bottom: 25px; /* Incrementa la separación entre secciones */
 }
 
 /* Estilo de las casillas de entrada */
@@ -418,4 +418,270 @@ button:hover {
   margin-bottom: 20px; /* Espacio entre los cuadros de selección */
   margin-top: 10px; /* Espacio entre el texto anterior y el select */
   appearance: none; /* Elimina el estilo por defecto del navegador */
+}
+
+/* Input Field Styles */
+.input-field {
+  width: 100px; /* Ancho específico */
+  padding: 8px; /* Espaciado interno */
+  margin: 5px 0; /* Espaciado externo */
+  border: 1px solid #ccc; /* Borde gris claro */
+  border-radius: 5px; /* Bordes redondeados */
+  font-size: 14px; /* Tamaño de la fuente */
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+  transition: all 0.3s ease-in-out; /* Animación de transición */
+}
+
+/* Input Hover Effect */
+.input-field:hover {
+  border-color: #007bff; /* Cambia el borde a azul claro al pasar el mouse */
+  box-shadow: 0px 1px 5px rgba(0, 123, 255, 0.2); /* Sombra más pronunciada */
+}
+
+/* Input Focus Effect */
+.input-field:focus {
+  border-color: #007bff; /* Borde azul */
+  outline: none; /* Sin contorno adicional */
+  box-shadow: 0px 1px 8px rgba(0, 123, 255, 0.3); /* Sombra más intensa */
+}
+
+/* Label Styling */
+.input-row label {
+  font-weight: bold; /* Negrita para las etiquetas */
+  margin-right: 10px; /* Separación entre la etiqueta y el input */
+  font-size: 14px; /* Tamaño de la fuente */
+  display: inline-block; /* Para alinearse bien con los inputs */
+}
+.results-table {
+  width: 100%; /* La tabla ocupa todo el ancho disponible */
+  border-collapse: collapse; /* Elimina los espacios entre bordes */
+  margin-top: 20px; /* Espacio superior */
+  background-color: #ffffff; /* Fondo blanco */
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+  font-family: 'Montserrat', sans-serif; /* Fuente consistente */
+}
+
+.results-table th, .results-table td {
+  border: 1px solid #ddd; /* Bordes gris claro */
+  text-align: center; /* Texto centrado */
+  padding: 10px; /* Espaciado interno */
+  font-size: 14px; /* Tamaño de texto */
+}
+
+.results-table th {
+  background-color: rgba(0, 60, 105, 1); /* Fondo azul */
+  color: white; /* Texto blanco */
+  font-weight: 600; /* Negrita para los encabezados */
+  font-size: 16px; /* Tamaño de texto ligeramente mayor */
+}
+
+.results-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9; /* Color de fondo alternativo para filas pares */
+}
+
+.results-table tbody tr:hover {
+  background-color: #f1f1f1; /* Fondo más claro al pasar el ratón */
+}
+
+.results-table td {
+  color: #333; /* Texto gris oscuro */
+}
+
+.results-table td:first-child {
+  font-weight: bold; /* Negrita para la primera columna (categorías) */
+  background-color: #f4f4f4; /* Fondo gris claro */
+}
+
+.radio-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.radio-group label {
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+.results-summary {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+}
+
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.results-table th, .results-table td {
+  border: 1px solid #ddd;
+  text-align: center;
+  padding: 10px;
+}
+
+.results-table th {
+  background-color: rgba(0, 60, 105, 1);
+  color: white;
+}
+
+.results-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.input-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.input-field {
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  
+  box-sizing: border-box;
+}
+
+.secondary-buttons {  
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.results-section {
+  padding: 20px;
+  border-radius: 20px;
+  background-color: rgba(231, 231, 231, 0.171);
+  margin-top: 30px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+.section-title {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.section-subtitle {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.input-row {
+  margin-bottom: 15px;
+}
+
+.input-field {
+  padding: 8px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.secondary-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.results-section {
+  margin-top: 30px;
+}
+
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.results-table th, .results-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.radio-group-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.radio-group-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.radio-input {
+  margin-right: 8px;
+  width: 16px !important;
+  height: 16px !important;
+  accent-color: #007bff; /* Color de los botones */
+}
+
+.radio-label {
+  font-size: 14px;
+  color: #555;
+  cursor: pointer;
+}
+
+.radio-option:hover .radio-label {
+  color: #007bff;
+}
+
+.summary {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.summary p {
+  font-size: 16px;
+  margin: 5px 0;
+  color: #333;
+}
+
+.summary strong {
+  color: #002d5e;
 }

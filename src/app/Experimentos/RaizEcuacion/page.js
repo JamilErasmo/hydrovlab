@@ -1,4 +1,6 @@
+'use client';
 import React, { useState } from 'react';
+import '../App.css';
 
 const RaizEcuacion = () => {
     const [constante, setConstante] = useState('');
@@ -47,30 +49,52 @@ const RaizEcuacion = () => {
     };
 
     return (
-        <div>
-            <h1>Análisis de Raíz de Ecuación</h1>
+        <div className="app">
+            <h1 className="experiment-title">Análisis de Raíz de Ecuación</h1>
 
-            <div>
-                <h3>Datos de Entrada</h3>
-                <label>Constante de la Ecuación C: </label>
-                <input type="number" value={constante} onChange={(e) => setConstante(e.target.value)} /><br />
+            <div className="input-section">
+                <label>Constante de la Ecuación C:</label>
+                <input
+                    type="number"
+                    value={constante}
+                    onChange={(e) => setConstante(e.target.value)}
+                    className="input-field"
+                />
 
-                <label>Valor con que se inicia el cálculo Y: </label>
-                <input type="number" value={valorInicial} onChange={(e) => setValorInicial(e.target.value)} /><br />
+                <label>Valor con que se inicia el cálculo Y:</label>
+                <input
+                    type="number"
+                    value={valorInicial}
+                    onChange={(e) => setValorInicial(e.target.value)}
+                    className="input-field"
+                />
 
-                <label>Error deseable para el cálculo E: </label>
-                <input type="number" value={errorDeseable} onChange={(e) => setErrorDeseable(e.target.value)} /><br />
+                <label>Error deseable para el cálculo E:</label>
+                <input
+                    type="number"
+                    value={errorDeseable}
+                    onChange={(e) => setErrorDeseable(e.target.value)}
+                    className="input-field"
+                />
             </div>
 
-            <div style={{ marginTop: '20px' }}>
-                <button onClick={cargarEjemplo}>Ejemplo</button>
-                <button onClick={calcular} style={{ marginLeft: '10px' }}>Calcular</button>
-                <button onClick={limpiarCampos} style={{ marginLeft: '10px' }}>Limpiar</button>
+            <div className="secondary-buttons">
+                <button onClick={cargarEjemplo} className="example-button">
+                    <span className="button-text">Ejemplo</span>
+                </button>
+                <button onClick={limpiarCampos} className="clear-button">
+                    <span className="button-text">Limpiar</span>
+                </button>
+            </div>
+            <div>
+                <button onClick={calcular} className="calculate-button">
+                    Calcular
+                </button>
             </div>
 
             {resultado && (
-                <div style={{ marginTop: '30px' }}>
-                    <h2>Resultado</h2>
+                <div className="results-section">
+                    <h2 className="section-title">Resultado</h2>
                     <p>Raíz de la Ecuación: {resultado}</p>
                 </div>
             )}

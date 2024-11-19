@@ -1,8 +1,6 @@
-'use client'
+'use client';
 import React, { useState } from 'react';
-
 import '../App.css';
-
 
 const BalanceHidrico = () => {
     const [precipitacion, setPrecipitacion] = useState(Array(12).fill(''));
@@ -18,11 +16,10 @@ const BalanceHidrico = () => {
     });
 
     const meses = [
-        'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
+        'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
         'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
     ];
 
-    // Función para cargar el ejemplo de datos
     const cargarEjemplo = () => {
         const precipEjemplo = [77, 59, 88, 50, 60, 36, 8, 18, 32, 75, 78, 116];
         const evapoEjemplo = [26, 30, 40, 45, 60, 78, 91, 92, 71, 47, 29, 22];
@@ -30,7 +27,6 @@ const BalanceHidrico = () => {
         setEvapotranspiracion(evapoEjemplo);
     };
 
-    // Función para limpiar los campos
     const limpiarCampos = () => {
         setPrecipitacion(Array(12).fill(''));
         setEvapotranspiracion(Array(12).fill(''));
@@ -45,7 +41,6 @@ const BalanceHidrico = () => {
         setMostrarResultados(false);
     };
 
-    // Función para calcular el balance hídrico
     const calcular = () => {
         const pet = procPET(precipitacion, evapotranspiracion);
         const r = procR(pet);
@@ -58,11 +53,10 @@ const BalanceHidrico = () => {
         setMostrarResultados(true);
     };
 
-    // Cálculos basados en funciones de balance hídrico
     const procPET = (p, et) => p.map((val, i) => parseFloat(val) - parseFloat(et[i]) || 0);
     const procR = (pet) => {
         let r = Array(12).fill(0);
-        r[0] = 100;  // Valor inicial de R
+        r[0] = 100;
         for (let i = 1; i < 12; i++) {
             r[i] = Math.max(0, Math.min(100, r[i - 1] + pet[i]));
         }
@@ -74,15 +68,13 @@ const BalanceHidrico = () => {
     const procEx = (pet, vr) => pet.map((val, i) => Math.max(0, val - vr[i]));
 
     return (
-        <div>
-            {/* <h1>Balance Hídrico</h1> */}
-
-            <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-                <div style={{ marginRight: '20px' }}>
-                    <h3>Precipitación (mm)</h3>
+        <div className="app">
+            <div className="content-wrapper">
+                <div className="left-section">
+                    <h3 className="section-title">Precipitación (mm)</h3>
                     {precipitacion.map((val, i) => (
-                        <div key={i}>
-                            <label>{meses[i]}: </label>
+                        <div key={i} className="input-row">
+                            <label>{meses[i]}:</label>
                             <input
                                 type="number"
                                 value={val}
@@ -91,16 +83,16 @@ const BalanceHidrico = () => {
                                     newValues[i] = e.target.value;
                                     setPrecipitacion(newValues);
                                 }}
-                                style={{ width: '70px', marginBottom: '5px' }}
+                                className="input-field"
                             />
                         </div>
                     ))}
                 </div>
-                <div style={{ marginLeft: '20px' }}>
-                    <h3>Evapotranspiración (mm)</h3>
+                <div className="center-section">
+                    <h3 className="section-title">Evapotranspiración (mm)</h3>
                     {evapotranspiracion.map((val, i) => (
-                        <div key={i}>
-                            <label>{meses[i]}: </label>
+                        <div key={i} className="input-row">
+                            <label>{meses[i]}:</label>
                             <input
                                 type="number"
                                 value={val}
@@ -109,23 +101,23 @@ const BalanceHidrico = () => {
                                     newValues[i] = e.target.value;
                                     setEvapotranspiracion(newValues);
                                 }}
-                                style={{ width: '70px', marginBottom: '5px' }}
+                                className="input-field"
                             />
                         </div>
                     ))}
                 </div>
             </div>
 
-            <div style={{ marginTop: '20px' }}>
-                <button onClick={cargarEjemplo}>Ejemplo</button>
-                <button onClick={calcular} style={{ marginLeft: '10px' }}>Calcular</button>
-                <button onClick={limpiarCampos} style={{ marginLeft: '10px' }}>Limpiar</button>
+            <div className="secondary-buttons">
+                <button className="example-button" onClick={cargarEjemplo}>Ejemplo</button>
+                <button className="calculate-button" onClick={calcular}>Calcular</button>
+                <button className="clear-button" onClick={limpiarCampos}>Limpiar</button>
             </div>
 
             {mostrarResultados && (
-                <div style={{ marginTop: '30px' }}>
-                    <h2>Resultados</h2>
-                    <table border="1">
+                <div className="results-section">
+                    <h2 className="section-title">Resultados</h2>
+                    <table className="results-table">
                         <thead>
                             <tr>
                                 <th>Resultado</th>
@@ -170,6 +162,7 @@ const BalanceHidrico = () => {
                         </tbody>
                     </table>
                 </div>
+
             )}
         </div>
     );

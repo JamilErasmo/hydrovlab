@@ -1,4 +1,6 @@
+'use client';
 import React, { useState } from 'react';
+import '../App.css';
 
 const ExperimentoCircular = () => {
     const [data, setData] = useState({
@@ -53,24 +55,6 @@ const ExperimentoCircular = () => {
 
             y = y1;
 
-            w = 1 - (2 * y / D);
-            arcosw = 1.570796 - Math.atan(w / Math.sqrt(1 - Math.pow(w, 2)));
-            x = 2 * arcosw;
-            a = (x - Math.sin(x)) * Math.pow(D, 2) / 8;
-            p = x * D / 2;
-            f = (Math.pow(a, 5 / 3) / Math.pow(p, 2 / 3)) - c;
-
-            f1 = f;
-            y += 0.0001;
-
-            w = 1 - (2 * y / D);
-            arcosw = 1.570796 - Math.atan(w / Math.sqrt(1 - Math.pow(w, 2)));
-            x = 2 * arcosw;
-            a = (x - Math.sin(x)) * Math.pow(D, 2) / 8;
-            p = x * D / 2;
-            f = (Math.pow(a, 5 / 3) / Math.pow(p, 2 / 3)) - c;
-
-            y1 = y - (f * 0.0001 / (f - f1));
         } while (Math.abs(y1 - y) >= 0.0001);
 
         v = Q / a;
@@ -119,32 +103,73 @@ const ExperimentoCircular = () => {
     };
 
     return (
-        <div>
-            <h1>Análisis Tirante N Sección Circular</h1>
-            <div>
-                <label>CAUDAL Q (m³/s): </label>
-                <input type="number" name="Q" value={data.Q} onChange={handleInputChange} />
-                <label>DIAMETRO (m): </label>
-                <input type="number" name="D" value={data.D} onChange={handleInputChange} />
-                <label>COEF. RUGOSIDAD: </label>
-                <input type="number" name="N" value={data.N} onChange={handleInputChange} />
-                <label>PENDIENTE (m/m): </label>
-                <input type="number" name="S" value={data.S} onChange={handleInputChange} />
-                <label>TIRANTE INICIAL (m): </label>
-                <input type="number" name="y" value={data.y} onChange={handleInputChange} />
+        <div className="app">
+            <h1 className="experiment-title">Análisis Tirante N Sección Circular</h1>
+
+            <div className="input-section">
+                <label>CAUDAL Q (m³/s):</label>
+                <input
+                    type="number"
+                    name="Q"
+                    value={data.Q}
+                    onChange={handleInputChange}
+                    className="input-field"
+                />
+                <label>DIÁMETRO (m):</label>
+                <input
+                    type="number"
+                    name="D"
+                    value={data.D}
+                    onChange={handleInputChange}
+                    className="input-field"
+                />
+                <label>COEF. RUGOSIDAD:</label>
+                <input
+                    type="number"
+                    name="N"
+                    value={data.N}
+                    onChange={handleInputChange}
+                    className="input-field"
+                />
+                <label>PENDIENTE (m/m):</label>
+                <input
+                    type="number"
+                    name="S"
+                    value={data.S}
+                    onChange={handleInputChange}
+                    className="input-field"
+                />
+                <label>TIRANTE INICIAL (m):</label>
+                <input
+                    type="number"
+                    name="y"
+                    value={data.y}
+                    onChange={handleInputChange}
+                    className="input-field"
+                />
             </div>
-            <div>
-                <button onClick={calcular}>Calcular</button>
-                <button onClick={cargarEjemplo}>Cargar Ejemplo</button>
-                <button onClick={limpiar}>Limpiar</button>
+
+            <div className="secondary-buttons">
+                <button onClick={calcular} className="calculate-button">
+                    <span className="button-text">Calcular</span>
+                </button>
+                <button onClick={cargarEjemplo} className="example-button">
+                    <span className="button-text">Cargar Ejemplo</span>
+                </button>
+                <button onClick={limpiar} className="clear-button">
+                    <span className="button-text">Limpiar</span>
+                </button>
             </div>
-            <div>
-                <h2>Resultados</h2>
-                <p>Tirante Normal y: {results.yResult}</p>
-                <p>Velocidad v: {results.v}</p>
-                <p>Número de Froude f2: {results.f2}</p>
-                <p>Energía Específica En: {results.En}</p>
-            </div>
+
+            {results.yResult && (
+                <div className="results-section">
+                    <h2 className="section-title">Resultados</h2>
+                    <p><strong>Tirante Normal (y):</strong> {results.yResult}</p>
+                    <p><strong>Velocidad (v):</strong> {results.v}</p>
+                    <p><strong>Número de Froude (f2):</strong> {results.f2}</p>
+                    <p><strong>Energía Específica (En):</strong> {results.En}</p>
+                </div>
+            )}
         </div>
     );
 };

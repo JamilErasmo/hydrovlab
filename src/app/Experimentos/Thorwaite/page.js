@@ -1,7 +1,7 @@
-'use client'
+'use client';
 import React, { useState } from 'react';
-
 import '../App.css';
+
 const Thorwaite = () => {
     const [latitud, setLatitud] = useState('');
     const [latitudSeleccion, setLatitudSeleccion] = useState('');
@@ -40,10 +40,8 @@ const Thorwaite = () => {
 
     // Interpolación de Ka
     const interpolarKa = (lat, zona) => {
-        // Valores simplificados para Ka, ajustar según zona y latitud real
         const kaNorte = [1.17, 1.01, 1.05, 0.96, 0.94, 0.88, 0.92, 0.98, 1, 1.1, 1.11, 1.18];
         const kaSur = [1.2, 1.03, 1.06, 1, 0.95, 0.9, 0.92, 0.98, 1.02, 1.12, 1.14, 1.21];
-
         return zona === "Norte" ? kaNorte : kaSur;
     };
 
@@ -67,15 +65,16 @@ const Thorwaite = () => {
     };
 
     return (
-        <div>
+        <div className="app">
+            <h1 className="experiment-title">Método de Thorwaite</h1>
 
-
-            <div>
+            <div className="input-section">
                 <label>Latitud:</label>
                 <input
                     type="number"
                     value={latitud}
                     onChange={(e) => setLatitud(e.target.value)}
+                    className="input-field"
                     placeholder="Latitud"
                 />
 
@@ -83,6 +82,7 @@ const Thorwaite = () => {
                 <select
                     value={latitudSeleccion}
                     onChange={(e) => setLatitudSeleccion(e.target.value)}
+                    className="input-field"
                 >
                     <option value="">Seleccione la zona</option>
                     <option value="Norte">Norte</option>
@@ -90,7 +90,7 @@ const Thorwaite = () => {
                 </select>
             </div>
 
-            <div>
+            <div className="input-section">
                 {temperaturas.map((temp, index) => (
                     <div key={index}>
                         <label>Mes {index + 1}:</label>
@@ -102,21 +102,29 @@ const Thorwaite = () => {
                                 newTemps[index] = e.target.value;
                                 setTemperaturas(newTemps);
                             }}
+                            className="input-field"
                             placeholder={`Temperatura mes ${index + 1}`}
                         />
                     </div>
                 ))}
             </div>
 
-            <button onClick={cargarEjemplo}>Ejemplo</button>
-            <button onClick={limpiarCampos}>Limpiar</button>
-            <button onClick={calcular}>Calcular</button>
+            <div className="secondary-buttons">
+                <button onClick={cargarEjemplo} className="example-button">
+                    <span className="button-text">Ejemplo</span>
+                </button>
+                <button onClick={limpiarCampos} className="clear-button">
+                    <span className="button-text">Limpiar</span>
+                </button>
+                <button onClick={calcular} className="calculate-button">
+                    <span className="button-text">Calcular</span>
+                </button>
+            </div>
 
-            {/* Resultados */}
             {ij.length > 0 && (
-                <div>
-                    <h3>Resultados:</h3>
-                    <table border="1">
+                <div className="results-section">
+                    <h2 className="section-title">Resultados</h2>
+                    <table className="results-table">
                         <thead>
                             <tr>
                                 <th>Mes</th>
@@ -138,12 +146,13 @@ const Thorwaite = () => {
                             ))}
                         </tbody>
                     </table>
-                    <div>
-                        <p><strong>I:</strong> {iTotal}</p>
+                    <div className="summary">
+                        <p><strong>I Total:</strong> {iTotal}</p>
                         <p><strong>a:</strong> {a}</p>
                     </div>
                 </div>
             )}
+
         </div>
     );
 };

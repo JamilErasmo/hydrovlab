@@ -1,4 +1,6 @@
+'use client';
 import React, { useState } from 'react';
+import '../App.css';
 
 const TiranteConjugadoSTrapezoidal = () => {
     const [caudal, setCaudal] = useState('');
@@ -73,35 +75,63 @@ const TiranteConjugadoSTrapezoidal = () => {
     };
 
     return (
-        <div>
-            <h1>Análisis de Tirante Conjugado - Sección Trapezoidal</h1>
+        <div className="app">
+            <h1 className="experiment-title">Análisis de Tirante Conjugado - Sección Trapezoidal</h1>
 
-            <div>
-                <h3>Datos de Entrada</h3>
-                <label>Caudal Q (m³/s): </label>
-                <input type="number" value={caudal} onChange={(e) => setCaudal(e.target.value)} /><br />
+            <div className="input-section">
+                <label>Caudal Q (m³/s):</label>
+                <input
+                    type="number"
+                    value={caudal}
+                    onChange={(e) => setCaudal(e.target.value)}
+                    className="input-field"
+                />
 
-                <label>Ancho de Solera B (m): </label>
-                <input type="number" value={anchoSolera} onChange={(e) => setAnchoSolera(e.target.value)} /><br />
+                <label>Ancho de Solera B (m):</label>
+                <input
+                    type="number"
+                    value={anchoSolera}
+                    onChange={(e) => setAnchoSolera(e.target.value)}
+                    className="input-field"
+                />
 
-                <label>Talud Z: </label>
-                <input type="number" value={talud} onChange={(e) => setTalud(e.target.value)} /><br />
+                <label>Talud Z:</label>
+                <input
+                    type="number"
+                    value={talud}
+                    onChange={(e) => setTalud(e.target.value)}
+                    className="input-field"
+                />
 
-                <label>Tirante Inicial Y (m): </label>
-                <input type="number" value={tiranteInicial} onChange={(e) => setTiranteInicial(e.target.value)} /><br />
+                <label>Tirante Inicial Y (m):</label>
+                <input
+                    type="number"
+                    value={tiranteInicial}
+                    onChange={(e) => setTiranteInicial(e.target.value)}
+                    className="input-field"
+                />
 
-                <label>J Inicial: </label>
-                <input type="number" value={jInicial} onChange={(e) => setJInicial(e.target.value)} /><br />
+                <label>J Inicial:</label>
+                <input
+                    type="number"
+                    value={jInicial}
+                    onChange={(e) => setJInicial(e.target.value)}
+                    className="input-field"
+                />
             </div>
 
-            <div style={{ marginTop: '20px' }}>
-                <button onClick={calcular}>Calcular</button>
-                <button onClick={limpiarCampos} style={{ marginLeft: '10px' }}>Limpiar</button>
+            <div className="secondary-buttons">
+                <button onClick={calcular} className="calculate-button">
+                    <span className="button-text">Calcular</span>
+                </button>
+                <button onClick={limpiarCampos} className="clear-button">
+                    <span className="button-text">Limpiar</span>
+                </button>
             </div>
 
             {resultados.Y1 && (
-                <div style={{ marginTop: '30px' }}>
-                    <h2>Resultados</h2>
+                <div className="results-section">
+                    <h2 className="section-title">Resultados</h2>
                     <p><strong>Tirante Inicial Y1:</strong> {resultados.Y1} m</p>
                     <p><strong>Tirante Conjugado Y2:</strong> {resultados.Y2} m</p>
                     <p><strong>Valor de J:</strong> {resultados.J}</p>
