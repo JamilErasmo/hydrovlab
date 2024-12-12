@@ -2,12 +2,14 @@
 import useSWR, { mutate } from 'swr';
 import { API_URL } from '../config';
 import Link from 'next/link';
+import Image from 'next/image';
 
 // Función para hacer el fetch de los blogs
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 // Número de blogs por página
 const PAGE_SIZE = 6;
+
 
 export default function Blog({ searchParams }) {
   const page = parseInt(searchParams.page) || 1;
@@ -44,21 +46,40 @@ export default function Blog({ searchParams }) {
           <p className="text-lg text-gray-700 mb-16">
             Explora nuestros artículos y guías sobre hidrología, simulaciones y temas técnicos relevantes.
           </p>
+          <p className="text-lg text-gray-700 mb-6 font-medium">
+            En esta sección encontrará resultados de trabajos científicos relacionados a la ingeniería hidráulica y temas afines. También encontrará trabajos que plantean preguntas o comentarios a procesos, diseños, especificaciones o sucesos actuales relacionados, los cuales ayudan en la construcción del conocimiento y permiten guiar discusiones entre los visitantes. Si usted está interesado en participar en el Blog Técnico, por favor enviar su documento al correo electrónico hmbenavides@utpl.edu.ec de acuerdo a las directrices para los autores.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="py-10 grid grid-cols-1 lg:grid-cols-2 gap-8">
           {blogs.map((blog, index) => (
             <div key={index} className="bg-white shadow-lg rounded-lg p-6">
+
+              <div className="relative pb-9/16 mb-4">
+                <Image
+                  src="/images/Blog.png"
+                  alt={blog.title || 'Sin título'}
+                  layout="responsive"
+                  width={400} // ajusta según necesites
+                  height={200} // ajusta según necesites
+                  className="rounded-lg"
+                />
+
+              </div>
               <h3 className="text-2xl font-bold mb-2 text-gray-900">
-                {blog.title || 'Sin título'}
+                <strong>Título: </strong> {blog.title || 'Sin título'}
               </h3>
+
               <p className="text-gray-700 mb-4">
-                {blog.summary || 'Sin resumen'}
+                <strong>Resumen: </strong> {blog.summary || 'Sin resumen'}
               </p>
               <div className="text-sm text-gray-500 mb-4">
                 <span>Por {blog.author?.name || 'Autor desconocido'}</span>
               </div>
-              <Link href={`/blog-tecnico/${blog.documentId}`} className="text-blue-500 hover:text-blue-700 font-medium">
+              <Link
+                href={`/blog-tecnico/${blog.documentId}`}
+                className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-md hover:shadow-lg transition duration-300"
+              >
                 Leer más
               </Link>
             </div>
