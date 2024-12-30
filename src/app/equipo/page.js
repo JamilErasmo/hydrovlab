@@ -2,6 +2,26 @@ import Image from 'next/image';
 
 const equipo = [
     {
+        nombre: 'Luis Miguel Granda Agila',
+        rol: 'Desarrollador',
+        filiacion: 'Loja, UCG-UTPL (Campus San Cayetano) - Ingeniería en Computación',
+        email: 'luisgranda1605@gmail.com',
+        responsabilidad: 'Laboratorio Virtual de Hidrología.',
+        imagen: '/images/luis_miguel.jpg'
+    },
+    {
+
+        nombre: 'Jamil Erasmo Quituizaca Jaramillo',
+        rol: 'Desarrollador',
+        filiacion: 'Loja, UCG-UTPL (Campus San Cayetano) - Ingeniería en Computación',
+        telefono: '(593) 996197628',
+        email: 'jamilerasmoq@gmail.com',
+        web: 'www.fronate.pro.ec',
+        descripcion: 'Soy una persona sencilla y amigable, me gusta aprender cosas nuevas y compartir mis conocimientos con los demás.',
+        imagen: '/images/jamil.png'
+    },
+    {
+
         nombre: 'Fernando Rodrigo Oñate Valdivieso',
         rol: 'Director del Proyecto',
         filiacion: 'Loja, UCG-UTPL (Campus San Cayetano)',
@@ -9,7 +29,7 @@ const equipo = [
         email: 'fronate.v@gmail.com',
         web: 'www.fronate.pro.ec',
         descripcion: 'Fernando lidera el proyecto con experiencia en dirección y manejo de equipos multidisciplinarios.',
-        imagen: '/images/fernando.jpg'
+        imagen: '/images/Oñate.jpg'
     },
     {
         nombre: 'Luis Santiago Quiñones Cuenca',
@@ -19,7 +39,7 @@ const equipo = [
         email: 'lsquinones@gmail.com',
         web: 'www.youtube.com/lsantiago84',
         descripcion: 'Luis gestiona la administración web del proyecto, asegurando la funcionalidad y eficiencia de la plataforma.',
-        imagen: '/images/luis.jpg'
+        imagen: '/images/Santiago.jpg'
     },
     {
         nombre: 'Fredy Jipson Cueva Castillo',
@@ -29,7 +49,7 @@ const equipo = [
         celular: '(593) 85974360',
         email: 'fjcueva@gmail.com',
         responsabilidad: 'Análisis de correlación, relación lluvias escorrentías y simulación continua mediante el Modelo de Témez.',
-        imagen: '/images/fredy.jpg'
+        imagen: '/images/fredy.png'
     },
     {
         nombre: 'Jorge Fierro',
@@ -45,7 +65,7 @@ const equipo = [
         filiacion: 'Loja, UCG-UTPL (Campus San Cayetano) – Escuela de Ingeniería Civil',
         email: 'macumo69@hotmail.com',
         responsabilidad: 'Tránsito de Crecidas.',
-        imagen: '/images/marco.jpg'
+        imagen: '/images/marco-cueva.jpg'
     },
     {
         nombre: 'Mario German Ordoñez Gonzaga',
@@ -61,7 +81,7 @@ const equipo = [
         filiacion: 'Loja, UCG-UTPL (Campus San Cayetano) – Escuela de Ingeniería Civil',
         email: 'maminga1@hotmail.com',
         responsabilidad: 'Análisis Probabilístico.',
-        imagen: '/images/manuel.jpg'
+        imagen: '/images/ManuelMinga.jpg'
     },
     {
         nombre: 'Byron Rivadeneira',
@@ -69,15 +89,7 @@ const equipo = [
         filiacion: 'Loja, UCG-UTPL (Campus San Cayetano) – Escuela de Ingeniería Civil',
         email: 'geovannybyron@gmail.com',
         responsabilidad: 'Infiltración.',
-        imagen: '/images/byron.jpg'
-    },
-    {
-        nombre: 'Luis Miguel Granda Agila',
-        rol: 'Desarrollador',
-        filiacion: 'Loja, UCG-UTPL (Campus San Cayetano) - Ingeniería en Computación',
-        email: 'luisgranda1605@gmail.com',
-        responsabilidad: 'Laboratorio Virtual de Hidrología.',
-        imagen: '/images/luis_miguel.jpg'
+        imagen: '/images/ByronRivadeneira.jpg'
     }
 ];
 
