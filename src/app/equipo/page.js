@@ -39,7 +39,7 @@ const equipo = [
         email: 'lsquinones@gmail.com',
         web: 'www.youtube.com/lsantiago84',
         descripcion: 'Luis gestiona la administración web del proyecto, asegurando la funcionalidad y eficiencia de la plataforma.',
-        imagen: '/images/Santiago.jpg'
+        imagen: '/images/santiago.jpg'
     },
     {
         nombre: 'Fredy Jipson Cueva Castillo',
@@ -49,7 +49,7 @@ const equipo = [
         celular: '(593) 85974360',
         email: 'fjcueva@gmail.com',
         responsabilidad: 'Análisis de correlación, relación lluvias escorrentías y simulación continua mediante el Modelo de Témez.',
-        imagen: '/images/fredy.png'
+        imagen: '/images/Fredy.png'
     },
     {
         nombre: 'Jorge Fierro',
@@ -57,7 +57,7 @@ const equipo = [
         filiacion: 'Loja, UCG-UTPL (Campus San Cayetano) – Escuela de Sistemas',
         email: 'joafierro@gmail.com',
         responsabilidad: 'Laboratorio Virtual de Hidrología.',
-        imagen: '/images/jorge.jpg'
+        imagen: '/images/Jorge.jpg'
     },
     {
         nombre: 'Marco Cueva Moreno',
