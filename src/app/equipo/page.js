@@ -100,9 +100,16 @@ export default function Equipo() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center">
                     <h2 className="text-3xl font-bold mb-8 text-blue-700">Nuestro equipo</h2>
-                    <p className="text-lg text-gray-700 mb-16">
-                        Conoce al equipo de profesionales que ha desarrollado esta plataforma.
-                    </p>
+                    <div className="py-20">
+                        <p className="text-lg text-gray-700 mb-6 font-medium">
+                            Somos un equipo de estudiantes apasionados de la Universidad Técnica Particular de Loja (UTPL),
+                            comprometidos en llevar a cabo proyectos innovadores que aporten al desarrollo académico y tecnológico.
+                        </p>
+                        <p className="text-lg text-gray-700 mb-6 font-medium">
+                            Este proyecto es parte de nuestro trabajo curricular, donde hemos dedicado tiempo, esfuerzo y creatividad
+                            para ofrecer una plataforma de calidad que promueva el aprendizaje y la colaboración en el área de hidrología.
+                        </p>
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -134,16 +141,7 @@ export default function Equipo() {
                     ))}
                 </div>
 
-                <div className="py-20">
-                    <p className="text-lg text-gray-700 mb-6 font-medium">
-                        Somos un equipo de estudiantes apasionados de la Universidad Técnica Particular de Loja (UTPL),
-                        comprometidos en llevar a cabo proyectos innovadores que aporten al desarrollo académico y tecnológico.
-                    </p>
-                    <p className="text-lg text-gray-700 mb-6 font-medium">
-                        Este proyecto es parte de nuestro trabajo curricular, donde hemos dedicado tiempo, esfuerzo y creatividad
-                        para ofrecer una plataforma de calidad que promueva el aprendizaje y la colaboración en el área de hidrología.
-                    </p>
-                </div>
+
 
 
             </div>
