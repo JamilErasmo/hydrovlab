@@ -43,17 +43,17 @@ export default function Simulaciones() {
         categoriaSeleccionada === 'Todas'
             ? simulaciones
             : simulaciones.filter((simulacion) => simulacion.category === categoriaSeleccionada);
-
     return (
         <section className="py-16 bg-gray-100">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
                     {/* Menú lateral de categorías */}
-                    <div className="bg-white shadow-lg rounded-lg p-6 self-start">
-                        <h2 className="text-2xl font-bold mb-6 text-blue-700">Simulación</h2>
+                    <div className="bg-blue-800 text-white shadow-lg rounded-lg p-6 self-start">
+                        <h2 className="text-2xl font-bold mb-6">Simulación</h2>
                         <ul>
                             <li
-                                className={`mb-4 cursor-pointer categoria ${categoriaSeleccionada === 'Todas' ? 'categoria-activa' : ''}`}
+                                className={`mb-4 cursor-pointer categoria px-4 py-2 rounded-lg ${categoriaSeleccionada === 'Todas' ? 'bg-blue-700 text-white' : 'hover:bg-blue-100 hover:text-blue-700'
+                                    }`}
                                 onClick={() => setCategoriaSeleccionada('Todas')}
                             >
                                 Todas
@@ -61,28 +61,29 @@ export default function Simulaciones() {
                             {categorias.map((categoria, index) => (
                                 <li
                                     key={index}
-                                    className={`mb-4 cursor-pointer categoria ${categoriaSeleccionada === categoria ? 'categoria-activa' : ''}`}
+                                    className={`mb-4 cursor-pointer categoria px-4 py-2 rounded-lg ${categoriaSeleccionada === categoria ? 'bg-blue-700 text-white' : 'hover:bg-blue-100 hover:text-blue-700'
+                                        }`}
                                     onClick={() => setCategoriaSeleccionada(categoria)}
                                 >
                                     {categoria}
                                 </li>
                             ))}
                         </ul>
-                    </div>
 
+                    </div>
 
                     {/* Aplicaciones existentes */}
                     <div className="lg:col-span-3">
-                        <h2 className="text-2xl font-bold mb-6 text-blue-700">Aplicaciones existentes</h2>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <h2 className="text-2xl font-bold mb-6 text-blue-800">Aplicaciones existentes</h2>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                             {simulacionesFiltradas.length > 0 ? (
                                 simulacionesFiltradas.map((simulacion) => (
-                                    <div key={simulacion.id} className="bg-white shadow-lg rounded-lg p-6 card">
-                                        <h3 className="text-xl mb-2 card-title">{simulacion.title}</h3>
-                                        <p className="text-gray-700 mb-4 card-description">{simulacion.description}</p>
+                                    <div key={simulacion.id} className="bg-white shadow-lg rounded-lg p-6 transition-all transform hover:scale-105 hover:shadow-xl">
+                                        <h3 className="text-xl mb-2 font-semibold text-gray-900">{simulacion.title}</h3>
+                                        <p className="text-gray-700 mb-4">{simulacion.description}</p>
                                         <div className="mb-8">
                                             <Link href={simulacion.link}>
-                                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                                <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                                     Ver Simulación
                                                 </button>
                                             </Link>
@@ -100,4 +101,5 @@ export default function Simulaciones() {
             </div>
         </section>
     );
+
 }

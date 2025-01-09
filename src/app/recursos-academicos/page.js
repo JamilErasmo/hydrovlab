@@ -42,38 +42,38 @@ export default function RecursosAcademicos() {
   const videosFiltrados = filtrarVideos(categoriaVideos);
 
   return (
-    <section className="py-16 bg-gradient-to-r from-blue-100 ">
+    <section className="py-8 bg-gradient-to-r from-blue-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
-          <h1 className="text-5xl font-extrabold mb-4 text-blue-800">Recursos Académicos</h1>
-          <p className="text-xl text-gray-800 mb-8">
+          <h1 className="text-3xl font-extrabold mb-2 text-blue-800">Recursos Académicos</h1>
+          <p className="text-lg text-gray-800 mb-6">
             Encuentra aquí manuales, guías y otros recursos útiles para tus estudios.
           </p>
         </div>
 
-        <div className="flex justify-center mb-8">
+        <div className="flex justify-center mb-6">
           <button
             onClick={() => setPaginaActual('Documentos')}
-            className={`px-6 py-3 mx-2 font-bold rounded-lg transition-colors duration-300 ${paginaActual === 'Documentos' ? 'bg-blue-600 text-white' : 'bg-gray-300 text-gray-800 hover:bg-gray-400'}`}
+            className={`px-4 py-2 mx-2 font-semibold rounded-lg transition-colors duration-300 ${paginaActual === 'Documentos' ? 'bg-blue-600 text-white' : 'bg-gray-300 text-gray-800 hover:bg-gray-400'}`}
           >
             Documentos
           </button>
           <button
             onClick={() => setPaginaActual('Videos')}
-            className={`px-6 py-3 mx-2 font-bold rounded-lg transition-colors duration-300 ${paginaActual === 'Videos' ? 'bg-blue-600 text-white' : 'bg-gray-300 text-gray-800 hover:bg-gray-400'}`}
+            className={`px-4 py-2 mx-2 font-semibold rounded-lg transition-colors duration-300 ${paginaActual === 'Videos' ? 'bg-blue-600 text-white' : 'bg-gray-300 text-gray-800 hover:bg-gray-400'}`}
           >
             Videos
           </button>
         </div>
 
         {paginaActual === 'Documentos' && (
-          <div className="mb-8">
-            <h2 className="text-4xl font-bold mb-4 text-blue-800 text-center">Documentos</h2>
+          <div className="mb-6">
+            <h2 className="text-3xl font-bold mb-4 text-blue-800 text-center">Documentos</h2>
             <div className="flex justify-center mb-4">
               <select
                 value={categoriaDocumentos}
                 onChange={(e) => setCategoriaDocumentos(e.target.value)}
-                className="p-3 border border-gray-300 rounded-lg shadow-md bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+                className="p-2 border border-gray-300 rounded-lg shadow-md bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
               >
                 {CATEGORIAS_DOCUMENTOS.map((categoria) => (
                   <option key={categoria} value={categoria} className="text-gray-600">
@@ -82,17 +82,17 @@ export default function RecursosAcademicos() {
                 ))}
               </select>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {documentosFiltrados.length > 0 ? (
                 documentosFiltrados.map((documento) => (
-                  <div key={documento.id} className="bg-white shadow-lg rounded-lg p-6 text-center transform transition-transform duration-300 hover:scale-105">
-                    <img src="/images/pdf.png" alt="PDF Icon" className="w-20 h-20 mx-auto mb-4" />
-                    <h3 className="text-2xl font-bold mb-2 text-gray-900">{documento.title}</h3>
-                    <p className="text-gray-700 mb-4">{documento.description}</p>
-                    <p className="text-gray-500 mb-2">Año: {documento.year}</p>
+                  <div key={documento.id} className="bg-white shadow-lg rounded-lg p-4 text-center transform transition-transform duration-300 hover:scale-105">
+                    <img src="/images/pdf.png" alt="PDF Icon" className="w-16 h-16 mx-auto mb-3" />
+                    <h3 className="text-xl font-semibold mb-2 text-gray-900">{documento.title}</h3>
+                    <p className="text-gray-700 mb-3">{documento.description}</p>
+                    <p className="text-gray-500 mb-3">Año: {documento.year}</p>
                     <p className="text-gray-500 mb-4">Autor: {documento.author}</p>
                     <Link href={documento.link} target="_blank" rel="noopener noreferrer">
-                      <button className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-lg">
+                      <button className="bg-blue-600 hover:bg-blue-800 text-white font-semibold py-2 px-3 rounded-lg">
                         Ver documento
                       </button>
                     </Link>
@@ -106,13 +106,13 @@ export default function RecursosAcademicos() {
         )}
 
         {paginaActual === 'Videos' && (
-          <div className="mb-8">
-            <h2 className="text-4xl font-bold mb-4 text-blue-800 text-center">Videos</h2>
+          <div className="mb-6">
+            <h2 className="text-3xl font-bold mb-4 text-blue-800 text-center">Videos</h2>
             <div className="flex justify-center mb-4">
               <select
                 value={categoriaVideos}
                 onChange={(e) => setCategoriaVideos(e.target.value)}
-                className="p-3 border border-gray-300 rounded-lg"
+                className="p-2 border border-gray-300 rounded-lg"
               >
                 {CATEGORIAS_VIDEOS.map((categoria) => (
                   <option key={categoria} value={categoria}>
@@ -121,15 +121,15 @@ export default function RecursosAcademicos() {
                 ))}
               </select>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {videosFiltrados.length > 0 ? (
                 videosFiltrados.map((video) => (
-                  <div key={video.id} className="bg-white shadow-lg rounded-lg p-6 text-center transform transition-transform duration-300 hover:scale-105">
-                    <img src={video.thumbnail} alt={video.title} className="w-full h-48 object-cover mb-4 rounded-lg" />
-                    <h3 className="text-2xl font-bold mb-2 text-gray-900">{video.title}</h3>
-                    <p className="text-gray-700 mb-4">{video.description}</p>
+                  <div key={video.id} className="bg-white shadow-lg rounded-lg p-4 text-center transform transition-transform duration-300 hover:scale-105">
+                    <img src={video.thumbnail} alt={video.title} className="w-full h-40 object-cover mb-3 rounded-lg" />
+                    <h3 className="text-xl font-semibold mb-2 text-gray-900">{video.title}</h3>
+                    <p className="text-gray-700 mb-3">{video.description}</p>
                     <Link href={video.link} target="_blank" rel="noopener noreferrer">
-                      <button className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-lg">
+                      <button className="bg-blue-600 hover:bg-blue-800 text-white font-semibold py-2 px-3 rounded-lg">
                         Ver video
                       </button>
                     </Link>
@@ -144,5 +144,6 @@ export default function RecursosAcademicos() {
       </div>
     </section>
   );
+
 }
 
