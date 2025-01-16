@@ -1,24 +1,7 @@
 import Image from 'next/image';
 
 const equipo = [
-    {
-        nombre: 'Luis Miguel Granda Agila',
-        rol: 'Desarrollador',
-        filiacion: 'Loja, UCG-UTPL (Campus San Cayetano) - Ingeniería en Computación',
-        email: 'luisgranda1605@gmail.com',
-        responsabilidad: 'Laboratorio Virtual de Hidrología.',
-        imagen: '/images/luis_miguel.jpg'
-    },
-    {
-
-        nombre: 'Jamil Erasmo Quituizaca Jaramillo',
-        rol: 'Desarrollador',
-        filiacion: 'Loja, UCG-UTPL (Campus San Cayetano) - Ingeniería en Computación',
-        telefono: '(593) 996197628',
-        email: 'jamilerasmoq@gmail.com',
-        descripcion: 'Soy una persona sencilla y amigable, me gusta aprender cosas nuevas y compartir mis conocimientos con los demás.',
-        imagen: '/images/jamil.png'
-    },
+    
     {
 
         nombre: 'Fernando Rodrigo Oñate Valdivieso',
@@ -89,7 +72,25 @@ const equipo = [
         email: 'geovannybyron@gmail.com',
         responsabilidad: 'Infiltración.',
         imagen: '/images/ByronRivadeneira.jpg'
-    }
+    },
+    {
+        nombre: 'Luis Miguel Granda Agila',
+        rol: 'Desarrollador',
+        filiacion: 'Loja, UCG-UTPL (Campus San Cayetano) - Ingeniería en Computación',
+        email: 'luisgranda1605@gmail.com',
+        responsabilidad: 'Laboratorio Virtual de Hidrología.',
+        imagen: '/images/luis_miguel.jpg'
+    },
+    {
+
+        nombre: 'Jamil Erasmo Quituizaca Jaramillo',
+        rol: 'Desarrollador',
+        filiacion: 'Loja, UCG-UTPL (Campus San Cayetano) - Ingeniería en Computación',
+        telefono: '(593) 996197628',
+        email: 'jamilerasmoq@gmail.com',
+        descripcion: 'Soy una persona sencilla y amigable, me gusta aprender cosas nuevas y compartir mis conocimientos con los demás.',
+        imagen: '/images/jamil.png'
+    },
 ];
 
 

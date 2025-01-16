@@ -15,6 +15,19 @@ export default function Simulaciones() {
         'Tránsito de Avenidas',
         'Transporte de sedimentos',
     ];
+    const categoriasDiseño = [
+        'Hidráulica de canales',
+
+    ];
+
+    const categoriasAnali = [
+        'Análisis Probabilístico',
+        'Correlación Ortogonal',
+
+    ];
+
+
+
 
     const simulaciones = [
         { id: 1, title: 'Balance Hídrico', description: 'Simulación del balance hídrico considerando diferentes parámetros.', link: '/Experimentos/BalanceHidrico', category: 'Análisis estocástico' },
@@ -34,6 +47,7 @@ export default function Simulaciones() {
         { id: 15, title: 'Tirante N Circular', description: 'Cálculo del tirante normal en secciones circulares.', link: '/Experimentos/TiranteNSeccionCircular', category: 'Simulación continua' },
         { id: 16, title: 'Tirante N Parabólica', description: 'Cálculo del tirante normal en secciones parabólicas.', link: '/Experimentos/TiranteNSeccionParabolica', category: 'Simulación continua' },
         { id: 17, title: 'Tirante N Trapezoidal', description: 'Cálculo del tirante normal en secciones trapezoidales.', link: '/Experimentos/TiranteNSeccionTrapezoidal', category: 'Simulación continua' },
+        { id: 18, title: 'UNICA', description: 'Cálculo del tirante normal en secciones trapezoidales.', link: '/Experimentos/TiranteNSeccionTrapezoidal', category: 'Correlación Ortogonal' },
     ];
 
 
@@ -68,7 +82,38 @@ export default function Simulaciones() {
                                     {categoria}
                                 </li>
                             ))}
+
+                            <h2 className="text-2xl font-bold mb-6">Análisis</h2>
+                            {categoriasAnali.map((categoria, index) => (
+                                <li
+                                    key={index}
+                                    className={`mb-4 cursor-pointer categoria px-4 py-2 rounded-lg ${categoriaSeleccionada === categoria ? 'bg-blue-700 text-white' : 'hover:bg-blue-100 hover:text-blue-700'
+                                        }`}
+                                    onClick={() => setCategoriaSeleccionada(categoria)}
+                                >
+                                    {categoria}
+                                </li>
+                            ))}
+
+
+                            <h2 className="text-2xl font-bold mb-6">Diseño</h2>
+
+
+                            {categoriasDiseño.map((categoria, index) => (
+                                <li
+                                    key={index}
+                                    className={`mb-4 cursor-pointer categoria px-4 py-2 rounded-lg ${categoriaSeleccionada === categoria ? 'bg-blue-700 text-white' : 'hover:bg-blue-100 hover:text-blue-700'
+                                        }`}
+                                    onClick={() => setCategoriaSeleccionada(categoria)}
+                                >
+                                    {categoria}
+                                </li>
+                            ))}
+
                         </ul>
+
+
+
 
                     </div>
 
@@ -97,6 +142,7 @@ export default function Simulaciones() {
                             )}
                         </div>
                     </div>
+
                 </div>
             </div>
         </section>
