@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { FaSearch } from 'react-icons/fa';
 
 export default function Simulaciones() {
     const categorias = [
@@ -52,15 +53,35 @@ export default function Simulaciones() {
 
 
     const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('Todas');
+    const [busqueda, setBusqueda] = useState('');
 
-    const simulacionesFiltradas =
-        categoriaSeleccionada === 'Todas'
-            ? simulaciones
-            : simulaciones.filter((simulacion) => simulacion.category === categoriaSeleccionada);
+
+    const simulacionesFiltradas = simulaciones.filter(
+        (simulacion) =>
+            (categoriaSeleccionada === 'Todas' || simulacion.category === categoriaSeleccionada) &&
+            (simulacion.title.toLowerCase().includes(busqueda.toLowerCase()) ||
+                simulacion.description.toLowerCase().includes(busqueda.toLowerCase()))
+    );
+
+
     return (
         <section className="py-16 bg-gray-100">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                {/* Barra de búsqueda */}
+                <div className="flex justify-end items-center mb-6">
+                        <div className="relative w-full max-w-sm">
+                            <input
+                                type="text"
+                                value={busqueda}
+                                onChange={(e) => setBusqueda(e.target.value)}
+                                placeholder="Buscar simulación..."
+                                className="w-full p-2 pl-10 border border-gray-300 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+                            />
+                            <FaSearch className="absolute left-3 top-3 text-gray-400" />
+                        </div>
+                    </div>
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                    
                     {/* Menú lateral de categorías */}
                     <div className="bg-blue-800 text-white shadow-lg rounded-lg p-6 self-start">
                         <h2 className="text-2xl font-bold mb-6">Simulación</h2>
