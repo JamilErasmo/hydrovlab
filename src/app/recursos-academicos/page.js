@@ -30,12 +30,78 @@ export default function RecursosAcademicos() {
 
   const CATEGORIAS_VIDEOS = ['Todos', 'Tutoriales', 'Conferencias', 'Entrevistas'];
   const VIDEOS = [
-    { id: 1, title: 'Introducción a la Hidrología', description: 'Video introductorio sobre la hidrología.', category: 'Tutoriales', link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg' },
-    { id: 2, title: 'Simulaciones en la Hidrología', description: 'Video sobre simulaciones en la hidrología.', category: 'Tutoriales', link: 'https://www.youtube.com/watch?v=jNQXAC9IVRw', thumbnail: 'https://img.youtube.com/vi/jNQXAC9IVRw/hqdefault.jpg' },
-    { id: 3, title: 'Entrevista con un experto en Hidrología', description: 'Video de entrevista con un experto en hidrología.', category: 'Entrevistas', link: 'https://www.youtube.com/watch?v=9bZkp7q19f0', thumbnail: 'https://img.youtube.com/vi/9bZkp7q19f0/hqdefault.jpg' },
-    { id: 4, title: 'Conferencia sobre Cambio Climático', description: 'Conferencia sobre el impacto del cambio climático en la hidrología.', category: 'Conferencias', link: 'https://www.youtube.com/watch?v=3JZ_D3ELwOQ', thumbnail: 'https://img.youtube.com/vi/3JZ_D3ELwOQ/hqdefault.jpg' },
-    { id: 5, title: 'Tutorial de Modelado Hidrológico', description: 'Tutorial detallado sobre el modelado hidrológico.', category: 'Tutoriales', link: 'https://www.youtube.com/watch?v=5NV6Rdv1a3I', thumbnail: 'https://img.youtube.com/vi/5NV6Rdv1a3I/hqdefault.jpg' },
-    { id: 6, title: 'Entrevista sobre Gestión del Agua', description: 'Entrevista con un experto sobre la gestión del agua.', category: 'Entrevistas', link: 'https://www.youtube.com/watch?v=2Vv-BfVoq4g', thumbnail: 'https://img.youtube.com/vi/2Vv-BfVoq4g/hqdefault.jpg' }
+    {
+      id: 1,
+      title: 'Equilibrio',
+      description: 'Video sobre el concepto de equilibrio en física.',
+      category: 'Tutoriales',
+      link: 'https://www.youtube.com/watch?v=BDBeQ6UHIgo',
+      thumbnail: 'https://i.ytimg.com/vi/BDBeQ6UHIgo/hqdefault.jpg'
+    },
+    {
+      id: 2,
+      title: 'Rozamiento',
+      description: 'Explicación sobre el concepto de rozamiento.',
+      category: 'Tutoriales',
+      link: 'https://www.youtube.com/watch?v=y0g1w7bE-Iw',
+      thumbnail: 'https://i.ytimg.com/vi/y0g1w7bE-Iw/hqdefault.jpg'
+    },
+    {
+      id: 3,
+      title: 'Fuerzas en cables',
+      description: 'Introducción a las fuerzas aplicadas en cables.',
+      category: 'Tutoriales',
+      link: 'https://www.youtube.com/watch?v=KeXg2n5yAcs',
+      thumbnail: 'https://i.ytimg.com/vi/KeXg2n5yAcs/hqdefault.jpg'
+    },
+    {
+      id: 4,
+      title: 'Vectores fuerza',
+      description: 'Video introductorio sobre vectores de fuerza.',
+      category: 'Tutoriales',
+      link: 'https://www.youtube.com/watch?v=airE-yaEKfI',
+      thumbnail: 'https://i.ytimg.com/vi/airE-yaEKfI/hqdefault.jpg'
+    },
+    {
+      id: 5,
+      title: 'Análisis estructural',
+      description: 'Tutorial sobre análisis estructural en ingeniería.',
+      category: 'Tutoriales',
+      link: 'https://www.youtube.com/watch?v=GRzE_NTfFzA',
+      thumbnail: 'https://i.ytimg.com/vi/GRzE_NTfFzA/hqdefault.jpg'
+    },
+    {
+      id: 6,
+      title: 'Resultante de un sistema de fuerzas cont',
+      description: 'Explicación sobre la resultante de un sistema de fuerzas.',
+      category: 'Tutoriales',
+      link: 'https://www.youtube.com/watch?v=9bAdIjVCb2M',
+      thumbnail: 'https://i.ytimg.com/vi/9bAdIjVCb2M/hqdefault.jpg'
+    },
+    {
+      id: 7,
+      title: 'Vectores fuerza cont',
+      description: 'Continuación del análisis de vectores fuerza.',
+      category: 'Tutoriales',
+      link: 'https://www.youtube.com/watch?v=bR-jxlbqswU',
+      thumbnail: 'https://i.ytimg.com/vi/bR-jxlbqswU/hqdefault.jpg'
+    },
+    {
+      id: 8,
+      title: 'Resultante de un sistema de fuerzas',
+      description: 'Tutorial sobre cómo calcular la resultante de fuerzas.',
+      category: 'Tutoriales',
+      link: 'https://www.youtube.com/watch?v=c4lgSDOkgO8',
+      thumbnail: 'https://i.ytimg.com/vi/c4lgSDOkgO8/hqdefault.jpg'
+    },
+    {
+      id: 9,
+      title: 'Análisis estructural cont',
+      description: 'Análisis estructural avanzado en ingeniería.',
+      category: 'Tutoriales',
+      link: 'https://www.youtube.com/watch?v=mZjMwR4a0dg',
+      thumbnail: 'https://i.ytimg.com/vi/mZjMwR4a0dg/hqdefault.jpg'
+    }
   ];
 
   const documentosFiltrados = filtrarDocumentos(categoriaDocumentos);
