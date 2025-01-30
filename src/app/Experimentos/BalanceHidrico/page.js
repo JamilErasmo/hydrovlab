@@ -1,6 +1,5 @@
 'use client';
 import React, { useState } from 'react';
-import '../App.css';
 
 const BalanceHidrico = () => {
     const [precipitacion, setPrecipitacion] = useState(Array(12).fill(''));
@@ -69,12 +68,13 @@ const BalanceHidrico = () => {
 
     return (
         <div className="app">
-            <div className="content-wrapper">
-                <div className="left-section">
-                    <h3 className="section-title">Precipitación (mm)</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 bg-white border border-gray-300 rounded-lg shadow-md max-w-4xl mx-auto">
+                {/*  Sección de Precipitación */}
+                <div className="p-4 bg-gray-50 rounded-lg shadow">
+                    <h3 className="text-lg font-semibold text-gray-700 mb-4">Precipitación (mm)</h3>
                     {precipitacion.map((val, i) => (
-                        <div key={i} className="input-row">
-                            <label>{meses[i]}:</label>
+                        <div key={i} className="flex items-center gap-4 mb-2">
+                            <label className="w-24 text-gray-600">{meses[i]}:</label>
                             <input
                                 type="number"
                                 value={val}
@@ -83,16 +83,18 @@ const BalanceHidrico = () => {
                                     newValues[i] = e.target.value;
                                     setPrecipitacion(newValues);
                                 }}
-                                className="input-field"
+                                className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
                             />
                         </div>
                     ))}
                 </div>
-                <div className="center-section">
-                    <h3 className="section-title">Evapotranspiración (mm)</h3>
+
+                {/* Sección de Evapotranspiración */}
+                <div className="p-4 bg-gray-50 rounded-lg shadow">
+                    <h3 className="text-lg font-semibold text-gray-700 mb-4">Evapotranspiración (mm)</h3>
                     {evapotranspiracion.map((val, i) => (
-                        <div key={i} className="input-row">
-                            <label>{meses[i]}:</label>
+                        <div key={i} className="flex items-center gap-4 mb-2">
+                            <label className="w-24 text-gray-600">{meses[i]}:</label>
                             <input
                                 type="number"
                                 value={val}
@@ -101,68 +103,89 @@ const BalanceHidrico = () => {
                                     newValues[i] = e.target.value;
                                     setEvapotranspiracion(newValues);
                                 }}
-                                className="input-field"
+                                className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
                             />
                         </div>
                     ))}
                 </div>
             </div>
 
-            <div className="secondary-buttons">
-                <button className="example-button" onClick={cargarEjemplo}>Ejemplo</button>
-                <button className="calculate-button" onClick={calcular}>Calcular</button>
-                <button className="clear-button" onClick={limpiarCampos}>Limpiar</button>
+
+            <div className="flex justify-center gap-4 mt-6">
+                <button
+                    onClick={cargarEjemplo}
+                    className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all"
+                >
+                    Ejemplo
+                </button>
+
+                <button
+                    onClick={calcular}
+                    className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-all"
+                >
+                    Calcular
+                </button>
+
+                <button
+                    onClick={limpiarCampos}
+                    className="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all"
+                >
+                    Limpiar
+                </button>
             </div>
 
-            {mostrarResultados && (
-                <div className="results-section">
-                    <h2 className="section-title">Resultados</h2>
-                    <table className="results-table">
-                        <thead>
-                            <tr>
-                                <th>Resultado</th>
-                                {meses.map((mes, i) => (
-                                    <th key={i}>{mes}</th>
-                                ))}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>P</td>
-                                {precipitacion.map((val, i) => <td key={i}>{val}</td>)}
-                            </tr>
-                            <tr>
-                                <td>ET</td>
-                                {evapotranspiracion.map((val, i) => <td key={i}>{val}</td>)}
-                            </tr>
-                            <tr>
-                                <td>P-ET</td>
-                                {resultado.pet.map((val, i) => <td key={i}>{val?.toFixed(2)}</td>)}
-                            </tr>
-                            <tr>
-                                <td>R</td>
-                                {resultado.r.map((val, i) => <td key={i}>{val?.toFixed(2)}</td>)}
-                            </tr>
-                            <tr>
-                                <td>VR</td>
-                                {resultado.vr.map((val, i) => <td key={i}>{val?.toFixed(2)}</td>)}
-                            </tr>
-                            <tr>
-                                <td>ETR</td>
-                                {resultado.etr.map((val, i) => <td key={i}>{val?.toFixed(2)}</td>)}
-                            </tr>
-                            <tr>
-                                <td>D</td>
-                                {resultado.d.map((val, i) => <td key={i}>{val?.toFixed(2)}</td>)}
-                            </tr>
-                            <tr>
-                                <td>EX</td>
-                                {resultado.ex.map((val, i) => <td key={i}>{val?.toFixed(2)}</td>)}
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
 
+            {mostrarResultados && (
+                <div className="bg-white border border-gray-300 rounded-lg shadow-md p-6 max-w-5xl mx-auto">
+                    <h2 className="text-xl font-bold text-blue-600 text-center mb-4">Resultados</h2>
+
+                    <div className="overflow-x-auto">
+                        <table className="w-full border-collapse border border-gray-300">
+                            <thead>
+                                <tr className="bg-gray-200 text-gray-800">
+                                    <th className="border border-gray-300 px-4 py-2">Resultado</th>
+                                    {meses.map((mes, i) => (
+                                        <th key={i} className="border border-gray-300 px-4 py-2">{mes}</th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr className="bg-white">
+                                    <td className="border border-gray-300 px-4 py-2">P</td>
+                                    {precipitacion.map((val, i) => <td key={i} className="border border-gray-300 px-4 py-2">{val}</td>)}
+                                </tr>
+                                <tr className="bg-gray-50">
+                                    <td className="border border-gray-300 px-4 py-2">ET</td>
+                                    {evapotranspiracion.map((val, i) => <td key={i} className="border border-gray-300 px-4 py-2">{val}</td>)}
+                                </tr>
+                                <tr className="bg-white">
+                                    <td className="border border-gray-300 px-4 py-2">P-ET</td>
+                                    {resultado.pet.map((val, i) => <td key={i} className="border border-gray-300 px-4 py-2">{val?.toFixed(2)}</td>)}
+                                </tr>
+                                <tr className="bg-gray-50">
+                                    <td className="border border-gray-300 px-4 py-2">R</td>
+                                    {resultado.r.map((val, i) => <td key={i} className="border border-gray-300 px-4 py-2">{val?.toFixed(2)}</td>)}
+                                </tr>
+                                <tr className="bg-white">
+                                    <td className="border border-gray-300 px-4 py-2">VR</td>
+                                    {resultado.vr.map((val, i) => <td key={i} className="border border-gray-300 px-4 py-2">{val?.toFixed(2)}</td>)}
+                                </tr>
+                                <tr className="bg-gray-50">
+                                    <td className="border border-gray-300 px-4 py-2">ETR</td>
+                                    {resultado.etr.map((val, i) => <td key={i} className="border border-gray-300 px-4 py-2">{val?.toFixed(2)}</td>)}
+                                </tr>
+                                <tr className="bg-white">
+                                    <td className="border border-gray-300 px-4 py-2">D</td>
+                                    {resultado.d.map((val, i) => <td key={i} className="border border-gray-300 px-4 py-2">{val?.toFixed(2)}</td>)}
+                                </tr>
+                                <tr className="bg-gray-50">
+                                    <td className="border border-gray-300 px-4 py-2">EX</td>
+                                    {resultado.ex.map((val, i) => <td key={i} className="border border-gray-300 px-4 py-2">{val?.toFixed(2)}</td>)}
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             )}
         </div>
     );

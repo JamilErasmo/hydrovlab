@@ -31,9 +31,9 @@ export default function Simulaciones() {
 
 
     const simulaciones = [
-        { id: 1, title: 'Balance Hídrico', description: 'Simulación del balance hídrico considerando diferentes parámetros.', link: '/Experimentos/BalanceHidrico', category: 'Análisis estocástico' },
+        { id: 1, title: 'Balance Hídrico', description: 'Simulación del balance hídrico considerando diferentes parámetros.', link: '/Experimentos/BalanceHidrico', category: 'Evapotranspiración' },
         { id: 2, title: 'Blaney Criddle Global', description: 'Cálculo de evapotranspiración con el método global.', link: '/Experimentos/BlaneyCriddleGlobal', category: 'Evapotranspiración' },
-        { id: 3, title: 'Blaney Criddle Parcial', description: 'Evapotranspiración en periodos parciales.', link: '/Experimentos/BlaneyCriddleParcial', category: 'Evapotranspiración' },
+        { id: 3, title: 'Blaney Criddle Parcial', description: 'Evapotranspiración en periodos parciales.', link: '/Experimentos/BlaneyCriddleParcial', category: '     ' },
         { id: 4, title: 'Blaney Criddle Parcial Perenne', description: 'Evapotranspiración para cultivos perennes.', link: '/Experimentos/BlaneyCriddleParcialPerenne', category: 'Evapotranspiración' },
         { id: 5, title: 'Efecto de la Tormenta', description: 'Simula el efecto de tormentas e inundaciones.', link: '/Experimentos/EfectoTormenta', category: 'Lluvia escorrentía' },
         { id: 6, title: 'Hargreaves', description: 'Método de Hargreaves para calcular la evapotranspiración.', link: '/Experimentos/Hargreaves', category: 'Evapotranspiración' },
@@ -48,7 +48,21 @@ export default function Simulaciones() {
         { id: 15, title: 'Tirante N Circular', description: 'Cálculo del tirante normal en secciones circulares.', link: '/Experimentos/TiranteNSeccionCircular', category: 'Simulación continua' },
         { id: 16, title: 'Tirante N Parabólica', description: 'Cálculo del tirante normal en secciones parabólicas.', link: '/Experimentos/TiranteNSeccionParabolica', category: 'Simulación continua' },
         { id: 17, title: 'Tirante N Trapezoidal', description: 'Cálculo del tirante normal en secciones trapezoidales.', link: '/Experimentos/TiranteNSeccionTrapezoidal', category: 'Simulación continua' },
-        { id: 18, title: 'UNICA', description: 'Cálculo del tirante normal en secciones trapezoidales.', link: '/Experimentos/TiranteNSeccionTrapezoidal', category: 'Correlación Ortogonal' },
+
+{/*nueva data*/ },
+        { id: 18, title: 'Balance hidrico', description: 'Calcula el balance de humedad en el suelo.', link: '/Experimentos/BalanceHidrico', category: 'Evapotranspiración' },
+        { id: 19, title: 'INFILTRACIÓN SCS', description: 'DETERMINA LA PRECIPITACIÓN EFECTIVA Y LA RETENCIÓN  POR EL MÉTODO SCS CON LOS CARACTERÍSTICAS HIDROLÓGICAS DE LA CUENCA VÍDEO', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Infiltación' },
+        { id: 20, title: 'INFILTRACIÓN GREEN-AMPT', description: 'DETERMINA LA TASA DE INFILTRACIÓN E INFILTRACIÓN ACUMULADA POR EL MÉTODO DE GREEN-AMPT CON LAS CARACTERÍSTICAS DEL SUELO Y SUS CONDICIONES INSTANTÁNEAS VÍDEO', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Infiltación' },
+        { id: 21, title: 'INFILTRACIÓN HORTON', description: 'DETERMINA LA TASA DE INFILTRACIÓN E INFILTRACIÓN ACUMULADA POR EL MÉTODO DE HORTON CON LAS CARACTERÍSTICAS DEL SUELO Y SUS CONDICIONES INSTANTÁNEAS VÍDEO', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Infiltación' },
+        { id: 22, title: 'INFILTRACIÓN RICHARD-PHILLIPS', description: 'DETERMINA LA TASA DE INFILTRACIÓN E INFILTRACIÓN ACUMULADA POR EL MÉTODO DE PHILIP CON LAS CARACTERÍSTICAS DEL SUELO Y SUS CONDICIONES INSTANTÁNEAS VÍDEO', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Infiltación' },
+        { id: 23, title: 'INFILTRACIÓN ÍNDICE FI', description: 'DETERMINA LA TASA DE INFILTRACIÓN E INFILTRACIÓN ACUMULADA POR EL MÉTODO DE SWI CON LAS CARACTERÍSTICAS DEL SUELO Y SUS CONDICIONES INSTANTÁNEAS VÍDEO', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Infiltación' },
+        { id: 24, title: 'Efecto de la precipitación efectiva en la tormenta', description: 'Simula el efecto que produce la PRECIPITACIÓN EFECTIVA en la tormenta mediante el HIDROGRAMA TRIANGULAR y el HIDROGRAMA DEL S.C.S. para un máximo de 5 comparaciones. Foro', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Lluvia escorrentía' },
+        { id: 25, title: 'Efecto de la duración en la tormenta', description: 'Simula el efecto que produce la DURACIÓN EFECTIVA en la tormenta mediante el HIDROGRAMA TRIANGULAR y el HIDROGRAMA DEL S.C.S. para un máximo de 5 comparaciones. Foro', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Lluvia escorrentía' },
+        { id: 26, title: 'Efecto de el uso y tipo del suelo en la tormenta', description: 'Simula el efecto que produce el uso del suelo mediante el NUMERO DE LA CURVA en la tormenta mediante el HIDROGRAMA TRIANGULAR y el HIDROGRAMA DEL S.C.S. para un máximo de 5 comparaciones. Foro', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Lluvia escorrentía' },
+        { id: 27, title: 'Hidrograma unitario de máxima crecida', description: 'Determina el hidrograma de máxima crecida mediante los HIDROGRAMAS TRIANGULAR y del S.C.S.  con las características hidrológicas de la Cuenca. Foro', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Lluvia escorrentía' },
+        { id: 28, title: 'Método de Fleming', description: 'Permite calcular la producción de sedimentos en una cuenca hidrográfica en base a las características de su cobertura y al caudal medio que ésta presenta. Foro', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Producción de sedimentos' },
+        {id: 29, title: 'Método de Fournier', description: 'Calcula la producción de sedimentos en una cuenca hidrográfica en base a la precipitación y el relieve. Foro', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Producción de sedimentos' },
+        { id: 30, title: 'Transporte de Sedimentos', description: 'Permite calcular el material transportado por la corriente, tanto dentro de la capa de fondo como en suspensión.  Se pueden aplicar los métodos de Colby, Engelund-Hasen, Shen-Hung, Yang, Ackers-White, Brownlie, Karim-Kénnedy y Graf -Acaroglu. Foro', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Transporte de sedimentos' },
     ];
 
 
