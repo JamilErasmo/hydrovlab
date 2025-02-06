@@ -1,5 +1,5 @@
 'use client';
-import MetodoMuskingum from '@../../../components/MetodoMuskingum/main';
+// import MetodoMuskingum from '@../../../components/MetodoMuskingum/main';
 
 const MuskingumPage = () => {
   return ;
