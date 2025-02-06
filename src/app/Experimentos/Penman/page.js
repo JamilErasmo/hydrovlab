@@ -8,4 +8,4 @@ const Penman = () => {
   );
 };
 
-export default MuskingumPage;
+export default Penman;
