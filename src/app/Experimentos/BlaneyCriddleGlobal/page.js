@@ -1,3 +1,4 @@
+'use client';
 import React, { useState } from 'react';
 
 function createStroreData(col1, col2, col3, col4) {
