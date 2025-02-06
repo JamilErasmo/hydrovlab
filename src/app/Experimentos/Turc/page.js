@@ -1,6 +1,4 @@
-'use client';
 import React, { useState } from 'react';
-import '../App.css';
 
 const Turc = () => {
     const [precipitacion, setPrecipitacion] = useState('');
@@ -28,11 +26,11 @@ const Turc = () => {
 
     // Función para calcular L(t) y E
     const calcular = () => {
-        const lt = calcularLt(temperatura); // Calculamos L(t)
-        const e = calcularE(precipitacion, temperatura, lt); // Calculamos E
+        const lt = calcularLt(temperatura);  // Calculamos L(t)
+        const e = calcularE(precipitacion, temperatura, lt);  // Calculamos E
         setResultado({
-            lt: lt.toFixed(0), // Redondeamos L(t) a enteros
-            e: e.toFixed(4) // Redondeamos E a 4 decimales
+            lt: lt.toFixed(0),  // Redondeamos L(t) a enteros
+            e: e.toFixed(4)  // Redondeamos E a 4 decimales
         });
     };
 
@@ -47,42 +45,30 @@ const Turc = () => {
     };
 
     return (
-        <div className="app">
-            <h1 className="experiment-title">Método de Turc</h1>
-            <div className="input-section">
-                <label>Precipitación (mm):</label>
-                <input
-                    type="number"
-                    value={precipitacion}
-                    onChange={(e) => setPrecipitacion(e.target.value)}
-                    className="input-field"
-                />
-                <label>Temperatura (⁰C):</label>
-                <input
-                    type="number"
-                    value={temperatura}
-                    onChange={(e) => setTemperatura(e.target.value)}
-                    className="input-field"
-                />
+        <div>
+            <h1>Método de Turc</h1>
+
+            <div>
+                <label>Precipitación (mm): </label>
+                <input type="number" value={precipitacion} onChange={(e) => setPrecipitacion(e.target.value)} />
             </div>
-            <div className="secondary-buttons">
-                <button onClick={cargarEjemplo} className="example-button">
-                    Ejemplo
-                </button>
-                <button onClick={calcular} className="calculate-button">
-                    Calcular
-                </button>
-                <button onClick={limpiarCampos} className="clear-button">
-                    Limpiar
-                </button>
+            <div>
+                <label>Temperatura (⁰C): </label>
+                <input type="number" value={temperatura} onChange={(e) => setTemperatura(e.target.value)} />
             </div>
-            {resultado.lt && (
-                <div className="results-section">
-                    <h2 className="section-title">Resultados</h2>
-                    <p><strong>L(t):</strong> {resultado.lt}</p>
-                    <p><strong>E:</strong> {resultado.e}</p>
-                </div>
-            )}
+
+            <div>
+                <button onClick={cargarEjemplo}>Ejemplo</button>
+                <button onClick={calcular}>Calcular</button>
+                <button onClick={limpiarCampos}>Limpiar</button>
+            </div>
+
+            <h2>Resultados:</h2>
+            <p>L(t) = 300 + 25 * t + 0.05 * t²</p>
+            <p><strong>Resultado L(t):</strong> {resultado.lt}</p>
+
+            <p>E = P / √(0.9 + (P² / L(t)²))</p>
+            <p><strong>Resultado E:</strong> {resultado.e}</p>
         </div>
     );
 };

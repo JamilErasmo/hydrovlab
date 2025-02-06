@@ -307,7 +307,7 @@ const EfectoPrecipitacion = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 bg-white border border-gray-300 rounded-lg shadow-md max-w-5xl mx-auto">
 
-        {/* 📌 Sección de Parámetros */}
+        {/* Sección de Parámetros */}
         <div className="p-4 bg-gray-50 rounded-lg shadow">
           <h2 className="text-lg font-semibold text-gray-700 mb-4">Parámetros para la Construcción del Hidrograma</h2>
 
@@ -355,7 +355,7 @@ const EfectoPrecipitacion = () => {
           </button>
         </div>
 
-        {/* 📌 Sección del Gráfico */}
+        {/* Sección del Gráfico */}
         <div className="p-4 bg-white rounded-lg shadow">
           {chartData ? (
             <div>
