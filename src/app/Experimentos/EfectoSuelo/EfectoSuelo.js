@@ -1,8 +1,9 @@
+'use client';
 import React, { useState } from 'react';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import DeleteIcon from '@mui/icons-material/Delete';
-import logo from '../../assets/images/logo.png';
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -14,7 +15,6 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import '../../App.css';
 
 // Registro de elementos de Chart.js para las gráficas
 ChartJS.register(

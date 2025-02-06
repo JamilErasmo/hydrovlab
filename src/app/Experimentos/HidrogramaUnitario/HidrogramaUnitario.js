@@ -1,3 +1,4 @@
+'use client';
 import React, { useState } from 'react';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CalculateIcon from '@mui/icons-material/Calculate';
@@ -15,7 +16,6 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import '../../App.css';
 
 ChartJS.register(
   CategoryScale,
