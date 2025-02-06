@@ -49,7 +49,7 @@ export default function Simulaciones() {
         { id: 16, title: 'Tirante N Parabólica', description: 'Cálculo del tirante normal en secciones parabólicas.', link: '/Experimentos/TiranteNSeccionParabolica', category: 'Simulación continua' },
         { id: 17, title: 'Tirante N Trapezoidal', description: 'Cálculo del tirante normal en secciones trapezoidales.', link: '/Experimentos/TiranteNSeccionTrapezoidal', category: 'Simulación continua' },
 
-{/*nueva data*/ },
+        {/*nueva data*/ },
         { id: 18, title: 'Balance hidrico', description: 'Calcula el balance de humedad en el suelo.', link: '/Experimentos/BalanceHidrico', category: 'Evapotranspiración' },
         { id: 19, title: 'INFILTRACIÓN SCS', description: 'DETERMINA LA PRECIPITACIÓN EFECTIVA Y LA RETENCIÓN  POR EL MÉTODO SCS CON LOS CARACTERÍSTICAS HIDROLÓGICAS DE LA CUENCA VÍDEO', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Infiltación' },
         { id: 20, title: 'INFILTRACIÓN GREEN-AMPT', description: 'DETERMINA LA TASA DE INFILTRACIÓN E INFILTRACIÓN ACUMULADA POR EL MÉTODO DE GREEN-AMPT CON LAS CARACTERÍSTICAS DEL SUELO Y SUS CONDICIONES INSTANTÁNEAS VÍDEO', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Infiltación' },
@@ -61,7 +61,7 @@ export default function Simulaciones() {
         { id: 26, title: 'Efecto de el uso y tipo del suelo en la tormenta', description: 'Simula el efecto que produce el uso del suelo mediante el NUMERO DE LA CURVA en la tormenta mediante el HIDROGRAMA TRIANGULAR y el HIDROGRAMA DEL S.C.S. para un máximo de 5 comparaciones. Foro', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Lluvia escorrentía' },
         { id: 27, title: 'Hidrograma unitario de máxima crecida', description: 'Determina el hidrograma de máxima crecida mediante los HIDROGRAMAS TRIANGULAR y del S.C.S.  con las características hidrológicas de la Cuenca. Foro', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Lluvia escorrentía' },
         { id: 28, title: 'Método de Fleming', description: 'Permite calcular la producción de sedimentos en una cuenca hidrográfica en base a las características de su cobertura y al caudal medio que ésta presenta. Foro', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Producción de sedimentos' },
-        {id: 29, title: 'Método de Fournier', description: 'Calcula la producción de sedimentos en una cuenca hidrográfica en base a la precipitación y el relieve. Foro', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Producción de sedimentos' },
+        { id: 29, title: 'Método de Fournier', description: 'Calcula la producción de sedimentos en una cuenca hidrográfica en base a la precipitación y el relieve. Foro', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Producción de sedimentos' },
         { id: 30, title: 'Transporte de Sedimentos', description: 'Permite calcular el material transportado por la corriente, tanto dentro de la capa de fondo como en suspensión.  Se pueden aplicar los métodos de Colby, Engelund-Hasen, Shen-Hung, Yang, Ackers-White, Brownlie, Karim-Kénnedy y Graf -Acaroglu. Foro', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Transporte de sedimentos' },
     ];
 
@@ -73,8 +73,8 @@ export default function Simulaciones() {
     const simulacionesFiltradas = simulaciones.filter(
         (simulacion) =>
             (categoriaSeleccionada === 'Todas' || simulacion.category === categoriaSeleccionada) &&
-            (simulacion.title.toLowerCase().includes(busqueda.toLowerCase()) ||
-                simulacion.description.toLowerCase().includes(busqueda.toLowerCase()))
+            (simulacion.title?.toLowerCase().includes(busqueda?.toLowerCase() || '') ||
+                simulacion.description?.toLowerCase().includes(busqueda?.toLowerCase() || ''))
     );
 
 
@@ -83,19 +83,19 @@ export default function Simulaciones() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Barra de búsqueda */}
                 <div className="flex justify-end items-center mb-6">
-                        <div className="relative w-full max-w-sm">
-                            <input
-                                type="text"
-                                value={busqueda}
-                                onChange={(e) => setBusqueda(e.target.value)}
-                                placeholder="Buscar simulación..."
-                                className="w-full p-2 pl-10 border border-gray-300 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
-                            />
-                            <FaSearch className="absolute left-3 top-3 text-gray-400" />
-                        </div>
+                    <div className="relative w-full max-w-sm">
+                        <input
+                            type="text"
+                            value={busqueda}
+                            onChange={(e) => setBusqueda(e.target.value)}
+                            placeholder="Buscar simulación..."
+                            className="w-full p-2 pl-10 border border-gray-300 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+                        />
+                        <FaSearch className="absolute left-3 top-3 text-gray-400" />
                     </div>
+                </div>
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-                    
+
                     {/* Menú lateral de categorías */}
                     <div className="bg-blue-800 text-white shadow-lg rounded-lg p-6 self-start">
                         <h2 className="text-2xl font-bold mb-6">Simulación</h2>
