@@ -50,7 +50,7 @@ export default function Simulaciones() {
         { id: 17, title: 'Tirante N Trapezoidal', description: 'Cálculo del tirante normal en secciones trapezoidales.', link: '/Experimentos/TiranteNSeccionTrapezoidal', category: 'Simulación continua' },
 
         {/*nueva data*/ },
-        { id: 18, title: 'Balance hidrico', description: 'Calcula el balance de humedad en el suelo.', link: '/Experimentos/BalanceHidrico', category: 'Evapotranspiración' },
+        { id: 18, title: 'Evapotraspiracion', description: 'Calcula el balance de humedad en el suelo.', link: '/Experimentos/Evapotraspiracion', category: 'Evapotranspiración' },
         { id: 19, title: 'INFILTRACIÓN SCS', description: 'DETERMINA LA PRECIPITACIÓN EFECTIVA Y LA RETENCIÓN  POR EL MÉTODO SCS CON LOS CARACTERÍSTICAS HIDROLÓGICAS DE LA CUENCA VÍDEO', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Infiltación' },
         { id: 20, title: 'INFILTRACIÓN GREEN-AMPT', description: 'DETERMINA LA TASA DE INFILTRACIÓN E INFILTRACIÓN ACUMULADA POR EL MÉTODO DE GREEN-AMPT CON LAS CARACTERÍSTICAS DEL SUELO Y SUS CONDICIONES INSTANTÁNEAS VÍDEO', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Infiltación' },
         { id: 21, title: 'INFILTRACIÓN HORTON', description: 'DETERMINA LA TASA DE INFILTRACIÓN E INFILTRACIÓN ACUMULADA POR EL MÉTODO DE HORTON CON LAS CARACTERÍSTICAS DEL SUELO Y SUS CONDICIONES INSTANTÁNEAS VÍDEO', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Infiltación' },
