@@ -1,6 +1,5 @@
 'use client';
 import React, { useState } from 'react';
-import '../App.css';
 
 const TiranteConjugadoSTrapezoidal = () => {
     const [caudal, setCaudal] = useState('');
@@ -75,71 +74,117 @@ const TiranteConjugadoSTrapezoidal = () => {
     };
 
     return (
-        <div className="app">
-            <h1 className="experiment-title">Análisis de Tirante Conjugado - Sección Trapezoidal</h1>
+        <div className="py-10 max-w-2xl mx-auto">
+            {/* Título del Experimento */}
+            <h1 className="text-2xl font-bold text-blue-700 text-center mb-6">
+                Análisis de Tirante Conjugado - Sección Trapezoidal
+            </h1>
 
-            <div className="input-section">
-                <label>Caudal Q (m³/s):</label>
-                <input
-                    type="number"
-                    value={caudal}
-                    onChange={(e) => setCaudal(e.target.value)}
-                    className="input-field"
-                />
-
-                <label>Ancho de Solera B (m):</label>
-                <input
-                    type="number"
-                    value={anchoSolera}
-                    onChange={(e) => setAnchoSolera(e.target.value)}
-                    className="input-field"
-                />
-
-                <label>Talud Z:</label>
-                <input
-                    type="number"
-                    value={talud}
-                    onChange={(e) => setTalud(e.target.value)}
-                    className="input-field"
-                />
-
-                <label>Tirante Inicial Y (m):</label>
-                <input
-                    type="number"
-                    value={tiranteInicial}
-                    onChange={(e) => setTiranteInicial(e.target.value)}
-                    className="input-field"
-                />
-
-                <label>J Inicial:</label>
-                <input
-                    type="number"
-                    value={jInicial}
-                    onChange={(e) => setJInicial(e.target.value)}
-                    className="input-field"
-                />
+            {/* Sección de Datos de Entrada */}
+            <div className="space-y-4">
+                <div className="flex flex-col">
+                    <label className="text-gray-700 font-medium">
+                        Caudal Q (m³/s):
+                    </label>
+                    <input
+                        type="number"
+                        value={caudal}
+                        onChange={(e) => setCaudal(e.target.value)}
+                        placeholder="Ingresa el caudal"
+                        className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
+                    />
+                </div>
+                <div className="flex flex-col">
+                    <label className="text-gray-700 font-medium">
+                        Ancho de Solera B (m):
+                    </label>
+                    <input
+                        type="number"
+                        value={anchoSolera}
+                        onChange={(e) => setAnchoSolera(e.target.value)}
+                        placeholder="Ingresa el ancho"
+                        className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
+                    />
+                </div>
+                <div className="flex flex-col">
+                    <label className="text-gray-700 font-medium">
+                        Talud Z:
+                    </label>
+                    <input
+                        type="number"
+                        value={talud}
+                        onChange={(e) => setTalud(e.target.value)}
+                        placeholder="Ingresa el talud"
+                        className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
+                    />
+                </div>
+                <div className="flex flex-col">
+                    <label className="text-gray-700 font-medium">
+                        Tirante Inicial Y (m):
+                    </label>
+                    <input
+                        type="number"
+                        value={tiranteInicial}
+                        onChange={(e) => setTiranteInicial(e.target.value)}
+                        placeholder="Ingresa el tirante inicial"
+                        className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
+                    />
+                </div>
+                <div className="flex flex-col">
+                    <label className="text-gray-700 font-medium">
+                        J Inicial:
+                    </label>
+                    <input
+                        type="number"
+                        value={jInicial}
+                        onChange={(e) => setJInicial(e.target.value)}
+                        placeholder="Ingresa J inicial"
+                        className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
+                    />
+                </div>
             </div>
 
-            <div className="secondary-buttons">
-                <button onClick={calcular} className="calculate-button">
-                    <span className="button-text">Calcular</span>
+            {/* Botones de Acción */}
+            <div className="flex justify-center gap-4 mt-6">
+
+                <button
+                    onClick={calcular}
+                    className="px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition"
+                >
+                    Calcular
                 </button>
-                <button onClick={limpiarCampos} className="clear-button">
-                    <span className="button-text">Limpiar</span>
+                <button
+                    onClick={limpiarCampos}
+                    className="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition"
+                >
+                    Limpiar
                 </button>
             </div>
 
+            {/* Sección de Resultados */}
             {resultados.Y1 && (
-                <div className="results-section">
-                    <h2 className="section-title">Resultados</h2>
-                    <p><strong>Tirante Inicial Y1:</strong> {resultados.Y1} m</p>
-                    <p><strong>Tirante Conjugado Y2:</strong> {resultados.Y2} m</p>
-                    <p><strong>Valor de J:</strong> {resultados.J}</p>
-                    <p><strong>Pérdida de Energía E3:</strong> {resultados.perdidaEnergia} m</p>
-                    <p><strong>Altura del Resalto Y3:</strong> {resultados.alturaResalto} m</p>
+                <div className="mt-6 p-6 bg-gray-50 rounded-lg shadow-md border border-gray-300">
+                    <h2 className="text-xl font-semibold text-gray-800 mb-4">Resultados</h2>
+                    <p className="text-lg font-medium text-gray-700">
+                        <strong>Tirante Inicial Y1:</strong> {resultados.Y1} m
+                    </p>
+                    <p className="text-lg font-medium text-gray-700">
+                        <strong>Tirante Conjugado Y2:</strong> {resultados.Y2} m
+                    </p>
+                    <p className="text-lg font-medium text-gray-700">
+                        <strong>Valor de J:</strong> {resultados.J}
+                    </p>
+                    <p className="text-lg font-medium text-gray-700">
+                        <strong>Pérdida de Energía E3:</strong> {resultados.perdidaEnergia} m
+                    </p>
+                    <p className="text-lg font-medium text-gray-700">
+                        <strong>Altura del Resalto Y3:</strong> {resultados.alturaResalto} m
+                    </p>
                 </div>
             )}
         </div>
+
+
     );
 };
 

@@ -46,31 +46,68 @@ const Turc = () => {
     };
 
     return (
-        <div>
-            <h1>Método de Turc</h1>
+        <div className='py-10'>
+            <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300 max-w-xl mx-auto mt-6">
+                <h1 className="text-2xl font-bold text-blue-700 text-center mb-6">Método de Turc</h1>
 
-            <div>
-                <label>Precipitación (mm): </label>
-                <input type="number" value={precipitacion} onChange={(e) => setPrecipitacion(e.target.value)} />
+                <div className="space-y-4">
+                    <div className="flex items-center">
+                        <label className="w-48 text-gray-700 font-medium">Precipitación (mm):</label>
+                        <input
+                            type="number"
+                            value={precipitacion}
+                            onChange={(e) => setPrecipitacion(e.target.value)}
+                            className="w-24 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
+                            placeholder="Valor"
+                        />
+                    </div>
+                    <div className="flex items-center">
+                        <label className="w-48 text-gray-700 font-medium">Temperatura (⁰C):</label>
+                        <input
+                            type="number"
+                            value={temperatura}
+                            onChange={(e) => setTemperatura(e.target.value)}
+                            className="w-24 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
+                            placeholder="Valor"
+                        />
+                    </div>
+                </div>
+
+                <div className="flex justify-center gap-4 mt-6">
+                    <button
+                        onClick={cargarEjemplo}
+                        className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
+                    >
+                        Ejemplo
+                    </button>
+                    <button
+                        onClick={calcular}
+                        className="px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition"
+                    >
+                        Calcular
+                    </button>
+                    <button
+                        onClick={limpiarCampos}
+                        className="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition"
+                    >
+                        Limpiar
+                    </button>
+                </div>
+
+                <div className="mt-6">
+                    <h2 className="text-xl font-semibold text-gray-800 mb-4">Resultados:</h2>
+                    <p className="text-gray-700 mb-2">L(t) = 300 + 25 * t + 0.05 * t²</p>
+                    <p className="text-gray-700 mb-2">
+                        <strong>Resultado L(t):</strong> {resultado.lt}
+                    </p>
+                    <p className="text-gray-700 mb-2">E = P / √(0.9 + (P² / L(t)²))</p>
+                    <p className="text-gray-700">
+                        <strong>Resultado E:</strong> {resultado.e}
+                    </p>
+                </div>
             </div>
-            <div>
-                <label>Temperatura (⁰C): </label>
-                <input type="number" value={temperatura} onChange={(e) => setTemperatura(e.target.value)} />
-            </div>
-
-            <div>
-                <button onClick={cargarEjemplo}>Ejemplo</button>
-                <button onClick={calcular}>Calcular</button>
-                <button onClick={limpiarCampos}>Limpiar</button>
-            </div>
-
-            <h2>Resultados:</h2>
-            <p>L(t) = 300 + 25 * t + 0.05 * t²</p>
-            <p><strong>Resultado L(t):</strong> {resultado.lt}</p>
-
-            <p>E = P / √(0.9 + (P² / L(t)²))</p>
-            <p><strong>Resultado E:</strong> {resultado.e}</p>
         </div>
+
     );
 };
 

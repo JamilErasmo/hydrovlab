@@ -149,7 +149,7 @@ const RegimenPermanente = () => {
   };
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div className="p-6 bg-white shadow-md rounded-lg">
       <h2 className="text-2xl font-bold text-blue-700 text-center uppercase tracking-wide">
         Régimen Permanente: Acuífero Libre
       </h2>
@@ -165,10 +165,10 @@ const RegimenPermanente = () => {
           <button
             key={button.id}
             onClick={() => setActiveCalculation(button.id)}
-            className={`px-4 py-2 rounded-lg text-white font-medium transition ${activeCalculation === button.id
-              ? 'bg-blue-700 shadow-md'
-              : 'bg-blue-500 hover:bg-blue-600'
-              }`}
+            className={`px-5 py-2 rounded-lg text-white font-semibold transition shadow-md 
+        ${activeCalculation === button.id
+                ? 'bg-blue-700 shadow-lg scale-105'
+                : 'bg-blue-500 hover:bg-blue-600'}`}
           >
             {button.label}
           </button>
@@ -299,8 +299,8 @@ const RegimenPermanente = () => {
             }
             disabled={!activeCalculation}
             className={`px-6 py-2 rounded-lg font-semibold text-white transition ${activeCalculation
-                ? 'bg-blue-600 hover:bg-blue-700 shadow-md'
-                : 'bg-gray-400 cursor-not-allowed'
+              ? 'bg-blue-600 hover:bg-blue-700 shadow-md'
+              : 'bg-gray-400 cursor-not-allowed'
               }`}
           >
             Calcular

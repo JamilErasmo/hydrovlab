@@ -65,61 +65,79 @@ const TiranteCriticoCircular = () => {
     };
 
     return (
-        <div className="app">
-            <h1 className="experiment-title">Tirante Crítico en Sección Circular</h1>
+        <div className='py-10'>
+            <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300 max-w-2xl mx-auto mt-6">
+                <h1 className="text-2xl font-bold text-blue-700 text-center mb-6">
+                    Tirante Crítico en Sección Circular
+                </h1>
 
-            <div className="input-section">
-                <h3 className="section-title">Datos de Entrada</h3>
-                <label>Caudal Q (m³/s):</label>
-                <input
-                    type="number"
-                    value={caudal}
-                    onChange={(e) => setCaudal(e.target.value)}
-                    className="input-field"
-                />
-                <label>Diámetro D (m):</label>
-                <input
-                    type="number"
-                    value={diametro}
-                    onChange={(e) => setDiametro(e.target.value)}
-                    className="input-field"
-                />
-                <label>Tirante Inicial Y (m):</label>
-                <input
-                    type="number"
-                    value={tiranteInicial}
-                    onChange={(e) => setTiranteInicial(e.target.value)}
-                    className="input-field"
-                />
-            </div>
+                <div className="mb-6">
+                    <h3 className="text-xl font-semibold text-gray-800 mb-4">Datos de Entrada</h3>
+                    <label className="block text-gray-700 font-medium">Caudal Q (m³/s):</label>
+                    <input
+                        type="number"
+                        value={caudal}
+                        onChange={(e) => setCaudal(e.target.value)}
+                        className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
+                    />
 
-            <div className="secondary-buttons">
-                <button onClick={cargarEjemplo} className="example-button">
-                    <span className="button-text">Ejemplo</span>
-                </button>
-                <button onClick={calcular} className="calculate-button">
-                    <span className="button-text">Calcular</span>
-                </button>
-                <button onClick={limpiarCampos} className="clear-button">
-                    <span className="button-text">Limpiar</span>
-                </button>
-            </div>
+                    <label className="block text-gray-700 font-medium mt-4">Diámetro D (m):</label>
+                    <input
+                        type="number"
+                        value={diametro}
+                        onChange={(e) => setDiametro(e.target.value)}
+                        className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
+                    />
 
-            {tiranteCritico && (
-                <div className="results-section">
-                    <h2 className="section-title">Resultados</h2>
-                    <p>
-                        <strong>Tirante Crítico:</strong> {tiranteCritico} m
-                    </p>
+                    <label className="block text-gray-700 font-medium mt-4">Tirante Inicial Y (m):</label>
+                    <input
+                        type="number"
+                        value={tiranteInicial}
+                        onChange={(e) => setTiranteInicial(e.target.value)}
+                        className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
+                    />
                 </div>
-            )}
 
-            {errorVisible && (
-                <div className="error-section">
-                    <p><strong>Error:</strong> El valor de y1 supera el diámetro D.</p>
+                <div className="flex justify-center gap-4 mb-6">
+                    <button
+                        onClick={cargarEjemplo}
+                        className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow hover:bg-blue-600 transition"
+                    >
+                        <span>Ejemplo</span>
+                    </button>
+                    <button
+                        onClick={calcular}
+                        className="px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow hover:bg-green-600 transition"
+                    >
+                        <span>Calcular</span>
+                    </button>
+                    <button
+                        onClick={limpiarCampos}
+                        className="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow hover:bg-red-600 transition"
+                    >
+                        <span>Limpiar</span>
+                    </button>
                 </div>
-            )}
+
+                {tiranteCritico && (
+                    <div className="mb-6">
+                        <h2 className="text-xl font-semibold text-gray-800 mb-4">Resultados</h2>
+                        <p className="text-lg text-gray-700">
+                            <strong>Tirante Crítico:</strong> {tiranteCritico} m
+                        </p>
+                    </div>
+                )}
+
+                {errorVisible && (
+                    <div className="p-4 bg-red-100 rounded-lg border border-red-300">
+                        <p className="text-red-700 font-medium">
+                            <strong>Error:</strong> El valor de y1 supera el diámetro D.
+                        </p>
+                    </div>
+                )}
+            </div>
         </div>
+
     );
 };
 

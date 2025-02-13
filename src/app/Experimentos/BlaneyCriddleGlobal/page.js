@@ -339,19 +339,19 @@ const Mblaneyc = () => {
   // ==================================================
   function procIndexMes(mes) {
     switch (mes) {
-      case "Enero":      return 0;
-      case "Febrero":    return 1;
-      case "Marzo":      return 2;
-      case "Abril":      return 3;
-      case "Mayo":       return 4;
-      case "Junio":      return 5;
-      case "Julio":      return 6;
-      case "Agosto":     return 7;
+      case "Enero": return 0;
+      case "Febrero": return 1;
+      case "Marzo": return 2;
+      case "Abril": return 3;
+      case "Mayo": return 4;
+      case "Junio": return 5;
+      case "Julio": return 6;
+      case "Agosto": return 7;
       case "Septiembre": return 8;
-      case "Octubre":    return 9;
-      case "Noviembre":  return 10;
-      case "Diciembre":  return 11;
-      default:           return 0;
+      case "Octubre": return 9;
+      case "Noviembre": return 10;
+      case "Diciembre": return 11;
+      default: return 0;
     }
   }
 
@@ -398,7 +398,7 @@ const Mblaneyc = () => {
       58, 5.01, 5.81, 8.12, 9.55, 11.46, 12.0, 11.98, 10.55, 8.51, 7.1, 4.31, 4.56,
       60, 4.67, 5.65, 8.08, 9.65, 11.74, 12.39, 12.31, 10.7, 8.51, 6.98, 5.04, 4.22
     ];
-  
+
     // Creamos una matriz tbl[37][13] a partir de ese array lineal
     const tbl = [];
     let idx = 0;
@@ -410,22 +410,22 @@ const Mblaneyc = () => {
       }
       tbl.push(row);
     }
-  
+
     // Arreglo resultado (12 valores => 1 para cada mes)
     const ka = new Array(12).fill(0);
-  
+
     // Recorremos la tabla para localizar la "latitud mayor encontrada" (o exacta)
     for (let r = 0; r < 37; r++) {
       // Columna0 => latitud en la fila r
       const latEnTabla = tbl[r][0];
-  
+
       if (latEnTabla > lat) {
         // lat mayor encontrada
         const lma = latEnTabla;                // latitud mayor
         const lme = (r === 0) ? 0 : tbl[r - 1][0]; // latitud menor (fila previa)
         const la1 = lme - lma;
         const la2 = lat - lma;
-  
+
         // Interpolación horizontal en [1..12]
         for (let c = 1; c <= 12; c++) {
           const valorDiff = tbl[r - 1][c] - tbl[r][c];
@@ -442,7 +442,7 @@ const Mblaneyc = () => {
         return ka;
       }
     }
-  
+
     // Si no se encontró => retornamos ka lleno de ceros
     return ka;
   }
@@ -468,7 +468,7 @@ const Mblaneyc = () => {
       44, 10.54, 8.78, 8.69, 7.38, 6.73, 6.08, 6.51, 7.25, 7.99, 9.31, 9.94, 10.8,
       46, 10.69, 8.86, 8.7, 7.32, 6.61, 5.02, 6.37, 7.16, 7.96, 9.37, 10.07, 10.97
     ];
-  
+
     // Creamos una matriz tbl[15][13]
     const tbl = [];
     let idx = 0;
@@ -480,19 +480,19 @@ const Mblaneyc = () => {
       }
       tbl.push(row);
     }
-  
+
     const ka = new Array(12).fill(0);
-  
+
     for (let r = 0; r < 15; r++) {
       const latEnTabla = tbl[r][0];
-  
+
       if (latEnTabla > lat) {
         // lat mayor encontrada
         const lma = latEnTabla;
         const lme = (r === 0) ? 0 : tbl[r - 1][0];
         const la1 = lme - lma;
         const la2 = lat - lma;
-  
+
         for (let c = 1; c <= 12; c++) {
           const diffVal = tbl[r - 1][c] - tbl[r][c];
           const valInterp = (la2 * diffVal) / la1;
@@ -508,10 +508,10 @@ const Mblaneyc = () => {
         return ka;
       }
     }
-  
+
     // Si no encuentra => array de ceros
     return ka;
-  }  
+  }
 
   function procfi(Pi, Ti) {
     const fi = [];
@@ -545,28 +545,28 @@ const Mblaneyc = () => {
     // Construimos un array "tem(14)" => 0..13
     const tem = new Array(14).fill(0);
 
-    tem[0]  = parseFloat(txtlat || 0);
-    tem[1]  = parseFloat(txtene || 0);
-    tem[2]  = parseFloat(txtfeb || 0);
-    tem[3]  = parseFloat(txtmar || 0);
-    tem[4]  = parseFloat(txtabr || 0);
-    tem[5]  = parseFloat(txtmay || 0);
-    tem[6]  = parseFloat(txtjun || 0);
-    tem[7]  = parseFloat(txtjul || 0);
-    tem[8]  = parseFloat(txtago || 0);
-    tem[9]  = parseFloat(txtsep || 0);
+    tem[0] = parseFloat(txtlat || 0);
+    tem[1] = parseFloat(txtene || 0);
+    tem[2] = parseFloat(txtfeb || 0);
+    tem[3] = parseFloat(txtmar || 0);
+    tem[4] = parseFloat(txtabr || 0);
+    tem[5] = parseFloat(txtmay || 0);
+    tem[6] = parseFloat(txtjun || 0);
+    tem[7] = parseFloat(txtjul || 0);
+    tem[8] = parseFloat(txtago || 0);
+    tem[9] = parseFloat(txtsep || 0);
     tem[10] = parseFloat(txtoct || 0);
     tem[11] = parseFloat(txtnov || 0);
     tem[12] = parseFloat(txtdic || 0);
     tem[13] = parseFloat(txtcoe || 0); // Coeficiente global
 
-    const latitud = cbxlat; 
+    const latitud = cbxlat;
     const esZonaNormal = radTipo1;
 
     // Temperaturas mensuales [0..11]
     const t2 = [];
     for (let i = 1; i <= 12; i++) {
-      t2[i-1] = tem[i];
+      t2[i - 1] = tem[i];
     }
 
     // Interpolación
@@ -574,8 +574,8 @@ const Mblaneyc = () => {
     if (latitud === "Norte") pi = procInterpolarN(tem[0]);
     else pi = procInterpolarS(tem[0]);
 
-    const fi    = procfi(pi, t2);
-    const kti   = prockti(t2);
+    const fi = procfi(pi, t2);
+    const kti = prockti(t2);
     const fikti = procfikti(fi, kti);
 
     // s1 / s2 => sumas
@@ -584,7 +584,7 @@ const Mblaneyc = () => {
     let newStore = [];
 
     // 1) Base de meses => [3..9] => Abril..Octubre
-    let mesesArr = [3,4,5,6,7,8,9];
+    let mesesArr = [3, 4, 5, 6, 7, 8, 9];
 
     // 2) CONDICIÓN para añadir Nov y Dic
     //    Por ejemplo, si txtcve==12 => se agregan 10 y 11
@@ -598,16 +598,16 @@ const Mblaneyc = () => {
       let c1 = mesesArr[i];
       let mesLabel = "";
       switch (c1) {
-        case 3:  mesLabel = "Abril";      break;
-        case 4:  mesLabel = "Mayo";       break;
-        case 5:  mesLabel = "Junio";      break;
-        case 6:  mesLabel = "Julio";      break;
-        case 7:  mesLabel = "Agosto";     break;
-        case 8:  mesLabel = "Septiembre"; break;
-        case 9:  mesLabel = "Octubre";    break;
-        case 10: mesLabel = "Noviembre";  break;
-        case 11: mesLabel = "Diciembre";  break;
-        default: mesLabel = "";           break;
+        case 3: mesLabel = "Abril"; break;
+        case 4: mesLabel = "Mayo"; break;
+        case 5: mesLabel = "Junio"; break;
+        case 6: mesLabel = "Julio"; break;
+        case 7: mesLabel = "Agosto"; break;
+        case 8: mesLabel = "Septiembre"; break;
+        case 9: mesLabel = "Octubre"; break;
+        case 10: mesLabel = "Noviembre"; break;
+        case 11: mesLabel = "Diciembre"; break;
+        default: mesLabel = ""; break;
       }
 
       if (esZonaNormal) {
@@ -629,7 +629,7 @@ const Mblaneyc = () => {
           mesLabel,
           tempVal,             // TEMPERATURA
           round2(kti[c1], 2),  // Kti
-          round2(fikti[c1],2)  // Fikti
+          round2(fikti[c1], 2)  // Fikti
         );
         s2 += fikti[c1];
         newStore.push(fila);
@@ -638,16 +638,16 @@ const Mblaneyc = () => {
 
     // 4) Fila TOTAL
     if (esZonaNormal) {
-      newStore.push(createStroreData("TOTAL", 0, 0, round2(s1,2)));
+      newStore.push(createStroreData("TOTAL", 0, 0, round2(s1, 2)));
     } else {
-      newStore.push(createStroreData("TOTAL", 0, 0, round2(s2,2)));
+      newStore.push(createStroreData("TOTAL", 0, 0, round2(s2, 2)));
     }
 
     // 5) Multiplicación final con Coef Global
     const fzn = s1 * tem[13];
     const fza = s2 * tem[13];
-    setNumberField1(round2(fzn,2).toString());
-    setNumberField2(round2(fza,2).toString());
+    setNumberField1(round2(fzn, 2).toString());
+    setNumberField2(round2(fza, 2).toString());
 
     // 6) Actualizamos storeDatos
     setStoreDatos(newStore);
@@ -664,11 +664,11 @@ const Mblaneyc = () => {
   // BOTÓN: NUEVO => limpiar
   // ==================================================
   const Nuevo = () => {
-    setTxtlat("");   setTxtene(""); setTxtfeb("");  setTxtmar("");  setTxtabr("");
-    setTxtmay("");   setTxtjun(""); setTxtjul("");  setTxtago("");  setTxtsep("");
-    setTxtoct("");   setTxtnov(""); setTxtdic("");
-    setTxtcoe("");   setTxtcve("");
-    setCbxcul("");   setCbxmsi("");
+    setTxtlat(""); setTxtene(""); setTxtfeb(""); setTxtmar(""); setTxtabr("");
+    setTxtmay(""); setTxtjun(""); setTxtjul(""); setTxtago(""); setTxtsep("");
+    setTxtoct(""); setTxtnov(""); setTxtdic("");
+    setTxtcoe(""); setTxtcve("");
+    setCbxcul(""); setCbxmsi("");
     setCbxlat("");
     setRadTipo1(true);
     setRadTipo2(false);
@@ -718,215 +718,249 @@ const Mblaneyc = () => {
   // RENDER
   // ==================================================
   return (
-    <div style={{ margin: "1rem" }}>
-      <div style={{ textAlign: "center" }}>
-        <h1>METODO DE BLANEY CRIDDLE GLOBAL</h1>
+    <div className="m-4">
+      <div className="text-center">
+        <h1 className="text-2xl font-bold text-gray-800 uppercase">
+          Método de Blaney Criddle Global
+        </h1>
       </div>
-      <div style={{ border: "1px solid #ccc", padding: "1rem", marginBottom: "1rem" }}>
-      
-        <h3>Ingreso de Datos</h3>
+      <div className="border border-gray-300 p-6 mb-6 bg-white shadow-md rounded-lg space-y-4">
+        <h3 className="text-lg font-semibold text-gray-800">Ingreso de Datos</h3>
 
-        <label>LATITUD: </label>
-        <input
-          type="number"
-          value={txtlat}
-          onChange={(e) => setTxtlat(e.target.value)}
-        /><br/>
-
-        <label>CULTIVO: </label>
-        <select
-          value={cbxcul}
-          onChange={(e) => {
-            setCbxcul(e.target.value);
-            cbxcul_SelectedIndexChanged(e.target.value);
-          }}
-        >
-          <option value="">Seleccione el cultivo</option>
-          <option value="Aguacate">Aguacate</option>
-          <option value="Ajonjoli">Ajonjoli</option>
-          <option value="Alfalfa Heladas">Alfalfa Heladas</option>
-          <option value="Alfalfa Invierno">Alfalfa Invierno</option>
-          <option value="Algodon">Algodon</option>
-          <option value="Arroz">Arroz</option>
-          <option value="Cacahuate">Cacahuate</option>
-          <option value="Cacao">Cacao</option>
-          <option value="Cafe">Cafe</option>
-          <option value="Camote">Camote</option>
-          <option value="Ca\u00F1a de azucar">Caña de azucar</option>
-          <option value="Cartamo">Cartamo</option>
-          <option value="Alpiste, Avena, Cebada, centeno, Trigo">Alpiste, Avena, Cebada, centeno, Trigo</option>
-          <option value="Citricos">Citricos</option>
-          <option value="Chile">Chile</option>
-          <option value="Esparrago">Esparrago</option>
-          <option value="Fresa">Fresa</option>
-          <option value="Frijol">Frijol</option>
-          <option value="Frutales de hueso y pepita">Frutales de hueso y pepita</option>
-          <option value="Garbanzo">Garbanzo</option>
-          <option value="Girasol">Girasol</option>
-          <option value="Gladiola">Gladiola</option>
-          <option value="Haba">Haba</option>
-          <option value="Hortalizas">Hortalizas</option>
-          <option value="Jitomate">Jitomate</option>
-          <option value="Lechuga y col">Lechuga y col</option>
-          <option value="Lenteja">Lenteja</option>
-          <option value="Ma\u00EDz 1">Maíz 1</option>
-          <option value="Maiz 2">Maiz 2</option>
-          <option value="Mango">Mango</option>
-          <option value="Melon">Melon</option>
-          <option value="Nogal">Nogal</option>
-          <option value="Papa">Papa</option>
-          <option value="Palma datilera">Palma datilera</option>
-          <option value="Palma cocotera">Palma cocotera</option>
-          <option value="Papaya">Papaya</option>
-          <option value="Platano">Platano</option>
-          <option value="Pastos de gramirias">Pastos de gramirias</option>
-          <option value="Remolacha">Remolacha</option>
-          <option value="Sandia">Sandia</option>
-          <option value="Sorbo">Sorbo</option>
-          <option value="Soya">Soya</option>
-          <option value="Tabaco">Tabaco</option>
-          <option value="Tomate">Tomate</option>
-          <option value="Trebol ladino">Trebol ladino</option>
-          <option value="Zanahoria">Zanahoria</option>
-        </select><br/>
-
-        <label>CICLO VEGETATIVO: </label>
-        <input
-          type="number"
-          value={txtcve}
-          onChange={(e) => setTxtcve(e.target.value)}
-        /><br/>
-
-        <label>COEFICIENTE GLOBAL (Kg): </label>
-        <input
-          type="number"
-          value={txtcoe}
-          onChange={(e) => setTxtcoe(e.target.value)}
-        /><br/>
-
-        <label>MES DE SIEMBRA: </label>
-        <select
-          value={cbxmsi}
-          onChange={(e) => setCbxmsi(e.target.value)}
-        >
-          <option value="">Seleccione el mes de siembra</option>
-          <option value="Enero">Enero</option>
-          <option value="Febrero">Febrero</option>
-          <option value="Marzo">Marzo</option>
-          <option value="Abril">Abril</option>
-          <option value="Mayo">Mayo</option>
-          <option value="Junio">Junio</option>
-          <option value="Julio">Julio</option>
-          <option value="Agosto">Agosto</option>
-          <option value="Septiembre">Septiembre</option>
-          <option value="Octubre">Octubre</option>
-          <option value="Noviembre">Noviembre</option>
-          <option value="Diciembre">Diciembre</option>
-        </select><br/>
-
-        <label>LATITUD (Norte/Sur): </label>
-        <select
-          value={cbxlat}
-          onChange={(e) => setCbxlat(e.target.value)}
-        >
-          <option value="">Seleccione latitud</option>
-          <option value="Norte">Norte</option>
-          <option value="Sur">Sur</option>
-        </select><br/>
-      </div>
-
-      <div style={{ border: "1px solid #ccc", padding: "1rem", marginBottom: "1rem" }}>
-        <h3>Temperatura (°C)</h3>
-        <label>ENERO:</label>
-        <input type="number" value={txtene} onChange={(e) => setTxtene(e.target.value)} /><br/>
-        <label>FEBRERO:</label>
-        <input type="number" value={txtfeb} onChange={(e) => setTxtfeb(e.target.value)} /><br/>
-        <label>MARZO:</label>
-        <input type="number" value={txtmar} onChange={(e) => setTxtmar(e.target.value)} /><br/>
-        <label>ABRIL:</label>
-        <input type="number" value={txtabr} onChange={(e) => setTxtabr(e.target.value)} /><br/>
-        <label>MAYO:</label>
-        <input type="number" value={txtmay} onChange={(e) => setTxtmay(e.target.value)} /><br/>
-        <label>JUNIO:</label>
-        <input type="number" value={txtjun} onChange={(e) => setTxtjun(e.target.value)} /><br/>
-        <label>JULIO:</label>
-        <input type="number" value={txtjul} onChange={(e) => setTxtjul(e.target.value)} /><br/>
-        <label>AGOSTO:</label>
-        <input type="number" value={txtago} onChange={(e) => setTxtago(e.target.value)} /><br/>
-        <label>SEPTIEMBRE:</label>
-        <input type="number" value={txtsep} onChange={(e) => setTxtsep(e.target.value)} /><br/>
-        <label>OCTUBRE:</label>
-        <input type="number" value={txtoct} onChange={(e) => setTxtoct(e.target.value)} /><br/>
-        <label>NOVIEMBRE:</label>
-        <input type="number" value={txtnov} onChange={(e) => setTxtnov(e.target.value)} /><br/>
-        <label>DICIEMBRE:</label>
-        <input type="number" value={txtdic} onChange={(e) => setTxtdic(e.target.value)} /><br/>
-      </div>
-
-      <div style={{ border: "1px solid #ccc", padding: "1rem", marginBottom: "1rem" }}>
-        <h3>Zona</h3>
-        <label>
+        <div className="flex flex-col">
+          <label className="text-gray-700 font-medium">LATITUD:</label>
           <input
-            type="radio"
-            checked={radTipo1}
-            onChange={() => { setRadTipo1(true); setRadTipo2(false); }}
+            type="number"
+            value={txtlat}
+            onChange={(e) => setTxtlat(e.target.value)}
+            className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
           />
-          Normal
-        </label>
-        <label style={{ marginLeft: 20 }}>
-          <input
-            type="radio"
-            checked={radTipo2}
-            onChange={() => { setRadTipo1(false); setRadTipo2(true); }}
-          />
-          Arida
-        </label>
-      </div>
+        </div>
 
-      <div style={{ marginBottom: "1rem" }}>
-        <button onClick={ejemplo}>EJEMPLO</button>
-        <button style={{ marginLeft: 10 }} onClick={ToExcel}>DESCARGAR RESULTADOS (simulado)</button>
-        <button style={{ marginLeft: 10 }} onClick={Nuevo}>NUEVO</button>
-        <button style={{ marginLeft: 10 }} onClick={calcular}>CALCULAR</button>
-      </div>
-      <div style={{ border: "1px solid #ccc", padding: "1rem" }}>
-        <h3>RESULTADOS</h3>
-        <table border="1" cellPadding="5" style={{ borderCollapse: "collapse" }}>
-          <thead>
-            <tr>
-              <th>MESES</th>
-              <th>TEMPERATURA</th>
-              <th>Pi / Kti</th>
-              <th>Fi / FiKti</th>
-            </tr>
-          </thead>
-          <tbody>
-            {storeDatos.map((fila, i) => (
-              <tr key={i}>
-                <td>{fila.Columna1}</td>
-                <td>{fila.Columna2}</td>
-                <td>{fila.Columna3}</td>
-                <td>{fila.Columna4}</td>
-              </tr>
+        {/* CULTIVO */}
+        <div className="flex flex-col">
+          <label className="text-gray-700 font-medium">CULTIVO:</label>
+          <select
+            value={cbxcul}
+            onChange={(e) => {
+              setCbxcul(e.target.value);
+              cbxcul_SelectedIndexChanged(e.target.value);
+            }}
+            className="w-full p-2 mt-1 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+          >
+            <option value="">Seleccione el cultivo</option>
+            {[
+              "Aguacate", "Ajonjoli", "Alfalfa Heladas", "Alfalfa Invierno", "Algodon", "Arroz",
+              "Cacahuate", "Cacao", "Cafe", "Camote", "Caña de azucar", "Cartamo",
+              "Alpiste, Avena, Cebada, centeno, Trigo", "Citricos", "Chile", "Esparrago",
+              "Fresa", "Frijol", "Frutales de hueso y pepita", "Garbanzo", "Girasol", "Gladiola",
+              "Haba", "Hortalizas", "Jitomate", "Lechuga y col", "Lenteja", "Maíz 1", "Maiz 2",
+              "Mango", "Melon", "Nogal", "Papa", "Palma datilera", "Palma cocotera", "Papaya",
+              "Platano", "Pastos de gramirias", "Remolacha", "Sandia", "Sorbo", "Soya",
+              "Tabaco", "Tomate", "Trebol ladino", "Zanahoria"
+            ].map((cultivo, index) => (
+              <option key={index} value={cultivo}>{cultivo}</option>
             ))}
-          </tbody>
-        </table>
+          </select>
+        </div>
+        {/* CICLO VEGETATIVO */}
+        <div className="flex flex-col">
+          <label className="text-gray-700 font-medium">CICLO VEGETATIVO:</label>
+          <input
+            type="number"
+            value={txtcve}
+            onChange={(e) => setTxtcve(e.target.value)}
+            className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+          />
+        </div>
 
-        <div style={{ marginTop: 15 }}>
+        {/* COEFICIENTE GLOBAL (Kg) */}
+        <div className="flex flex-col">
+          <label className="text-gray-700 font-medium">COEFICIENTE GLOBAL (Kg):</label>
+          <input
+            type="number"
+            value={txtcoe}
+            onChange={(e) => setTxtcoe(e.target.value)}
+            className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+          />
+        </div>
+
+        {/* MES DE SIEMBRA */}
+        <div className="flex flex-col">
+          <label className="text-gray-700 font-medium">MES DE SIEMBRA:</label>
+          <select
+            value={cbxmsi}
+            onChange={(e) => setCbxmsi(e.target.value)}
+            className="w-full p-2 mt-1 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+          >
+            <option value="">Seleccione el mes de siembra</option>
+            {[
+              "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+              "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+            ].map((mes, index) => (
+              <option key={index} value={mes}>{mes}</option>
+            ))}
+          </select>
+        </div>
+
+        {/* LATITUD (Norte/Sur) */}
+        <div className="flex flex-col">
+          <label className="text-gray-700 font-medium">LATITUD (Norte/Sur):</label>
+          <select
+            value={cbxlat}
+            onChange={(e) => setCbxlat(e.target.value)}
+            className="w-full p-2 mt-1 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+          >
+            <option value="">Seleccione latitud</option>
+            <option value="Norte">Norte</option>
+            <option value="Sur">Sur</option>
+          </select>
+        </div>
+      </div>
+      {/* Sección de Temperatura */}
+      <div className="border border-gray-300 p-6 mb-6 bg-white shadow-md rounded-lg">
+        <h3 className="text-lg font-semibold text-gray-800 mb-4">Temperatura (°C)</h3>
+
+        <div className="grid grid-cols-2 gap-4">
+          {[
+            { mes: "ENERO", value: txtene, setter: setTxtene },
+            { mes: "FEBRERO", value: txtfeb, setter: setTxtfeb },
+            { mes: "MARZO", value: txtmar, setter: setTxtmar },
+            { mes: "ABRIL", value: txtabr, setter: setTxtabr },
+            { mes: "MAYO", value: txtmay, setter: setTxtmay },
+            { mes: "JUNIO", value: txtjun, setter: setTxtjun },
+            { mes: "JULIO", value: txtjul, setter: setTxtjul },
+            { mes: "AGOSTO", value: txtago, setter: setTxtago },
+            { mes: "SEPTIEMBRE", value: txtsep, setter: setTxtsep },
+            { mes: "OCTUBRE", value: txtoct, setter: setTxtoct },
+            { mes: "NOVIEMBRE", value: txtnov, setter: setTxtnov },
+            { mes: "DICIEMBRE", value: txtdic, setter: setTxtdic }
+          ].map(({ mes, value, setter }, index) => (
+            <div key={index} className="flex flex-col">
+              <label className="text-gray-700 font-medium">{mes}:</label>
+              <input
+                type="number"
+                value={value}
+                onChange={(e) => setter(e.target.value)}
+                className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+      {/* Sección de Zona */}
+      <div className="border border-gray-300 p-6 mb-6 bg-white shadow-md rounded-lg">
+        <h3 className="text-lg font-semibold text-gray-800 mb-4">Zona</h3>
+
+        <div className="flex gap-6">
+          <label className="flex items-center gap-2 text-gray-700 font-medium cursor-pointer">
+            <input
+              type="radio"
+              checked={radTipo1}
+              onChange={() => { setRadTipo1(true); setRadTipo2(false); }}
+              className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+            />
+            Normal
+          </label>
+
+          <label className="flex items-center gap-2 text-gray-700 font-medium cursor-pointer">
+            <input
+              type="radio"
+              checked={radTipo2}
+              onChange={() => { setRadTipo1(false); setRadTipo2(true); }}
+              className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+            />
+            Árida
+          </label>
+        </div>
+      </div>
+
+
+      {/* Botonera */}
+      <div className="mb-4 flex flex-wrap gap-4">
+        <button
+          onClick={ejemplo}
+          className="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
+        >
+          EJEMPLO
+        </button>
+
+        <button
+          onClick={ToExcel}
+          className="px-6 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition"
+        >
+          DESCARGAR RESULTADOS (simulado)
+        </button>
+
+        <button
+          onClick={Nuevo}
+          className="px-6 py-2 bg-yellow-500 text-white font-semibold rounded-lg shadow-md hover:bg-yellow-600 transition"
+        >
+          NUEVO
+        </button>
+
+        <button
+          onClick={calcular}
+          className="px-6 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition"
+        >
+          CALCULAR
+        </button>
+      </div>
+      {/* Sección de Resultados */}
+      <div className="border border-gray-300 p-6 bg-white shadow-md rounded-lg">
+        <h3 className="text-lg font-semibold text-gray-800 mb-4">RESULTADOS</h3>
+
+        {/* Tabla de Resultados */}
+        <div className="overflow-x-auto">
+          <table className="w-full border border-gray-400 bg-white shadow-md rounded-lg text-gray-700">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="p-3 border border-gray-400">MESES</th>
+                <th className="p-3 border border-gray-400">TEMPERATURA</th>
+                <th className="p-3 border border-gray-400">Pi / Kti</th>
+                <th className="p-3 border border-gray-400">Fi / FiKti</th>
+              </tr>
+            </thead>
+            <tbody>
+              {storeDatos.map((fila, i) => (
+                <tr key={i} className="border border-gray-300">
+                  <td className="p-2 text-center">{fila.Columna1}</td>
+                  <td className="p-2 text-center">{fila.Columna2}</td>
+                  <td className="p-2 text-center">{fila.Columna3}</td>
+                  <td className="p-2 text-center">{fila.Columna4}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Zona Normal o Árida */}
+        <div className="mt-4">
           {radTipo1 && (
-            <div>
-              <label>Zona normal: </label>
-              <input type="number" readOnly value={NumberField1} />
+            <div className="flex items-center gap-3">
+              <label className="text-gray-700 font-medium">Zona normal:</label>
+              <input
+                type="number"
+                readOnly
+                value={NumberField1}
+                className="w-32 p-2 border border-gray-300 rounded-lg bg-gray-100 text-center"
+              />
             </div>
           )}
           {radTipo2 && (
-            <div>
-              <label>Zona arida: </label>
-              <input type="number" readOnly value={NumberField2} />
+            <div className="flex items-center gap-3 mt-2">
+              <label className="text-gray-700 font-medium">Zona árida:</label>
+              <input
+                type="number"
+                readOnly
+                value={NumberField2}
+                className="w-32 p-2 border border-gray-300 rounded-lg bg-gray-100 text-center"
+              />
             </div>
           )}
         </div>
       </div>
+
     </div>
   );
 };

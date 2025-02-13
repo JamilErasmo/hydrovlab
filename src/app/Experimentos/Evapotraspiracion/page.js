@@ -5,32 +5,28 @@ import Link from "next/link";
 const LluviaEscorrentia = () => {
   return (
     <div className="home">
-      <h2>Evapotraspiracion</h2>
-      <div className="buttons">
-        <Link href="/blaney-criddle-global">
-          <button>Blaney Criddle Global</button>
-        </Link>
-        <Link href="/blaney-criddle-parcial">
-          <button>Blaney Criddle Parcial</button>
-        </Link>
-        <Link href="/blaney-criddle-parcial-perenne">
-          <button>Blaney Criddle Parcial Perenne</button>
-        </Link>
-        <Link href="/hargreaves">
-          <button>Hargreaves</button>
-        </Link>
-        <Link href="/penman">
-          <button>Penman</button>
-        </Link>
-        <Link href="/thorwaite">
-          <button>Thorwaite</button>
-        </Link>
-        <Link href="/turc">
-          <button>Turc</button>
-        </Link>
-        <Link href="/balance-hidrico">
-          <button>Balance hídrico</button>
-        </Link>
+
+      {/* Título */}
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">Evapotranspiración</h2>
+
+      {/* Contenedor de Botones */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {[
+          { href: "/blaney-criddle-global", label: "Blaney Criddle Global" },
+          { href: "/blaney-criddle-parcial", label: "Blaney Criddle Parcial" },
+          { href: "/blaney-criddle-parcial-perenne", label: "Blaney Criddle Parcial Perenne" },
+          { href: "/hargreaves", label: "Hargreaves" },
+          { href: "/penman", label: "Penman" },
+          { href: "/thorwaite", label: "Thorwaite" },
+          { href: "/turc", label: "Turc" },
+          { href: "/balance-hidrico", label: "Balance Hídrico" }
+        ].map((button, index) => (
+          <Link key={index} href={button.href}>
+            <button className="w-full px-5 py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition">
+              {button.label}
+            </button>
+          </Link>
+        ))}
       </div>
     </div>
   );

@@ -103,74 +103,102 @@ const ExperimentoCircular = () => {
     };
 
     return (
-        <div className="app">
-            <h1 className="experiment-title">Análisis Tirante N Sección Circular</h1>
+        <div className="py-10">
+            <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300 max-w-2xl mx-auto mt-6">
+                <h1 className="text-2xl font-bold text-blue-700 text-center mb-6">
+                    Análisis Tirante N Sección Circular
+                </h1>
 
-            <div className="input-section">
-                <label>CAUDAL Q (m³/s):</label>
-                <input
-                    type="number"
-                    name="Q"
-                    value={data.Q}
-                    onChange={handleInputChange}
-                    className="input-field"
-                />
-                <label>DIÁMETRO (m):</label>
-                <input
-                    type="number"
-                    name="D"
-                    value={data.D}
-                    onChange={handleInputChange}
-                    className="input-field"
-                />
-                <label>COEF. RUGOSIDAD:</label>
-                <input
-                    type="number"
-                    name="N"
-                    value={data.N}
-                    onChange={handleInputChange}
-                    className="input-field"
-                />
-                <label>PENDIENTE (m/m):</label>
-                <input
-                    type="number"
-                    name="S"
-                    value={data.S}
-                    onChange={handleInputChange}
-                    className="input-field"
-                />
-                <label>TIRANTE INICIAL (m):</label>
-                <input
-                    type="number"
-                    name="y"
-                    value={data.y}
-                    onChange={handleInputChange}
-                    className="input-field"
-                />
-            </div>
+                <div className="mb-6">
+                    <h3 className="text-xl font-semibold text-gray-800 mb-4">Datos de Entrada</h3>
 
-            <div className="secondary-buttons">
-                <button onClick={calcular} className="calculate-button">
-                    <span className="button-text">Calcular</span>
-                </button>
-                <button onClick={cargarEjemplo} className="example-button">
-                    <span className="button-text">Cargar Ejemplo</span>
-                </button>
-                <button onClick={limpiar} className="clear-button">
-                    <span className="button-text">Limpiar</span>
-                </button>
-            </div>
+                    <label className="block text-gray-700 font-medium">CAUDAL Q (m³/s):</label>
+                    <input
+                        type="number"
+                        name="Q"
+                        value={data.Q}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
+                    />
 
-            {results.yResult && (
-                <div className="results-section">
-                    <h2 className="section-title">Resultados</h2>
-                    <p><strong>Tirante Normal (y):</strong> {results.yResult}</p>
-                    <p><strong>Velocidad (v):</strong> {results.v}</p>
-                    <p><strong>Número de Froude (f2):</strong> {results.f2}</p>
-                    <p><strong>Energía Específica (En):</strong> {results.En}</p>
+                    <label className="block text-gray-700 font-medium mt-4">DIÁMETRO (m):</label>
+                    <input
+                        type="number"
+                        name="D"
+                        value={data.D}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
+                    />
+
+                    <label className="block text-gray-700 font-medium mt-4">COEF. RUGOSIDAD:</label>
+                    <input
+                        type="number"
+                        name="N"
+                        value={data.N}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
+                    />
+
+                    <label className="block text-gray-700 font-medium mt-4">PENDIENTE (m/m):</label>
+                    <input
+                        type="number"
+                        name="S"
+                        value={data.S}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
+                    />
+
+                    <label className="block text-gray-700 font-medium mt-4">TIRANTE INICIAL (m):</label>
+                    <input
+                        type="number"
+                        name="y"
+                        value={data.y}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
+                    />
                 </div>
-            )}
+
+                <div className="flex justify-center gap-4 mb-6">
+                    <button
+                        onClick={calcular}
+                        className="px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition"
+                    >
+                        <span className="button-text">Calcular</span>
+                    </button>
+                    <button
+                        onClick={cargarEjemplo}
+                        className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
+                    >
+                        <span className="button-text">Cargar Ejemplo</span>
+                    </button>
+                    <button
+                        onClick={limpiar}
+                        className="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition"
+                    >
+                        <span className="button-text">Limpiar</span>
+                    </button>
+                </div>
+
+                {results.yResult && (
+                    <div className="p-6 bg-gray-50 rounded-lg shadow-md border border-gray-300">
+                        <h2 className="text-xl font-semibold text-gray-800 mb-4">Resultados</h2>
+                        <p className="text-lg text-gray-700">
+                            <strong>Tirante Normal (y):</strong> {results.yResult}
+                        </p>
+                        <p className="text-lg text-gray-700">
+                            <strong>Velocidad (v):</strong> {results.v}
+                        </p>
+                        <p className="text-lg text-gray-700">
+                            <strong>Número de Froude (f2):</strong> {results.f2}
+                        </p>
+                        <p className="text-lg text-gray-700">
+                            <strong>Energía Específica (En):</strong> {results.En}
+                        </p>
+                    </div>
+                )}
+            </div>
         </div>
+
     );
 };
 

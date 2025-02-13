@@ -93,66 +93,118 @@ const TiranteConjugadoCircular = () => {
     };
 
     return (
-        <div className="app">
-            <h1 className="experiment-title">Análisis de Tirante Conjugado en Sección Circular</h1>
+        <div className="py-12">
+            <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300 max-w-2xl mx-auto mt-6">
+                {/* Título del Experimento */}
+                <h1 className="text-2xl font-bold text-blue-700 text-center mb-6">
+                    Análisis de Tirante Conjugado en Sección Circular
+                </h1>
 
-            <div className="input-section">
-                <label>Caudal Q (m³/s):</label>
-                <input
-                    type="number"
-                    value={caudal}
-                    onChange={(e) => setCaudal(e.target.value)}
-                    className="input-field"
-                />
+                {/* Sección de Datos de Entrada */}
+                <div className="space-y-4">
+                    {/* Caudal Q */}
+                    <div className="flex flex-col">
+                        <label className="text-gray-700 font-medium">
+                            Caudal Q (m³/s):
+                        </label>
+                        <input
+                            type="number"
+                            value={caudal}
+                            onChange={(e) => setCaudal(e.target.value)}
+                            placeholder="Ingresa el caudal"
+                            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                        />
+                    </div>
 
-                <label>Diámetro D (m):</label>
-                <input
-                    type="number"
-                    value={diametro}
-                    onChange={(e) => setDiametro(e.target.value)}
-                    className="input-field"
-                />
+                    {/* Diámetro D */}
+                    <div className="flex flex-col">
+                        <label className="text-gray-700 font-medium">
+                            Diámetro D (m):
+                        </label>
+                        <input
+                            type="number"
+                            value={diametro}
+                            onChange={(e) => setDiametro(e.target.value)}
+                            placeholder="Ingresa el diámetro"
+                            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                        />
+                    </div>
 
-                <label>Tirante Conjugado Y1 (m):</label>
-                <input
-                    type="number"
-                    value={tiranteConjugado}
-                    onChange={(e) => setTiranteConjugado(e.target.value)}
-                    className="input-field"
-                />
+                    {/* Tirante Conjugado Y1 */}
+                    <div className="flex flex-col">
+                        <label className="text-gray-700 font-medium">
+                            Tirante Conjugado Y1 (m):
+                        </label>
+                        <input
+                            type="number"
+                            value={tiranteConjugado}
+                            onChange={(e) => setTiranteConjugado(e.target.value)}
+                            placeholder="Ingresa el tirante conjugado"
+                            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                        />
+                    </div>
 
-                <label>Valor Inicial del Tirante Y2 (m):</label>
-                <input
-                    type="number"
-                    value={tiranteInicial}
-                    onChange={(e) => setTiranteInicial(e.target.value)}
-                    className="input-field"
-                />
-            </div>
-
-            <div className="secondary-buttons">
-                <button onClick={cargarEjemplo} className="example-button">
-                    <span className="button-text">Ejemplo</span>
-                </button>
-                <button onClick={limpiarCampos} className="clear-button">
-                    <span className="button-text">Limpiar</span>
-                </button>
-            </div>
-            <div>
-                <button onClick={calcular} className="calculate-button">
-                    Calcular
-                </button>
-            </div>
-
-            {resultados.energiaE && (
-                <div className="results-section">
-                    <h2 className="section-title">Resultados</h2>
-                    <p>ENERGÍA E: {resultados.energiaE}</p>
-                    <p>PERDIDA DE ENERGÍA E3: {resultados.perdidaEnergiaE3}</p>
-                    <p>ALTURA DEL RESALTO HIDRÁULICO Y3: {resultados.alturaResaltoY3} m</p>
-                    <p>{resultados.mensajeFlujo}</p>
+                    {/* Valor Inicial del Tirante Y2 */}
+                    <div className="flex flex-col">
+                        <label className="text-gray-700 font-medium">
+                            Valor Inicial del Tirante Y2 (m):
+                        </label>
+                        <input
+                            type="number"
+                            value={tiranteInicial}
+                            onChange={(e) => setTiranteInicial(e.target.value)}
+                            placeholder="Ingresa el valor inicial"
+                            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                        />
+                    </div>
                 </div>
-            )}
+
+                {/* Botones Secundarios */}
+                <div className="flex justify-center gap-4 mt-6">
+                    <button
+                        onClick={cargarEjemplo}
+                        className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
+                    >
+                        <span>Ejemplo</span>
+                    </button>
+                    <button
+                        onClick={limpiarCampos}
+                        className="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition"
+                    >
+                        <span>Limpiar</span>
+                    </button>
+                </div>
+
+                {/* Botón de Calcular */}
+                <div className="mt-4">
+                    <button
+                        onClick={calcular}
+                        className="w-full px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition"
+                    >
+                        Calcular
+                    </button>
+                </div>
+
+                {/* Sección de Resultados */}
+                {resultados.energiaE && (
+                    <div className="mt-6 p-6 bg-gray-50 rounded-lg shadow-md border border-gray-300">
+                        <h2 className="text-xl font-semibold text-gray-800 mb-4">Resultados</h2>
+                        <p className="text-lg font-medium text-gray-700">
+                            ENERGÍA E: <span className="font-bold text-blue-700">{resultados.energiaE}</span>
+                        </p>
+                        <p className="text-lg font-medium text-gray-700">
+                            PERDIDA DE ENERGÍA E3: <span className="font-bold text-blue-700">{resultados.perdidaEnergiaE3}</span>
+                        </p>
+                        <p className="text-lg font-medium text-gray-700">
+                            ALTURA DEL RESALTO HIDRÁULICO Y3: <span className="font-bold text-blue-700">{resultados.alturaResaltoY3} m</span>
+                        </p>
+                        <p className="text-lg font-medium text-gray-700">
+                            {resultados.mensajeFlujo}
+                        </p>
+                    </div>
+                )}
+            </div>
+
         </div>
     );
 };

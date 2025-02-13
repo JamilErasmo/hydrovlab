@@ -112,73 +112,195 @@ const Hargreaves = () => {
 
     return (
         <div>
-            <h1>Método de Hargreaves</h1>
-            <div>
-                <label>Ecuación básica: </label>
-                <input
-                    type="radio"
-                    checked={ecuacion === 'basica'}
-                    onChange={() => setEcuacion('basica')}
-                />
-                <label>Ecuación modificada: </label>
-                <input
-                    type="radio"
-                    checked={ecuacion === 'modificada'}
-                    onChange={() => setEcuacion('modificada')}
-                />
-            </div>
+            {/* Contenedor Principal */}
+            <div className="bg-white p-6 shadow-md rounded-lg border border-gray-300">
 
-            <div>
-                <label>Latitud: </label>
-                <input type="number" value={lat} onChange={(e) => setLat(e.target.value)} />
-                <label>Hemisferio: </label>
-                <select value={hemisferio} onChange={(e) => setHemisferio(e.target.value)}>
-                    <option value="Norte">Norte</option>
-                    <option value="Sur">Sur</option>
-                </select>
-            </div>
+                {/* Título */}
+                <h1 className="text-2xl font-bold text-gray-800 text-center mb-4">
+                    Método de Hargreaves
+                </h1>
 
-            <div>
-                <label>Mes para E.T.P: </label>
-                <select value={mes} onChange={(e) => setMes(e.target.value)}>
-                    {meses.map((mes) => (
-                        <option key={mes} value={mes}>
-                            {mes}
-                        </option>
-                    ))}
-                </select>
-            </div>
-
-            <div>
-                <label>Temperatura (⁰C): </label>
-                <input type="number" value={temp} onChange={(e) => setTemp(e.target.value)} />
-                <label>Humedad Relativa Promedio Mensual (Hrm): </label>
-                <input type="number" value={hrm} onChange={(e) => setHrm(e.target.value)} />
-            </div>
-
-            {ecuacion === 'modificada' && (
-                <>
-                    <div>
-                        <label>Velocidad Media del Viento: </label>
-                        <input type="number" value={windSpeed} onChange={(e) => setWindSpeed(e.target.value)} />
+                {/* Selección de ecuación */}
+                <div className="flex flex-col md:flex-row items-center justify-center gap-6 bg-gray-50 p-4 rounded-lg">
+                    <div className="flex items-center gap-2">
+                        <input
+                            type="radio"
+                            id="basica"
+                            checked={ecuacion === 'basica'}
+                            onChange={() => setEcuacion('basica')}
+                            className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+                        />
+                        <label htmlFor="basica" className="text-gray-700 font-medium">
+                            Ecuación Básica
+                        </label>
                     </div>
-                    <div>
-                        <label>Elevación Promedio de la Zona: </label>
-                        <input type="number" value={elevacion} onChange={(e) => setElevacion(e.target.value)} />
+
+                    <div className="flex items-center gap-2">
+                        <input
+                            type="radio"
+                            id="modificada"
+                            checked={ecuacion === 'modificada'}
+                            onChange={() => setEcuacion('modificada')}
+                            className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+                        />
+                        <label htmlFor="modificada" className="text-gray-700 font-medium">
+                            Ecuación Modificada
+                        </label>
                     </div>
-                </>
-            )}
+                </div>
 
-            <div>
-                <button onClick={cargarEjemplo}>Ejemplo</button>
-                <button onClick={calcularETP}>Calcular</button>
-                <button onClick={limpiarCampos}>Nuevo</button>
             </div>
 
-            <div>
-                <h2>Aplicación de la fórmula {ecuacion === 'basica' ? 'básica' : 'modificada'}</h2>
-                <p>Evapotranspiración Potencial (E.T.P): {etp}</p>
+            {/* Contenedor de latitud y hemisferio */}
+            <div className="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-300">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    {/* Latitud */}
+                    <div className="flex flex-col">
+                        <label className="text-gray-700 font-medium">Latitud:</label>
+                        <input
+                            type="number"
+                            value={lat}
+                            onChange={(e) => setLat(e.target.value)}
+                            className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                        />
+                    </div>
+
+                    {/* Hemisferio */}
+                    <div className="flex flex-col">
+                        <label className="text-gray-700 font-medium">Hemisferio:</label>
+                        <select
+                            value={hemisferio}
+                            onChange={(e) => setHemisferio(e.target.value)}
+                            className="w-full p-2 mt-1 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                        >
+                            <option value="Norte">Norte</option>
+                            <option value="Sur">Sur</option>
+                        </select>
+                    </div>
+
+                </div>
             </div>
+
+
+            {/* Contenedor del selector de mes */}
+            <div className="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-300">
+                <div className="flex flex-col">
+                    <label className="text-gray-700 font-medium">Mes para E.T.P:</label>
+                    <select
+                        value={mes}
+                        onChange={(e) => setMes(e.target.value)}
+                        className="w-full p-2 mt-1 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                    >
+                        {meses.map((mes) => (
+                            <option key={mes} value={mes}>
+                                {mes}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+            </div>
+
+            {/* Contenedor de Temperatura y Humedad Relativa */}
+            <div className="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-300">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    {/* Temperatura */}
+                    <div className="flex flex-col">
+                        <label className="text-gray-700 font-medium">Temperatura (⁰C):</label>
+                        <input
+                            type="number"
+                            value={temp}
+                            onChange={(e) => setTemp(e.target.value)}
+                            className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                        />
+                    </div>
+
+                    {/* Humedad Relativa Promedio Mensual */}
+                    <div className="flex flex-col">
+                        <label className="text-gray-700 font-medium">Humedad Relativa Promedio Mensual (Hrm):</label>
+                        <input
+                            type="number"
+                            value={hrm}
+                            onChange={(e) => setHrm(e.target.value)}
+                            className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                        />
+                    </div>
+
+                </div>
+            </div>
+
+
+            {/* Contenedor Principal */}
+            <div className="bg-white p-6 shadow-md rounded-lg border border-gray-300">
+
+                {/* Sección para la ecuación modificada */}
+                {ecuacion === 'modificada' && (
+                    <div className="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-300 mb-6">
+                        <h3 className="text-lg font-semibold text-gray-700 mb-4">Parámetros Adicionales</h3>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {/* Velocidad del Viento */}
+                            <div className="flex flex-col">
+                                <label className="text-gray-700 font-medium">Velocidad Media del Viento:</label>
+                                <input
+                                    type="number"
+                                    value={windSpeed}
+                                    onChange={(e) => setWindSpeed(e.target.value)}
+                                    className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                                />
+                            </div>
+
+                            {/* Elevación Promedio */}
+                            <div className="flex flex-col">
+                                <label className="text-gray-700 font-medium">Elevación Promedio de la Zona:</label>
+                                <input
+                                    type="number"
+                                    value={elevacion}
+                                    onChange={(e) => setElevacion(e.target.value)}
+                                    className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Botones de Acción */}
+                <div className="flex justify-center gap-4">
+                    <button
+                        onClick={cargarEjemplo}
+                        className="px-5 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
+                    >
+                        Ejemplo
+                    </button>
+
+                    <button
+                        onClick={calcularETP}
+                        className="px-5 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition"
+                    >
+                        Calcular
+                    </button>
+
+                    <button
+                        onClick={limpiarCampos}
+                        className="px-5 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition"
+                    >
+                        Nuevo
+                    </button>
+                </div>
+
+                {/* Resultados */}
+                <div className="mt-6 p-6 bg-gray-50 rounded-lg shadow-md border border-gray-300 text-center">
+                    <h2 className="text-lg font-semibold text-gray-700 mb-2">
+                        Aplicación de la fórmula {ecuacion === 'basica' ? 'Básica' : 'Modificada'}
+                    </h2>
+                    <p className="text-xl font-bold text-blue-700">
+                        Evapotranspiración Potencial (E.T.P): {etp}
+                    </p>
+                </div>
+
+            </div>
+
         </div>
     );
 };

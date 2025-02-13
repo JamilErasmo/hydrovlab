@@ -90,139 +90,100 @@ const CurvaRemansoBakhmeteff = () => {
 
   return (
     <div className="app">
-     
 
-      <div className="content-wrapper">
-        <div className="left-section">
-          <h2 className="section-subtitle">Datos de Entrada</h2>
 
-          <div className="input-row">
-            <label>Caudal Q (m³/s):</label>
-            <input
-              className="input-field"
-              type="number"
-              value={caudal}
-              onChange={(e) => setCaudal(e.target.value)}
-            />
-          </div>
-          <div className="input-row">
-            <label>Ancho de Solera B (m):</label>
-            <input
-              className="input-field"
-              type="number"
-              value={anchoSolera}
-              onChange={(e) => setAnchoSolera(e.target.value)}
-            />
-          </div>
-          <div className="input-row">
-            <label>Talud:</label>
-            <input
-              className="input-field"
-              type="number"
-              value={talud}
-              onChange={(e) => setTalud(e.target.value)}
-            />
-          </div>
-          <div className="input-row">
-            <label>Pendiente (m/m):</label>
-            <input
-              className="input-field"
-              type="number"
-              value={pendiente}
-              onChange={(e) => setPendiente(e.target.value)}
-            />
-          </div>
-          <div className="input-row">
-            <label>Tirante Normal YN (m):</label>
-            <input
-              className="input-field"
-              type="number"
-              value={tiranteNormal}
-              onChange={(e) => setTiranteNormal(e.target.value)}
-            />
-          </div>
-          <div className="input-row">
-            <label>Tirante Crítico YC (m):</label>
-            <input
-              className="input-field"
-              type="number"
-              value={tiranteCritico}
-              onChange={(e) => setTiranteCritico(e.target.value)}
-            />
-          </div>
-          <div className="input-row">
-            <label>Tirante Inicial Y1 (m):</label>
-            <input
-              className="input-field"
-              type="number"
-              value={tiranteInicial}
-              onChange={(e) => setTiranteInicial(e.target.value)}
-            />
-          </div>
-          <div className="input-row">
-            <label>Tirante Final Y2 (m):</label>
-            <input
-              className="input-field"
-              type="number"
-              value={tiranteFinal}
-              onChange={(e) => setTiranteFinal(e.target.value)}
-            />
-          </div>
-          <div className="input-row">
-            <label>Incremento del Tirante Y3 (m):</label>
-            <input
-              className="input-field"
-              type="number"
-              value={incrementoTirante}
-              onChange={(e) => setIncrementoTirante(e.target.value)}
-            />
-          </div>
+      {/* Contenedor principal */}
+      <div className="flex flex-col bg-white p-6 shadow-md rounded-lg border border-gray-300">
+
+        {/* Título */}
+        <h2 className="text-xl font-semibold text-gray-800 mb-4">Datos de Entrada</h2>
+
+        {/* Contenedor de Inputs */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {[
+            { label: "Caudal Q (m³/s):", value: caudal, setter: setCaudal },
+            { label: "Ancho de Solera B (m):", value: anchoSolera, setter: setAnchoSolera },
+            { label: "Talud:", value: talud, setter: setTalud },
+            { label: "Pendiente (m/m):", value: pendiente, setter: setPendiente },
+            { label: "Tirante Normal YN (m):", value: tiranteNormal, setter: setTiranteNormal },
+            { label: "Tirante Crítico YC (m):", value: tiranteCritico, setter: setTiranteCritico },
+            { label: "Tirante Inicial Y1 (m):", value: tiranteInicial, setter: setTiranteInicial },
+            { label: "Tirante Final Y2 (m):", value: tiranteFinal, setter: setTiranteFinal },
+            { label: "Incremento del Tirante Y3 (m):", value: incrementoTirante, setter: setIncrementoTirante }
+          ].map(({ label, value, setter }, index) => (
+            <div key={index} className="flex flex-col">
+              <label className="text-gray-700 font-medium">{label}</label>
+              <input
+                type="number"
+                value={value}
+                onChange={(e) => setter(e.target.value)}
+                className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+              />
+            </div>
+          ))}
         </div>
 
-        <div className="secondary-buttons">
-          <button className="example-button" onClick={cargarEjemplo}>
+        {/* Botonera */}
+        <div className="mt-6 flex justify-between">
+          <button
+            onClick={cargarEjemplo}
+            className="px-5 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
+          >
             Ejemplo
           </button>
-          <button className="calculate-button" onClick={calcular}>
+
+          <button
+            onClick={calcular}
+            className="px-5 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition"
+          >
             Calcular
           </button>
-          <button className="clear-button" onClick={limpiarCampos}>
+
+          <button
+            onClick={limpiarCampos}
+            className="px-5 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition"
+          >
             Limpiar
           </button>
         </div>
+
       </div>
 
       {resultados.length > 0 && (
-        <div className="results-section">
-          <h2 className="section-subtitle">Resultados</h2>
-          <table className="results-table">
-            <thead>
-              <tr>
-                <th>Y</th>
-                <th>A (m²)</th>
-                <th>P (m)</th>
-                <th>R (m)</th>
-                <th>V (m/s)</th>
-                <th>E (m)</th>
-                <th>X (m)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {resultados.map((resultado, index) => (
-                <tr key={index}>
-                  <td>{resultado.Y}</td>
-                  <td>{resultado.A}</td>
-                  <td>{resultado.P}</td>
-                  <td>{resultado.R}</td>
-                  <td>{resultado.V}</td>
-                  <td>{resultado.E}</td>
-                  <td>{resultado.X}</td>
+        <div className="bg-white p-6 shadow-md rounded-lg border border-gray-300 mt-6">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">Resultados</h2>
+
+          <div className="overflow-x-auto">
+            <table className="w-full border border-gray-400 bg-white shadow-md rounded-lg text-gray-700">
+              <thead>
+                <tr className="bg-gray-200">
+                  <th className="p-3 border border-gray-400">Y</th>
+                  <th className="p-3 border border-gray-400">A (m²)</th>
+                  <th className="p-3 border border-gray-400">P (m)</th>
+                  <th className="p-3 border border-gray-400">R (m)</th>
+                  <th className="p-3 border border-gray-400">V (m/s)</th>
+                  <th className="p-3 border border-gray-400">E (m)</th>
+                  <th className="p-3 border border-gray-400">X (m)</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {resultados.map((resultado, index) => (
+                  <tr key={index} className="border border-gray-300 hover:bg-gray-100 transition">
+                    <td className="p-2 text-center">{resultado.Y}</td>
+                    <td className="p-2 text-center">{resultado.A}</td>
+                    <td className="p-2 text-center">{resultado.P}</td>
+                    <td className="p-2 text-center">{resultado.R}</td>
+                    <td className="p-2 text-center">{resultado.V}</td>
+                    <td className="p-2 text-center">{resultado.E}</td>
+                    <td className="p-2 text-center">{resultado.X}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
+
     </div>
   );
 };

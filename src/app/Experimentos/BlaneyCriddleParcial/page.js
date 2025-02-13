@@ -254,97 +254,162 @@ const BlaneyCriddleParcial = () => {
   };
 
   return (
-    <div style={{ maxWidth: "820px", margin: "0 auto", padding: "20px", fontFamily: "Arial, sans-serif", color: "#5377A9" }}>
-      <div style={{ textAlign: "center" }}>
-        <img src="Imagenes/CabeceraP.jpg" alt="Hydrovlab" style={{ borderWidth: 0 }} />
-        <h1>METODO DE BLANEY CRIDDLE PARCIAL</h1>
-      </div>
-      <h2>INGRESO DE DATOS</h2>
-      <div style={{ border: "1px solid #ccc", padding: "10px" }}>
-        <div>
-          <label>LATITUD: </label>
-          <input
-            type="number"
-            value={lat}
-            onChange={(e) => setLat(e.target.value === "" ? "" : Number(e.target.value))}
-          />
+    <div className="py-8">
+
+      <div className="py-14 max-w-3xl mx-auto text-[#5377A9] bg-white shadow-md rounded-lg">
+
+        {/* Encabezado */}
+        <div className="text-center">
+
+          <h1 className="text-2xl font-bold uppercase mt-4">Método de Blaney Criddle Parcial</h1>
         </div>
-        <div>
-          <label>CULTIVO: </label>
-          <select value={crop} onChange={(e) => setCrop(e.target.value)}>
-            <option value="Trigo">Trigo</option>
-            <option value="Trigo de Invierno">Trigo de Invierno</option>
-            <option value="Sorgo de grano">Sorgo de grano</option>
-            <option value="Algodon">Algodon</option>
-            <option value="Frijol">Frijol</option>
-            <option value="Lechuga">Lechuga</option>
-            <option value="Zanahoria">Zanahoria</option>
-            <option value="Papa">Papa</option>
-            <option value="Calabaza">Calabaza</option>
-            <option value="Papa1">Papa 2</option>
-            <option value="Tomate">Tomate</option>
-          </select>
+
+        {/* Sección de Ingreso de Datos */}
+        <h2 className="text-xl font-semibold mt-6 border-b-2 border-gray-300 pb-2">Ingreso de Datos</h2>
+
+        {/* Contenedor principal */}
+        <div className="border border-gray-300 p-6 mb-6 bg-white shadow-md rounded-lg space-y-4">
+          <h3 className="text-lg font-semibold text-gray-800">Ingreso de Datos</h3>
+
+          {/* LATITUD */}
+          <div className="flex flex-col">
+            <label className="text-gray-700 font-medium">LATITUD:</label>
+            <input
+              type="number"
+              value={lat}
+              onChange={(e) => setLat(e.target.value === "" ? "" : Number(e.target.value))}
+              className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+            />
+          </div>
+
+          {/* CULTIVO */}
+          <div className="flex flex-col">
+            <label className="text-gray-700 font-medium">CULTIVO:</label>
+            <select
+              value={crop}
+              onChange={(e) => setCrop(e.target.value)}
+              className="w-full p-2 mt-1 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+            >
+              {[
+                "Trigo", "Trigo de Invierno", "Sorgo de grano", "Algodon", "Frijol",
+                "Lechuga", "Zanahoria", "Papa", "Calabaza", "Papa1", "Tomate"
+              ].map((cultivo, index) => (
+                <option key={index} value={cultivo}>{cultivo}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* % CRECIMIENTO CULTIVO */}
+          <div className="flex flex-col">
+            <label className="text-gray-700 font-medium">% CRECIMIENTO CULTIVO:</label>
+            <input
+              type="number"
+              value={coe}
+              onChange={(e) => setCoe(e.target.value === "" ? "" : Number(e.target.value))}
+              className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+            />
+          </div>
+
+          {/* TEMPERATURA DEL MES */}
+          <div className="flex flex-col">
+            <label className="text-gray-700 font-medium">TEMPERATURA DEL MES (°C):</label>
+            <input
+              type="number"
+              value={tmp}
+              onChange={(e) => setTmp(e.target.value === "" ? "" : Number(e.target.value))}
+              className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+            />
+          </div>
+
+          {/* MES DE SIEMBRA */}
+          <div className="flex flex-col">
+            <label className="text-gray-700 font-medium">MES DE SIEMBRA:</label>
+            <select
+              value={plantingMonth}
+              onChange={(e) => setPlantingMonth(e.target.value)}
+              className="w-full p-2 mt-1 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+            >
+              {[
+                "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+                "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+              ].map((mes, index) => (
+                <option key={index} value={mes}>{mes}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* TIPO DE LATITUD */}
+          <div className="flex flex-col">
+            <label className="text-gray-700 font-medium">TIPO DE LATITUD:</label>
+            <select
+              value={latType}
+              onChange={(e) => setLatType(e.target.value)}
+              className="w-full p-2 mt-1 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+            >
+              <option value="Norte">Norte</option>
+              <option value="Sur">Sur</option>
+            </select>
+          </div>
         </div>
-        <div>
-          <label>% CRECIMIENTO CULTIVO: </label>
-          <input
-            type="number"
-            value={coe}
-            onChange={(e) => setCoe(e.target.value === "" ? "" : Number(e.target.value))}
-          />
+        {/* Botonera */}
+        <div className="mt-4 flex flex-wrap gap-4">
+          <button
+            onClick={handleEjemplo}
+            className="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
+          >
+            EJEMPLO
+          </button>
+
+          <button
+            onClick={handleCalcular}
+            className="px-6 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition"
+          >
+            CALCULAR
+          </button>
+
+          <button
+            onClick={handleNuevo}
+            className="px-6 py-2 bg-yellow-500 text-white font-semibold rounded-lg shadow-md hover:bg-yellow-600 transition"
+          >
+            NUEVO
+          </button>
         </div>
-        <div>
-          <label>TEMPERATURA DEL MES (⁰C): </label>
-          <input
-            type="number"
-            value={tmp}
-            onChange={(e) => setTmp(e.target.value === "" ? "" : Number(e.target.value))}
-          />
+
+        {/* Sección de Resultados */}
+        <h2 className="text-xl font-semibold text-gray-800 mt-6">RESULTADOS</h2>
+
+        <div className="border border-gray-300 p-4 w-40 mx-auto text-right bg-white shadow-md rounded-lg">
+          <div className="flex justify-between items-center mb-2">
+            <label className="text-gray-700 font-medium">Kci:</label>
+            <input
+              type="number"
+              value={kci !== null ? kci : ''}
+              readOnly
+              className="w-16 p-1 border border-gray-300 rounded-lg bg-gray-100 text-center"
+            />
+          </div>
+
+          <div className="flex justify-between items-center mb-2">
+            <label className="text-gray-700 font-medium">Fi:</label>
+            <input
+              type="number"
+              value={fi !== null ? fi : ''}
+              readOnly
+              className="w-16 p-1 border border-gray-300 rounded-lg bg-gray-100 text-center"
+            />
+          </div>
+
+          <div className="flex justify-between items-center">
+            <label className="text-gray-700 font-medium">Eti:</label>
+            <input
+              type="number"
+              value={eti !== null ? eti : ''}
+              readOnly
+              className="w-16 p-1 border border-gray-300 rounded-lg bg-gray-100 text-center"
+            />
+          </div>
         </div>
-        <div>
-          <label>MES DE SIEMBRA: </label>
-          <select value={plantingMonth} onChange={(e) => setPlantingMonth(e.target.value)}>
-            <option value="Enero">Enero</option>
-            <option value="Febrero">Febrero</option>
-            <option value="Marzo">Marzo</option>
-            <option value="Abril">Abril</option>
-            <option value="Mayo">Mayo</option>
-            <option value="Junio">Junio</option>
-            <option value="Julio">Julio</option>
-            <option value="Agosto">Agosto</option>
-            <option value="Septiembre">Septiembre</option>
-            <option value="Octubre">Octubre</option>
-            <option value="Noviembre">Noviembre</option>
-            <option value="Diciembre">Diciembre</option>
-          </select>
-        </div>
-        <div>
-          <label>TIPO DE LATITUD: </label>
-          <select value={latType} onChange={(e) => setLatType(e.target.value)}>
-            <option value="Norte">Norte</option>
-            <option value="Sur">Sur</option>
-          </select>
-        </div>
-      </div>
-      <div style={{ marginTop: "10px" }}>
-        <button onClick={handleEjemplo}>EJEMPLO</button>
-        <button onClick={handleCalcular}>CALCULAR</button>
-        <button onClick={handleNuevo}>NUEVO</button>
-      </div>
-      <h2>RESULTADOS</h2>
-      <div style={{ border: "1px solid #ccc", padding: "10px", width: "120px", margin: "0 auto", textAlign: "right" }}>
-        <div>
-          <label>Kci: </label>
-          <input type="number" value={kci !== null ? kci : ''} readOnly />
-        </div>
-        <div>
-          <label>Fi: </label>
-          <input type="number" value={fi !== null ? fi : ''} readOnly />
-        </div>
-        <div>
-          <label>Eti: </label>
-          <input type="number" value={eti !== null ? eti : ''} readOnly />
-        </div>
+
       </div>
     </div>
   );

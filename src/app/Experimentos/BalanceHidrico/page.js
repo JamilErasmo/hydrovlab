@@ -94,9 +94,9 @@ function BalanceHidrico() {
   // -- 5. DatosEjemplo: Carga de valores de ejemplo (enteros):
   function DatosEjemplo() {
     // Precipitación (p)
-    setPrec(["77","59","88","50","60","36","8","18","32","75","78","116"]);
+    setPrec(["77", "59", "88", "50", "60", "36", "8", "18", "32", "75", "78", "116"]);
     // Evapotranspiración (et)
-    setEt(["26","30","40","45","60","78","91","92","71","47","29","22"]);
+    setEt(["26", "30", "40", "45", "60", "78", "91", "92", "71", "47", "29", "22"]);
   }
 
   // -- 6. CALCULAR: Toma los strings de prec y et, convierte a entero (parseInt),
@@ -144,7 +144,7 @@ function BalanceHidrico() {
     const generarFila = (titulo, arr) => {
       let tds = "";
       for (let i = 0; i < 12; i++) {
-        tds += `<td>${arr[i]}</td>`; 
+        tds += `<td>${arr[i]}</td>`;
       }
       return `<tr><th>${titulo}</th>${tds}</tr>`;
     };
@@ -195,71 +195,49 @@ function BalanceHidrico() {
 
   // -- 9. Render JSX (inputs + botones + tabla):
   return (
-    <div style={{ maxWidth: "800px", margin: "0 auto", color: "#5377A9" }}>
+    <div className="max-w-4xl mx-auto text-[#5377A9] p-8">
+      {/* Título */}
+      <h1 className="text-center text-2xl font-bold mb-6">Balance Hídrico</h1>
 
-      <h1 style={{ textAlign: "center" }}>Balance Hídrico</h1>
 
       {/* Panel de Entrada */}
-      <div style={{ border: "1px solid #aaa", padding: 10, marginBottom: 20 }}>
-        <div style={{ display: "flex", gap: 40, flexWrap: "wrap" }}>
+      <div className="border border-gray-400 p-6 mb-8 bg-white shadow-md rounded-lg">
+        <div className="flex flex-wrap gap-10">
           {/* Columna 1: Precipitación */}
           <div>
-            <h3>PRECIPITACIÓN</h3>
+            <h3 className="text-lg font-semibold text-gray-800 mb-3">PRECIPITACIÓN</h3>
             {[
-              "ENERO",
-              "FEBRERO",
-              "MARZO",
-              "ABRIL",
-              "MAYO",
-              "JUNIO",
-              "JULIO",
-              "AGOSTO",
-              "SEPTIEMBRE",
-              "OCTUBRE",
-              "NOVIEMBRE",
-              "DICIEMBRE"
+              "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO",
+              "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"
             ].map((mes, i) => (
-              <div key={`p_${i}`}>
-                <label style={{ width: 80, display: "inline-block" }}>
-                  {mes}:
-                </label>
+              <div key={`p_${i}`} className="flex items-center gap-3 mb-2">
+                <label className="w-24 font-medium">{mes}:</label>
                 <input
                   type="number"
-                  step="1"    // Solo enteros
+                  step="1"
                   value={prec[i]}
                   onChange={(e) => handlePrecChange(i, e.target.value)}
-                  style={{ width: "80px" }}
+                  className="w-20 p-2 border border-gray-300 rounded-lg text-center focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
                 />
               </div>
             ))}
           </div>
+
           {/* Columna 2: Evapotranspiración */}
           <div>
-            <h3>EVAPOTRANSPIRACIÓN</h3>
+            <h3 className="text-lg font-semibold text-gray-800 mb-3">EVAPOTRANSPIRACIÓN</h3>
             {[
-              "ENERO",
-              "FEBRERO",
-              "MARZO",
-              "ABRIL",
-              "MAYO",
-              "JUNIO",
-              "JULIO",
-              "AGOSTO",
-              "SEPTIEMBRE",
-              "OCTUBRE",
-              "NOVIEMBRE",
-              "DICIEMBRE"
+              "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO",
+              "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"
             ].map((mes, i) => (
-              <div key={`et_${i}`}>
-                <label style={{ width: 80, display: "inline-block" }}>
-                  {mes}:
-                </label>
+              <div key={`et_${i}`} className="flex items-center gap-3 mb-2">
+                <label className="w-24 font-medium">{mes}:</label>
                 <input
                   type="number"
                   step="1"
                   value={et[i]}
                   onChange={(e) => handleEtChange(i, e.target.value)}
-                  style={{ width: "80px" }}
+                  className="w-20 p-2 border border-gray-300 rounded-lg text-center focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
                 />
               </div>
             ))}
@@ -267,124 +245,76 @@ function BalanceHidrico() {
         </div>
       </div>
 
+
       {/* Botonera */}
-      <div style={{ textAlign: "center", marginBottom: 10 }}>
-        <button onClick={DatosEjemplo}>EJEMPLO</button>
-        <button onClick={Nuevo}>NUEVO</button>
-        <button onClick={Calcular}>CALCULAR</button>
-        <button onClick={descargarExcel}>DESCARGAR RESULTADOS</button>
+      <div className="text-center mb-6 space-x-4">
+        <button
+          onClick={DatosEjemplo}
+          className="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
+        >
+          EJEMPLO
+        </button>
+        <button
+          onClick={Nuevo}
+          className="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
+        >
+          NUEVO
+        </button>
+        <button
+          onClick={Calcular}
+          className="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
+        >
+          CALCULAR
+        </button>
+        <button
+          onClick={descargarExcel}
+          className="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
+        >
+          DESCARGAR RESULTADOS
+        </button>
       </div>
 
+
       {/* Resultados */}
-      <h2 style={{ textAlign: "center" }}>RESULTADOS</h2>
-      <div style={{ border: "px solid #aaa", padding: 1 }}>
-        <table
-          style={{
-            borderCollapse: "collapse",
-            width: "130%"
-          }}
-        >
+      <h2 className="text-center text-xl font-bold text-gray-700 border-b-2 border-gray-300 pb-2 mb-4">
+        RESULTADOS
+      </h2>
+
+      <div className="overflow-x-auto bg-white shadow-md rounded-lg p-4">
+        <table className="w-full border-collapse border border-gray-400">
           <thead>
-            <tr style={{ backgroundColor: "#f4f4f4" }}>
-              <th></th>
-              <th>ENERO</th>
-              <th>FEBRERO</th>
-              <th>MARZO</th>
-              <th>ABRIL</th>
-              <th>MAYO</th>
-              <th>JUNIO</th>
-              <th>JULIO</th>
-              <th>AGOSTO</th>
-              <th>SEPTIEMBRE</th>
-              <th>OCTUBRE</th>
-              <th>NOVIEMBRE</th>
-              <th>DICIEMBRE</th>
+            <tr className="bg-gray-200 text-gray-800">
+              <th className="p-2"></th>
+              {[
+                "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO",
+                "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"
+              ].map((mes, i) => (
+                <th key={i} className="p-2 text-center">{mes}</th>
+              ))}
             </tr>
           </thead>
           <tbody>
-            {/* Fila P */}
-            <tr>
-              <th>P</th>
-              {prec.map((val, i) => (
-                <td key={i} style={{ textAlign: "right" }}>
-                  {val === "" ? "" : val} 
-                  {/* Si está vacío, no muestra nada, caso contrario el valor (string) */}
-                </td>
-              ))}
-            </tr>
-
-            {/* Fila ET */}
-            <tr>
-              <th>ET</th>
-              {et.map((val, i) => (
-                <td key={i} style={{ textAlign: "right" }}>
-                  {val === "" ? "" : val}
-                </td>
-              ))}
-            </tr>
-
-            {/* Fila P-ET */}
-            <tr>
-              <th>P-ET</th>
-              {pet.map((val, i) => (
-                <td key={i} style={{ textAlign: "right" }}>
-                  {val === "" ? "" : val}
-                </td>
-              ))}
-            </tr>
-
-            {/* Fila R */}
-            <tr>
-              <th>R</th>
-              {r.map((val, i) => (
-                <td key={i} style={{ textAlign: "right" }}>
-                  {val === "" ? "" : val}
-                </td>
-              ))}
-            </tr>
-
-            {/* Fila VR */}
-            <tr>
-              <th>VR</th>
-              {vr.map((val, i) => (
-                <td key={i} style={{ textAlign: "right" }}>
-                  {val === "" ? "" : val}
-                </td>
-              ))}
-            </tr>
-
-            {/* Fila ETR */}
-            <tr>
-              <th>ETR</th>
-              {etr.map((val, i) => (
-                <td key={i} style={{ textAlign: "right" }}>
-                  {val === "" ? "" : val}
-                </td>
-              ))}
-            </tr>
-
-            {/* Fila D */}
-            <tr>
-              <th>D</th>
-              {d.map((val, i) => (
-                <td key={i} style={{ textAlign: "right" }}>
-                  {val === "" ? "" : val}
-                </td>
-              ))}
-            </tr>
-
-            {/* Fila EX */}
-            <tr>
-              <th>EX</th>
-              {ex.map((val, i) => (
-                <td key={i} style={{ textAlign: "right" }}>
-                  {val === "" ? "" : val}
-                </td>
-              ))}
-            </tr>
+            {[
+              { label: "P", data: prec },
+              { label: "ET", data: et },
+              { label: "P-ET", data: pet },
+              { label: "R", data: r },
+              { label: "VR", data: vr },
+              { label: "ETR", data: etr },
+              { label: "D", data: d },
+              { label: "EX", data: ex }
+            ].map(({ label, data }, index) => (
+              <tr key={index} className="border-b border-gray-300">
+                <th className="p-2 text-left font-semibold">{label}</th>
+                {data.map((val, i) => (
+                  <td key={i} className="p-2 text-right">{val === "" ? "--" : val}</td>
+                ))}
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
+
     </div>
   );
 }

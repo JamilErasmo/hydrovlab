@@ -1,9 +1,9 @@
-'use client'
+'use client';
 import React, { useState } from 'react';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import DeleteIcon from '@mui/icons-material/Delete';
-// import logo from '../../assets/images/logo.png';
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -15,9 +15,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import '../App.css';
 
-// Registro de elementos de Chart.js para las gráficas
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -28,13 +26,11 @@ ChartJS.register(
   Legend
 );
 
-const EfectoPrecipitacion = () => {
+const HidrogramaUnitario = () => {
   const [inputValues, setInputValues] = useState({
     areaCuenca: '',
     longitudCauce: '',
     pendienteMedia: '',
-    duracionEfectiva: '',
-    precipitacionEfectiva: '',
   });
   const [resultValues, setResultValues] = useState({
     kirpich: '',
@@ -45,11 +41,15 @@ const EfectoPrecipitacion = () => {
   });
   const [hidrogramaValues, setHidrogramaValues] = useState({
     tiempoRetraso: '',
+    duracionExceso: '',
     tiempoPico: '',
     tiempoBase: '',
     caudalPico: '',
   });
-  const [chartData, setChartData] = useState(null);
+  const [chartData, setChartData] = useState({
+    triangular: null,
+    scs: null,
+  });
 
   const handleChange = (e) => {
     setInputValues({
@@ -58,105 +58,85 @@ const EfectoPrecipitacion = () => {
     });
   };
 
-  const roundToThree = (num) => {
-    return Math.round(num * 1000) / 1000;
+  const fillExampleValues = () => {
+    setInputValues({
+      areaCuenca: 15,
+      longitudCauce: 5,
+      pendienteMedia: 0.01,
+    });
   };
 
-  const calcular = () => {
+  const calculate = () => {
     const { areaCuenca, longitudCauce, pendienteMedia } = inputValues;
-    const A = parseFloat(areaCuenca);
-    const L = parseFloat(longitudCauce);
-    const J = parseFloat(pendienteMedia);
-
-    if (isNaN(A) || isNaN(L) || isNaN(J)) {
-      alert('Por favor, ingrese valores numéricos válidos.');
-      return;
-    }
+    const L = Number(longitudCauce);
+    const A = Number(areaCuenca);
+    const J = Number(pendienteMedia);
 
     const kirpich = (3.97 * Math.pow(L, 0.77) * Math.pow(J, -0.385)) / 60;
     const california = 0.066 * Math.pow(L / Math.pow(J, 0.5), 0.77);
     const giandotti = (4 * Math.sqrt(A) + 1.5 * L) / (25.3 * Math.sqrt(J * L));
     const temez = 0.3 * Math.pow(L / Math.pow(J, 0.25), 0.77);
-
-    const kirpichRounded = roundToThree(kirpich);
-    const californiaRounded = roundToThree(california);
-    const giandottiRounded = roundToThree(giandotti);
-    const temezRounded = roundToThree(temez);
-    const tiempoConcentracion = Math.min(kirpichRounded, californiaRounded, giandottiRounded, temezRounded);
+    const tiempoConcentracion = Math.min(kirpich, california, giandotti, temez);
 
     setResultValues({
-      kirpich: kirpichRounded,
-      california: californiaRounded,
-      giandotti: giandottiRounded,
-      temez: temezRounded,
-      tiempoConcentracion: roundToThree(tiempoConcentracion),
+      kirpich: kirpich.toFixed(3),
+      california: california.toFixed(3),
+      giandotti: giandotti.toFixed(3),
+      temez: temez.toFixed(3),
+      tiempoConcentracion: tiempoConcentracion.toFixed(3),
     });
   };
 
-  const graficarHidrogramas = () => {
-    const { areaCuenca } = inputValues;
-    const A = parseFloat(areaCuenca);
-    const Tc = parseFloat(resultValues.tiempoConcentracion);
-
-    if (isNaN(A) || isNaN(Tc)) {
-      alert('Por favor, asegúrese de que todos los valores de entrada y el tiempo de concentración sean válidos.');
-      return;
-    }
+  const generateHidrogramas = () => {
+    const Tc = Number(resultValues.tiempoConcentracion);
+    const Ac = Number(inputValues.areaCuenca);
 
     const tr = 0.6 * Tc;
-    const tp = inputValues.duracionEfectiva / 2 + tr;
+    const d_e = 2 * Math.sqrt(Tc);
+    const tp = d_e / 2 + tr;
     const tb = 2.67 * tp;
-    const qp = (0.208 * A) / tp;
-    const Qpico = qp * parseFloat(inputValues.precipitacionEfectiva);
+    const qp = (0.208 * Ac) / tp;
 
     setHidrogramaValues({
-      tiempoRetraso: roundToThree(tr),
-      tiempoPico: roundToThree(tp),
-      tiempoBase: roundToThree(tb),
-      caudalPico: roundToThree(Qpico),
+      tiempoRetraso: tr.toFixed(3),
+      duracionExceso: d_e.toFixed(3),
+      tiempoPico: tp.toFixed(3),
+      tiempoBase: tb.toFixed(3),
+      caudalPico: qp.toFixed(3),
     });
 
-    const data = {
-      labels: Array.from({ length: 101 }, (_, i) => roundToThree(i * tb / 100)),
+    const triangularData = {
+      labels: [0, tp, tb],
       datasets: [
         {
           label: 'Hidrograma Triangular',
-          data: Array.from({ length: 101 }, (_, i) => {
-            const t = i * tb / 100;
-            if (t <= tp) return roundToThree((Qpico / tp) * t);
-            else return roundToThree((Qpico / (tb - tp)) * (tb - t));
-          }),
+          data: [0, qp, 0],
           borderColor: 'rgba(75,192,192,1)',
           fill: false,
         },
       ],
     };
 
-    setChartData(data);
-  };
+    const scsData = {
+      labels: Array.from({ length: 28 }, (_, i) => (i * tp / 27).toFixed(3)),
+      datasets: [
+        {
+          label: 'Hidrograma SCS',
+          data: [
+            0, 0.015, 0.075, 0.16, 0.28, 0.43, 0.6, 0.77, 0.89, 0.97,
+            1.0, 0.98, 0.92, 0.84, 0.75, 0.65, 0.57, 0.43, 0.32, 0.24,
+            0.18, 0.13, 0.098, 0.075, 0.036, 0.018, 0.009, 0.004
+          ].map(val => (val * qp).toFixed(3)),
+          borderColor: 'rgba(153,102,255,1)',
+          fill: false,
+        },
+      ],
+    };
 
-  const fillExampleValues = () => {
-    setInputValues({
-      areaCuenca: '23',
-      longitudCauce: '11',
-      pendienteMedia: '0.02',
-      duracionEfectiva: '2.75',
-      precipitacionEfectiva: '100',
+    setChartData({
+      triangular: triangularData,
+      scs: scsData,
     });
-    setResultValues({
-      kirpich: '',
-      california: '',
-      giandotti: '',
-      temez: '',
-      tiempoConcentracion: '',
-    });
-    setHidrogramaValues({
-      tiempoRetraso: '',
-      tiempoPico: '',
-      tiempoBase: '',
-      caudalPico: '',
-    });
-    setChartData(null);
   };
 
   const clearFields = () => {
@@ -164,8 +144,6 @@ const EfectoPrecipitacion = () => {
       areaCuenca: '',
       longitudCauce: '',
       pendienteMedia: '',
-      duracionEfectiva: '',
-      precipitacionEfectiva: '',
     });
     setResultValues({
       kirpich: '',
@@ -176,11 +154,15 @@ const EfectoPrecipitacion = () => {
     });
     setHidrogramaValues({
       tiempoRetraso: '',
+      duracionExceso: '',
       tiempoPico: '',
       tiempoBase: '',
       caudalPico: '',
     });
-    setChartData(null);
+    setChartData({
+      triangular: null,
+      scs: null,
+    });
   };
 
   return (
@@ -189,9 +171,9 @@ const EfectoPrecipitacion = () => {
       <div className="bg-white p-6 shadow-md rounded-lg border border-gray-300">
 
         {/* Encabezado */}
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">
-          Efecto de la Precipitación en la Tormenta
-        </h2>
+        <h1 className="text-2xl font-bold text-gray-800 text-center mb-6">
+          Hidrograma Unitario de Máxima Crecida
+        </h1>
 
         {/* Sección de Entrada de Datos y Resultados */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -204,9 +186,7 @@ const EfectoPrecipitacion = () => {
               {[
                 { label: "Área de la Cuenca (km²):", name: "areaCuenca", value: inputValues.areaCuenca },
                 { label: "Longitud del Cauce (km):", name: "longitudCauce", value: inputValues.longitudCauce },
-                { label: "Pendiente Media del Cauce (m/m):", name: "pendienteMedia", value: inputValues.pendienteMedia },
-                { label: "Duración Efectiva (h):", name: "duracionEfectiva", value: inputValues.duracionEfectiva },
-                { label: "Precipitación Efectiva (mm):", name: "precipitacionEfectiva", value: inputValues.precipitacionEfectiva }
+                { label: "Pendiente Media del Cauce (m/m):", name: "pendienteMedia", value: inputValues.pendienteMedia }
               ].map((item, index) => (
                 <div key={index} className="flex flex-col">
                   <label className="text-gray-700 font-medium">{item.label}</label>
@@ -223,7 +203,7 @@ const EfectoPrecipitacion = () => {
 
             {/* Botón para calcular */}
             <button
-              onClick={calcular}
+              onClick={calculate}
               className="mt-6 w-full px-5 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition"
             >
               Calcular
@@ -277,18 +257,20 @@ const EfectoPrecipitacion = () => {
 
       </div>
 
+
       {/* Contenedor Principal */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 shadow-md rounded-lg border border-gray-300">
+      <div className="bg-white p-6 shadow-md rounded-lg border border-gray-300">
 
         {/* Sección de Parámetros */}
-        <div className="bg-gray-50 p-6 rounded-lg shadow">
+        <div className="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-300">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">
             Parámetros para la Construcción del Hidrograma
           </h2>
 
-          <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
               { label: "Tiempo de Retraso tr (h):", value: hidrogramaValues.tiempoRetraso },
+              { label: "Duración en Exceso (h):", value: hidrogramaValues.duracionExceso },
               { label: "Tiempo Pico tp (h):", value: hidrogramaValues.tiempoPico },
               { label: "Tiempo Base tb (h):", value: hidrogramaValues.tiempoBase },
               { label: "Caudal Pico Qp (m³/s):", value: hidrogramaValues.caudalPico }
@@ -305,21 +287,28 @@ const EfectoPrecipitacion = () => {
             ))}
           </div>
 
-          {/* Botón para Graficar */}
+          {/* Botón para Generar Hidrogramas */}
           <button
-            onClick={graficarHidrogramas}
+            onClick={generateHidrogramas}
             className="mt-6 w-full px-5 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
           >
-            Graficar Hidrogramas
+            Generar Hidrogramas
           </button>
         </div>
 
-        {/* Sección de Gráfico */}
-        <div className="bg-white p-6 rounded-lg shadow">
-          {chartData && (
-            <div>
+        {/* Sección de Gráficos */}
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+          {chartData.triangular && (
+            <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300">
               <h3 className="text-lg font-semibold text-gray-700 mb-2">Hidrograma Triangular</h3>
-              <Line data={chartData} />
+              <Line data={chartData.triangular} />
+            </div>
+          )}
+
+          {chartData.scs && (
+            <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300">
+              <h3 className="text-lg font-semibold text-gray-700 mb-2">Hidrograma SCS</h3>
+              <Line data={chartData.scs} />
             </div>
           )}
         </div>
@@ -328,8 +317,8 @@ const EfectoPrecipitacion = () => {
 
     </div>
   );
+
 };
 
-// Barra de navegación
 
-export default EfectoPrecipitacion;
+export default HidrogramaUnitario;

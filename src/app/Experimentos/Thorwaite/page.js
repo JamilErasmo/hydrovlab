@@ -66,84 +66,139 @@ const Thorwaite = () => {
     };
 
     return (
-        <div>
-            <h1>Método de Thorwaite</h1>
+        <div className="py-10">
+            <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300 max-w-2xl mx-auto mt-6">
+                {/* Título del Experimento */}
+                <h1 className="text-2xl font-bold text-blue-700 text-center mb-6">
+                    Método de Thorwaite
+                </h1>
 
-            <div>
-                <label>Latitud:</label>
-                <input
-                    type="number"
-                    value={latitud}
-                    onChange={(e) => setLatitud(e.target.value)}
-                    placeholder="Latitud"
-                />
-
-                <label>Zona:</label>
-                <select
-                    value={latitudSeleccion}
-                    onChange={(e) => setLatitudSeleccion(e.target.value)}
-                >
-                    <option value="">Seleccione la zona</option>
-                    <option value="Norte">Norte</option>
-                    <option value="Sur">Sur</option>
-                </select>
-            </div>
-
-            <div>
-                {temperaturas.map((temp, index) => (
-                    <div key={index}>
-                        <label>Mes {index + 1}:</label>
-                        <input
-                            type="number"
-                            value={temp}
-                            onChange={(e) => {
-                                const newTemps = [...temperaturas];
-                                newTemps[index] = e.target.value;
-                                setTemperaturas(newTemps);
-                            }}
-                            placeholder={`Temperatura mes ${index + 1}`}
-                        />
+                {/* Sección de Datos de Entrada */}
+                <div className="space-y-6">
+                    {/* Grupo de Latitud y Zona */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="flex flex-col">
+                            <label className="text-gray-700 font-medium">Latitud:</label>
+                            <input
+                                type="number"
+                                value={latitud}
+                                onChange={(e) => setLatitud(e.target.value)}
+                                placeholder="Latitud"
+                                className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
+                            />
+                        </div>
+                        <div className="flex flex-col">
+                            <label className="text-gray-700 font-medium">Zona:</label>
+                            <select
+                                value={latitudSeleccion}
+                                onChange={(e) => setLatitudSeleccion(e.target.value)}
+                                className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 transition"
+                            >
+                                <option value="">Seleccione la zona</option>
+                                <option value="Norte">Norte</option>
+                                <option value="Sur">Sur</option>
+                            </select>
+                        </div>
                     </div>
-                ))}
-            </div>
 
-            <button onClick={cargarEjemplo}>Ejemplo</button>
-            <button onClick={limpiarCampos}>Limpiar</button>
-            <button onClick={calcular}>Calcular</button>
-
-            {/* Resultados */}
-            {ij.length > 0 && (
-                <div>
-                    <h3>Resultados:</h3>
-                    <table border="1">
-                        <thead>
-                            <tr>
-                                <th>Mes</th>
-                                <th>Temperatura</th>
-                                <th>Ij</th>
-                                <th>Ka</th>
-                                <th>Uj</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {temperaturas.map((temp, index) => (
-                                <tr key={index}>
-                                    <td>{`Mes ${index + 1}`}</td>
-                                    <td>{temp}</td>
-                                    <td>{ij[index].toFixed(2)}</td>
-                                    <td>{ka[index]}</td>
-                                    <td>{uj[index]}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                    <div>
-                        <p><strong>I:</strong> {iTotal}</p>
-                        <p><strong>a:</strong> {a}</p>
+                    {/* Sección de Temperaturas por Mes */}
+                    <div className="space-y-4">
+                        {temperaturas.map((temp, index) => (
+                            <div key={index} className="flex flex-col">
+                                <label className="text-gray-700 font-medium">
+                                    Mes {index + 1}:
+                                </label>
+                                <input
+                                    type="number"
+                                    value={temp}
+                                    onChange={(e) => {
+                                        const newTemps = [...temperaturas];
+                                        newTemps[index] = e.target.value;
+                                        setTemperaturas(newTemps);
+                                    }}
+                                    placeholder={`Temperatura mes ${index + 1}`}
+                                    className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
+                                />
+                            </div>
+                        ))}
                     </div>
                 </div>
-            )}
+
+                {/* Botones de Acción */}
+                <div className="flex justify-center gap-4 mt-6">
+                    <button
+                        onClick={cargarEjemplo}
+                        className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
+                    >
+                        Ejemplo
+                    </button>
+                    <button
+                        onClick={limpiarCampos}
+                        className="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition"
+                    >
+                        Limpiar
+                    </button>
+                    <button
+                        onClick={calcular}
+                        className="px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition"
+                    >
+                        Calcular
+                    </button>
+                </div>
+
+                {/* Sección de Resultados */}
+                {ij.length > 0 && (
+                    <div className="mt-8">
+                        <h3 className="text-xl font-semibold text-gray-800 mb-4 text-center">
+                            Resultados:
+                        </h3>
+                        <div className="overflow-x-auto">
+                            <table className="min-w-full border border-gray-300">
+                                <thead className="bg-gray-200">
+                                    <tr>
+                                        <th className="px-4 py-2 border-r border-gray-300">Mes</th>
+                                        <th className="px-4 py-2 border-r border-gray-300">Temperatura</th>
+                                        <th className="px-4 py-2 border-r border-gray-300">Ij</th>
+                                        <th className="px-4 py-2 border-r border-gray-300">Ka</th>
+                                        <th className="px-4 py-2">Uj</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="bg-white">
+                                    {temperaturas.map((temp, index) => (
+                                        <tr key={index} className="text-center border-t border-gray-300">
+                                            <td className="px-4 py-2 border-r border-gray-300">
+                                                {`Mes ${index + 1}`}
+                                            </td>
+                                            <td className="px-4 py-2 border-r border-gray-300">
+                                                {temp}
+                                            </td>
+                                            <td className="px-4 py-2 border-r border-gray-300">
+                                                {ij[index].toFixed(2)}
+                                            </td>
+                                            <td className="px-4 py-2 border-r border-gray-300">
+                                                {ka[index]}
+                                            </td>
+                                            <td className="px-4 py-2">
+                                                {uj[index]}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className="mt-4 text-gray-700">
+                            <p className="text-lg font-medium">
+                                <strong>I:</strong> {iTotal}
+                            </p>
+                            <p className="text-lg font-medium">
+                                <strong>a:</strong> {a}
+                            </p>
+                        </div>
+                    </div>
+                )}
+            </div>
         </div>
+
     );
 };
 

@@ -116,60 +116,89 @@ const CurvaDeRemanso = () => {
 
   return (
     <div className="app">
-      <div className="content-wrapper">
-        <div className="left-section">
-          <h2 className="section-title">Curva de Remanso (Tramos Fijos)</h2>
-          <div className="input-section">
-            <label>Caudal Q (m³/s):</label>
-            <input className="input-field" type="number" value={caudal} onChange={(e) => setCaudal(e.target.value)} />
-            <label>Ancho de Solera B (m):</label>
-            <input className="input-field" type="number" value={anchoSolera} onChange={(e) => setAnchoSolera(e.target.value)} />
-            <label>Talud:</label>
-            <input className="input-field" type="number" value={talud} onChange={(e) => setTalud(e.target.value)} />
-            <label>Pendiente (m/m):</label>
-            <input className="input-field" type="number" value={pendiente} onChange={(e) => setPendiente(e.target.value)} />
-            <label>Coeficiente de Rugosidad:</label>
-            <input className="input-field" type="number" value={rugosidad} onChange={(e) => setRugosidad(e.target.value)} />
-            <label>Distancia Inicial X1 (m):</label>
-            <input className="input-field" type="number" value={distanciaInicial} onChange={(e) => setDistanciaInicial(e.target.value)} />
-            <label>Distancia del Tramo X (m):</label>
-            <input className="input-field" type="number" value={distanciaTramo} onChange={(e) => setDistanciaTramo(e.target.value)} />
-            <label>Número de Tramos:</label>
-            <input className="input-field" type="number" value={numTramos} onChange={(e) => setNumTramos(e.target.value)} />
-            <label>Tirante Inicial Y1 (m):</label>
-            <input className="input-field" type="number" value={tiranteInicial} onChange={(e) => setTiranteInicial(e.target.value)} />
-            <label>Error de Aproximación:</label>
-            <input className="input-field" type="number" value={errorAprox} onChange={(e) => setErrorAprox(e.target.value)} />
-          </div>
-          <div className="secondary-buttons">
-            <button className="example-button" onClick={cargarEjemplo}>Ejemplo</button>
-            <button className="calculate-button" onClick={calcular}>Calcular</button>
-            <button className="clear-button" onClick={limpiarCampos}>Limpiar</button>
-          </div>
+      {/* Contenedor principal */}
+      <div className="bg-white p-6 shadow-md rounded-lg border border-gray-300">
+
+        {/* Título */}
+        <h2 className="text-xl font-semibold text-gray-800 mb-4">Curva de Remanso (Tramos Fijos)</h2>
+
+        {/* Contenedor de Inputs */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {[
+            { label: "Caudal Q (m³/s):", value: caudal, setter: setCaudal },
+            { label: "Ancho de Solera B (m):", value: anchoSolera, setter: setAnchoSolera },
+            { label: "Talud:", value: talud, setter: setTalud },
+            { label: "Pendiente (m/m):", value: pendiente, setter: setPendiente },
+            { label: "Coeficiente de Rugosidad:", value: rugosidad, setter: setRugosidad },
+            { label: "Distancia Inicial X1 (m):", value: distanciaInicial, setter: setDistanciaInicial },
+            { label: "Distancia del Tramo X (m):", value: distanciaTramo, setter: setDistanciaTramo },
+            { label: "Número de Tramos:", value: numTramos, setter: setNumTramos },
+            { label: "Tirante Inicial Y1 (m):", value: tiranteInicial, setter: setTiranteInicial },
+            { label: "Error de Aproximación:", value: errorAprox, setter: setErrorAprox }
+          ].map(({ label, value, setter }, index) => (
+            <div key={index} className="flex flex-col">
+              <label className="text-gray-700 font-medium">{label}</label>
+              <input
+                type="number"
+                value={value}
+                onChange={(e) => setter(e.target.value)}
+                className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+              />
+            </div>
+          ))}
         </div>
+
+        {/* Botonera */}
+        <div className="mt-6 flex justify-between">
+          <button
+            onClick={cargarEjemplo}
+            className="px-5 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
+          >
+            Ejemplo
+          </button>
+
+          <button
+            onClick={calcular}
+            className="px-5 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition"
+          >
+            Calcular
+          </button>
+
+          <button
+            onClick={limpiarCampos}
+            className="px-5 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition"
+          >
+            Limpiar
+          </button>
+        </div>
+
       </div>
 
       {resultados.length > 0 && (
-        <div className="results-section">
-          <h2 className="section-subtitle">Resultados</h2>
-          <table className="results-table">
-            <thead>
-              <tr>
-                <th>Distancia X (m)</th>
-                <th>Tirante Y (m)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {resultados.map((resultado, index) => (
-                <tr key={index}>
-                  <td>{resultado.x}</td>
-                  <td>{resultado.y}</td>
+        <div className="bg-white p-6 shadow-md rounded-lg border border-gray-300 mt-6">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">Resultados</h2>
+
+          <div className="overflow-x-auto">
+            <table className="w-full border border-gray-400 bg-white shadow-md rounded-lg text-gray-700">
+              <thead>
+                <tr className="bg-gray-200">
+                  <th className="p-3 border border-gray-400">Distancia X (m)</th>
+                  <th className="p-3 border border-gray-400">Tirante Y (m)</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {resultados.map((resultado, index) => (
+                  <tr key={index} className="border border-gray-300 hover:bg-gray-100 transition">
+                    <td className="p-2 text-center">{resultado.x}</td>
+                    <td className="p-2 text-center">{resultado.y}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
+
     </div>
   );
 };

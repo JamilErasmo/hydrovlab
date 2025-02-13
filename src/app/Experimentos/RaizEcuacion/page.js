@@ -49,55 +49,95 @@ const RaizEcuacion = () => {
     };
 
     return (
-        <div className="app">
-            <h1 className="experiment-title">Análisis de Raíz de Ecuación</h1>
+        <div className="py-10">
+            <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300 max-w-lg mx-auto mt-6">
+                {/* Título */}
+                <h1 className="text-2xl font-bold text-blue-700 text-center mb-6">
+                    Análisis de Raíz de Ecuación
+                </h1>
 
-            <div className="input-section">
-                <label>Constante de la Ecuación C:</label>
-                <input
-                    type="number"
-                    value={constante}
-                    onChange={(e) => setConstante(e.target.value)}
-                    className="input-field"
-                />
+                {/* Sección de Datos de Entrada */}
+                <div className="space-y-4">
+                    {/* Campo: Constante de la Ecuación C */}
+                    <div className="flex flex-col">
+                        <label className="text-gray-700 font-medium">
+                            Constante de la Ecuación C:
+                        </label>
+                        <input
+                            type="number"
+                            value={constante}
+                            onChange={(e) => setConstante(e.target.value)}
+                            placeholder="Ingresa el valor de C"
+                            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
+                        />
+                    </div>
 
-                <label>Valor con que se inicia el cálculo Y:</label>
-                <input
-                    type="number"
-                    value={valorInicial}
-                    onChange={(e) => setValorInicial(e.target.value)}
-                    className="input-field"
-                />
+                    {/* Campo: Valor Inicial Y */}
+                    <div className="flex flex-col">
+                        <label className="text-gray-700 font-medium">
+                            Valor con que se inicia el cálculo Y:
+                        </label>
+                        <input
+                            type="number"
+                            value={valorInicial}
+                            onChange={(e) => setValorInicial(e.target.value)}
+                            placeholder="Ingresa el valor inicial de Y"
+                            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
+                        />
+                    </div>
 
-                <label>Error deseable para el cálculo E:</label>
-                <input
-                    type="number"
-                    value={errorDeseable}
-                    onChange={(e) => setErrorDeseable(e.target.value)}
-                    className="input-field"
-                />
-            </div>
-
-            <div className="secondary-buttons">
-                <button onClick={cargarEjemplo} className="example-button">
-                    <span className="button-text">Ejemplo</span>
-                </button>
-                <button onClick={limpiarCampos} className="clear-button">
-                    <span className="button-text">Limpiar</span>
-                </button>
-            </div>
-            <div>
-                <button onClick={calcular} className="calculate-button">
-                    Calcular
-                </button>
-            </div>
-
-            {resultado && (
-                <div className="results-section">
-                    <h2 className="section-title">Resultado</h2>
-                    <p>Raíz de la Ecuación: {resultado}</p>
+                    {/* Campo: Error deseable E */}
+                    <div className="flex flex-col">
+                        <label className="text-gray-700 font-medium">
+                            Error deseable para el cálculo E:
+                        </label>
+                        <input
+                            type="number"
+                            value={errorDeseable}
+                            onChange={(e) => setErrorDeseable(e.target.value)}
+                            placeholder="Ingresa el error deseable"
+                            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
+                        />
+                    </div>
                 </div>
-            )}
+
+                {/* Botones Secundarios */}
+                <div className="flex justify-between mt-6">
+                    <button
+                        onClick={cargarEjemplo}
+                        className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
+                    >
+                        Ejemplo
+                    </button>
+                    <button
+                        onClick={limpiarCampos}
+                        className="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition"
+                    >
+                        Limpiar
+                    </button>
+                </div>
+
+                {/* Botón Principal de Calcular */}
+                <div className="mt-4">
+                    <button
+                        onClick={calcular}
+                        className="w-full px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition"
+                    >
+                        Calcular
+                    </button>
+                </div>
+
+                {/* Resultados */}
+                {resultado && (
+                    <div className="mt-6 p-4 bg-gray-100 rounded-lg shadow-md border border-gray-300">
+                        <h2 className="text-xl font-semibold text-gray-800 mb-2">Resultado</h2>
+                        <p className="text-gray-700">
+                            Raíz de la Ecuación:{" "}
+                            <span className="font-bold text-blue-700">{resultado}</span>
+                        </p>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

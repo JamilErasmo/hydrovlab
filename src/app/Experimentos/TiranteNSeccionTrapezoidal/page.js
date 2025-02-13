@@ -97,39 +97,127 @@ const Experimento = () => {
     };
 
     return (
-        <div className="app">
-            <h1 className="experiment-title">Análisis Tirante N Sec Trapezoidal</h1>
-            <div className="input-section">
-                <label>CAUDAL Q (m³/s):</label>
-                <input type="number" name="Q" value={data.Q} onChange={handleInputChange} className="input-field" />
-                <label>SOLERA (m):</label>
-                <input type="number" name="b" value={data.b} onChange={handleInputChange} className="input-field" />
-                <label>TALUD:</label>
-                <input type="number" name="z" value={data.z} onChange={handleInputChange} className="input-field" />
-                <label>TIRANTE (m):</label>
-                <input type="number" name="y" value={data.y} onChange={handleInputChange} className="input-field" />
-                <label>RUGOSIDAD:</label>
-                <input type="number" name="n" value={data.n} onChange={handleInputChange} className="input-field" />
-                <label>PENDIENTE:</label>
-                <input type="number" name="s" value={data.s} onChange={handleInputChange} className="input-field" />
-                <label>ERROR:</label>
-                <input type="number" name="Er" value={data.Er} onChange={handleInputChange} className="input-field" />
-            </div>
-            <div className="secondary-buttons">
-                <button onClick={calcular} className="calculate-button">Calcular</button>
-                <button onClick={cargarEjemplo} className="example-button"> Ejemplo</button>
-                <button onClick={limpiar} className="clear-button">Limpiar</button>
-            </div>
-            {results.yResult && (
-                <div className="results-section">
-                    <h2 className="section-title">Resultados</h2>
-                    <p><strong>Tirante y:</strong> {results.yResult}</p>
-                    <p><strong>Velocidad V:</strong> {results.V}</p>
-                    <p><strong>Número de Froude F1:</strong> {results.F1}</p>
-                    <p><strong>Energía Específica E1:</strong> {results.E1}</p>
+        <div className='py-10'>
+            <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300 max-w-2xl mx-auto mt-6">
+                <h1 className="text-3xl font-bold text-blue-700 text-center mb-6">
+                    Análisis Tirante N Sec Trapezoidal
+                </h1>
+
+                <div className="mb-6">
+                    <h3 className="text-xl font-semibold text-gray-800 mb-4">Datos de Entrada</h3>
+                    <div className="mb-4">
+                        <label className="block text-gray-700 font-medium">CAUDAL Q (m³/s):</label>
+                        <input
+                            type="number"
+                            name="Q"
+                            value={data.Q}
+                            onChange={handleInputChange}
+                            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-gray-700 font-medium">SOLERA (m):</label>
+                        <input
+                            type="number"
+                            name="b"
+                            value={data.b}
+                            onChange={handleInputChange}
+                            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-gray-700 font-medium">TALUD:</label>
+                        <input
+                            type="number"
+                            name="z"
+                            value={data.z}
+                            onChange={handleInputChange}
+                            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-gray-700 font-medium">TIRANTE (m):</label>
+                        <input
+                            type="number"
+                            name="y"
+                            value={data.y}
+                            onChange={handleInputChange}
+                            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-gray-700 font-medium">RUGOSIDAD:</label>
+                        <input
+                            type="number"
+                            name="n"
+                            value={data.n}
+                            onChange={handleInputChange}
+                            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-gray-700 font-medium">PENDIENTE:</label>
+                        <input
+                            type="number"
+                            name="s"
+                            value={data.s}
+                            onChange={handleInputChange}
+                            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
+                        />
+                    </div>
+                    <div className="mt-4">
+                        <label className="block text-gray-700 font-medium">ERROR:</label>
+                        <input
+                            type="number"
+                            name="Er"
+                            value={data.Er}
+                            onChange={handleInputChange}
+                            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
+                        />
+                    </div>
                 </div>
-            )}
+
+                <div className="flex justify-center gap-4 mb-6">
+                    <button
+                        onClick={calcular}
+                        className="px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition"
+                    >
+                        Calcular
+                    </button>
+                    <button
+                        onClick={cargarEjemplo}
+                        className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
+                    >
+                        Cargar Ejemplo
+                    </button>
+                    <button
+                        onClick={limpiar}
+                        className="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition"
+                    >
+                        Limpiar
+                    </button>
+                </div>
+
+                {results.yResult && (
+                    <div className="p-6 bg-gray-50 rounded-lg shadow-md border border-gray-300">
+                        <h2 className="text-xl font-semibold text-gray-800 mb-4">Resultados</h2>
+                        <p className="text-lg text-gray-700">
+                            <strong>Tirante y:</strong> {results.yResult}
+                        </p>
+                        <p className="text-lg text-gray-700">
+                            <strong>Velocidad V:</strong> {results.V}
+                        </p>
+                        <p className="text-lg text-gray-700">
+                            <strong>Número de Froude F1:</strong> {results.F1}
+                        </p>
+                        <p className="text-lg text-gray-700">
+                            <strong>Energía Específica E1:</strong> {results.E1}
+                        </p>
+                    </div>
+                )}
+            </div>
         </div>
+
     );
 };
 

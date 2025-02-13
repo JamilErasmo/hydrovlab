@@ -89,111 +89,114 @@ const BlaneyCriddleParcialPerenne = () => {
   };
 
   return (
-    <div style={{
-      width: "400px",
-      margin: "0 auto",
-      textAlign: "center",
-      border: "1px solid #cccccc",
-      padding: "20px",
-      backgroundColor: "#f7f7f7",
-      borderRadius: "8px"
-    }}>
-      <h2>Método de Criddle Parcial Perenne</h2>
+    <div  className=" py-14">
+      <div className="w-96 mx-auto text-center border border-gray-300 p-6 bg-gray-100 shadow-md rounded-lg">
+        <h2 className="text-xl font-semibold text-gray-800">Método de Criddle Parcial Perenne</h2>
 
-      <div style={{ display: "flex", flexDirection: "column", marginBottom: "20px" }}>
-        <label style={{ margin: "10px 0 5px", fontWeight: "bold" }}>Latitud:</label>
-        <input
-          type="text"
-          value={latitud}
-          onChange={(e) => setLatitud(e.target.value)}
-          style={{ padding: "8px", marginBottom: "10px", borderRadius: "5px", border: "1px solid #ccc" }}
-        />
-        <select
-          onChange={(e) => setHemisferio(e.target.value)}
-          style={{ padding: "8px", marginBottom: "10px", borderRadius: "5px", border: "1px solid #ccc" }}
-        >
-          <option value="">Seleccione la latitud</option>
-          <option value="Norte">Norte</option>
-          <option value="Sur">Sur</option>
-        </select>
+        {/* Contenedor principal */}
+        <div className="flex flex-col space-y-4 mb-6">
 
-        <label style={{ margin: "10px 0 5px", fontWeight: "bold" }}>Cultivo:</label>
-        <select
-          onChange={(e) => setCultivo(e.target.value)}
-          style={{ padding: "8px", marginBottom: "10px", borderRadius: "5px", border: "1px solid #ccc" }}
-        >
-          <option value="">Seleccione el cultivo</option>
-          <option value="1">Huerta de plantas caducas con cubierta</option>
-          <option value="2">Huerta de plantas caducas sin cubierta</option>
-          <option value="3">Nogal</option>
-          <option value="4">Alfalfa</option>
-          <option value="5">Aguacate</option>
-          <option value="6">Vid</option>
-          <option value="7">Pastos</option>
-          <option value="8">Huerta de cítricos</option>
-        </select>
+          {/* LATITUD */}
+          <div className="flex flex-col">
+            <label className="text-gray-700 font-semibold">Latitud:</label>
+            <input
+              type="text"
+              value={latitud}
+              onChange={(e) => setLatitud(e.target.value)}
+              className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+            />
+            <select
+              onChange={(e) => setHemisferio(e.target.value)}
+              className="w-full p-2 mt-2 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+            >
+              <option value="">Seleccione la latitud</option>
+              <option value="Norte">Norte</option>
+              <option value="Sur">Sur</option>
+            </select>
+          </div>
 
-        <label style={{ margin: "10px 0 5px", fontWeight: "bold" }}>Mes para ETP:</label>
-        <select
-          onChange={(e) => setMesSiembra(e.target.value)}
-          style={{ padding: "8px", marginBottom: "10px", borderRadius: "5px", border: "1px solid #ccc" }}
-        >
-          <option value="">Seleccione el mes de siembra</option>
-          <option value="1">Enero</option>
-          <option value="2">Febrero</option>
-          <option value="3">Marzo</option>
-          <option value="4">Abril</option>
-          <option value="5">Mayo</option>
-          <option value="6">Junio</option>
-          <option value="7">Julio</option>
-          <option value="8">Agosto</option>
-          <option value="9">Septiembre</option>
-          <option value="10">Octubre</option>
-          <option value="11">Noviembre</option>
-          <option value="12">Diciembre</option>
-        </select>
+          {/* CULTIVO */}
+          <div className="flex flex-col">
+            <label className="text-gray-700 font-semibold">Cultivo:</label>
+            <select
+              onChange={(e) => setCultivo(e.target.value)}
+              className="w-full p-2 mt-1 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+            >
+              <option value="">Seleccione el cultivo</option>
+              {[
+                "Huerta de plantas caducas con cubierta",
+                "Huerta de plantas caducas sin cubierta",
+                "Nogal", "Alfalfa", "Aguacate", "Vid", "Pastos", "Huerta de cítricos"
+              ].map((cultivo, index) => (
+                <option key={index} value={index + 1}>{cultivo}</option>
+              ))}
+            </select>
+          </div>
 
-        <label style={{ margin: "10px 0 5px", fontWeight: "bold" }}>Temperatura del mes (°C):</label>
-        <input
-          type="text"
-          value={temperatura}
-          onChange={(e) => setTemperatura(e.target.value)}
-          style={{ padding: "8px", marginBottom: "10px", borderRadius: "5px", border: "1px solid #ccc" }}
-        />
-      </div>
+          {/* MES PARA ETP */}
+          <div className="flex flex-col">
+            <label className="text-gray-700 font-semibold">Mes para ETP:</label>
+            <select
+              onChange={(e) => setMesSiembra(e.target.value)}
+              className="w-full p-2 mt-1 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+            >
+              <option value="">Seleccione el mes de siembra</option>
+              {[
+                "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+                "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+              ].map((mes, index) => (
+                <option key={index} value={index + 1}>{mes}</option>
+              ))}
+            </select>
+          </div>
 
-      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px" }}>
-        <button
-          onClick={handleEjemplo}
-          style={{
-            padding: "10px 20px", backgroundColor: "#007bff", color: "white", border: "none", borderRadius: "5px", cursor: "pointer"
-          }}
-        >
-          Ejemplo
-        </button>
-        <button
-          onClick={handleCalcular}
-          style={{
-            padding: "10px 20px", backgroundColor: "#007bff", color: "white", border: "none", borderRadius: "5px", cursor: "pointer"
-          }}
-        >
-          Calcular
-        </button>
-        <button
-          onClick={() => window.location.reload()}
-          style={{
-            padding: "10px 20px", backgroundColor: "#007bff", color: "white", border: "none", borderRadius: "5px", cursor: "pointer"
-          }}
-        >
-          Nuevo
-        </button>
-      </div>
+          {/* TEMPERATURA DEL MES */}
+          <div className="flex flex-col">
+            <label className="text-gray-700 font-semibold">Temperatura del mes (°C):</label>
+            <input
+              type="text"
+              value={temperatura}
+              onChange={(e) => setTemperatura(e.target.value)}
+              className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+            />
+          </div>
 
-      <div style={{ textAlign: "left" }}>
-        <h3>Resultados</h3>
-        <p>Kci: {kci}</p>
-        <p>Fi: {fi}</p>
-        <p>Eti: {eti}</p>
+        </div>
+
+
+        {/* Botonera */}
+        <div className="flex justify-between mb-6">
+          <button
+            onClick={handleEjemplo}
+            className="px-5 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
+          >
+            Ejemplo
+          </button>
+
+          <button
+            onClick={handleCalcular}
+            className="px-5 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
+          >
+            Calcular
+          </button>
+
+          <button
+            onClick={() => window.location.reload()}
+            className="px-5 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
+          >
+            Nuevo
+          </button>
+        </div>
+
+
+        {/* Sección de Resultados */}
+        <div className="text-left bg-white p-4 shadow-md rounded-lg border border-gray-300">
+          <h3 className="text-lg font-semibold text-gray-800 mb-2">Resultados</h3>
+          <p className="text-gray-700 font-medium">Kci: <span className="font-semibold">{kci}</span></p>
+          <p className="text-gray-700 font-medium">Fi: <span className="font-semibold">{fi}</span></p>
+          <p className="text-gray-700 font-medium">Eti: <span className="font-semibold">{eti}</span></p>
+        </div>
+
       </div>
     </div>
   );

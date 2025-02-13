@@ -219,123 +219,211 @@ const EfectoSuelo = () => {
 
   return (
     <div className="app">
-      <NavBar />
-      <div className="experiment-header">
-        <ArrowBackIosIcon className="back-arrow" onClick={() => window.history.back()} />
-        <h1 className="experiment-title">Efecto del Uso del Suelo en la Tormenta</h1>
-      </div>
+      <ArrowBackIosIcon
+        className="text-gray-600 cursor-pointer hover:text-gray-800 transition"
+        onClick={() => window.history.back()}
+      />
+      <h1 className="text-2xl font-bold text-gray-800">
+        Efecto del Uso del Suelo en la Tormenta
+      </h1>
+      {/* Contenedor principal */}
+      <div className="bg-white p-6 shadow-md rounded-lg border border-gray-300">
 
-      <div className="content-wrapper">
-        <div className="left-section">
-          <h2 className="section-title">Entrada de Datos</h2>
-          <div className="input-section">
-            <label>Área de la Cuenca (km²):</label>
-            <input type="text" name="areaCuenca" value={inputValues.areaCuenca} onChange={handleChange} />
+        {/* Título */}
+        <h2 className="text-xl font-semibold text-gray-800 mb-4">Entrada de Datos</h2>
 
-            <label>Tipo de Vegetación:</label>
-            <select name="tipoVegetacion" value={inputValues.tipoVegetacion} onChange={handleChange}>
-              <option value="" disabled hidden>
-                Seleccione una opción
-              </option>
+        {/* Contenedor de Inputs */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Área de la Cuenca */}
+          <div className="flex flex-col">
+            <label className="text-gray-700 font-medium">Área de la Cuenca (km²):</label>
+            <input
+              type="text"
+              name="areaCuenca"
+              value={inputValues.areaCuenca}
+              onChange={handleChange}
+              className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+            />
+          </div>
+
+          {/* Tipo de Vegetación */}
+          <div className="flex flex-col">
+            <label className="text-gray-700 font-medium">Tipo de Vegetación:</label>
+            <select
+              name="tipoVegetacion"
+              value={inputValues.tipoVegetacion}
+              onChange={handleChange}
+              className="w-full p-2 mt-1 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+            >
+              <option value="" disabled hidden>Seleccione una opción</option>
               <option value="1">Cultivos en Surcos</option>
               <option value="2">Cereales</option>
               <option value="3">Leguminosas</option>
-              {/* Más opciones */}
             </select>
+          </div>
 
-            <label>Pendiente:</label>
-            <select name="pendiente" value={inputValues.pendiente} onChange={handleChange}>
-              <option value="" disabled hidden>
-                Seleccione una opción
-              </option>
+          {/* Pendiente */}
+          <div className="flex flex-col">
+            <label className="text-gray-700 font-medium">Pendiente:</label>
+            <select
+              name="pendiente"
+              value={inputValues.pendiente}
+              onChange={handleChange}
+              className="w-full p-2 mt-1 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+            >
+              <option value="" disabled hidden>Seleccione una opción</option>
               <option value=">1%">Mayor a 1%</option>
               <option value="<1%">Menor a 1%</option>
             </select>
+          </div>
 
-            <label>Tipo de Suelo:</label>
-            <select name="tipoSuelo" value={inputValues.tipoSuelo} onChange={handleChange}>
-              <option value="" disabled hidden>
-                Seleccione una opción
-              </option>
+          {/* Tipo de Suelo */}
+          <div className="flex flex-col">
+            <label className="text-gray-700 font-medium">Tipo de Suelo:</label>
+            <select
+              name="tipoSuelo"
+              value={inputValues.tipoSuelo}
+              onChange={handleChange}
+              className="w-full p-2 mt-1 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+            >
+              <option value="" disabled hidden>Seleccione una opción</option>
               <option value="A">A</option>
               <option value="B">B</option>
               <option value="C">C</option>
               <option value="D">D</option>
             </select>
+          </div>
 
-            <label>Precipitación (mm):</label>
-            <input type="text" name="precipitacion" value={inputValues.precipitacion} onChange={handleChange} />
-
-            <button className="calculate-button" onClick={calcular}>Calcular</button>
-            <div className="secondary-buttons">
-              <button className="example-button" onClick={fillExampleValues}>
-                <CalculateIcon className="button-icon" />
-                <span className="button-text">Ejemplo</span>
-              </button>
-              <button className="clear-button" onClick={clearFields}>
-                <DeleteIcon className="button-icon" />
-                <span className="button-text">Limpiar</span>
-              </button>
-            </div>
+          {/* Precipitación */}
+          <div className="flex flex-col">
+            <label className="text-gray-700 font-medium">Precipitación (mm):</label>
+            <input
+              type="text"
+              name="precipitacion"
+              value={inputValues.precipitacion}
+              onChange={handleChange}
+              className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+            />
           </div>
         </div>
 
-        <div className="center-section">
-          <h2 className="section-title">Resultados</h2>
-          <div className="results-section">
-            <h2>Resultados</h2>
-            <label>CN1:</label>
-            <input type="text" value={cnValues.CN1} readOnly />
-            <label>CN2:</label>
-            <input type="text" value={cnValues.CN2} readOnly />
-            <label>CN3:</label>
-            <input type="text" value={cnValues.CN3} readOnly />
+        {/* Botonera */}
+        <div className="mt-6 flex justify-between">
+          <button
+            onClick={calcular}
+            className="px-5 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition"
+          >
+            Calcular
+          </button>
 
-            {/* Aquí mostramos el resultado general */}
-            <label>Resultado:</label>
-            <input type="text" value={result} readOnly />
+          <div className="flex space-x-4">
+            <button
+              onClick={fillExampleValues}
+              className="flex items-center px-5 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
+            >
+              <CalculateIcon className="mr-2" />
+              Ejemplo
+            </button>
+
+            <button
+              onClick={clearFields}
+              className="flex items-center px-5 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition"
+            >
+              <DeleteIcon className="mr-2" />
+              Limpiar
+            </button>
           </div>
         </div>
+
+
+
+        {/* Sección de Resultados */}
+        <div className="bg-white p-6 shadow-md rounded-lg border border-gray-300 mt-6">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">Resultados</h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Valores CN1, CN2 y CN3 */}
+            {[
+              { label: "CN1", value: cnValues.CN1 },
+              { label: "CN2", value: cnValues.CN2 },
+              { label: "CN3", value: cnValues.CN3 },
+              { label: "Resultado", value: result }
+            ].map((item, index) => (
+              <div key={index} className="flex flex-col">
+                <label className="text-gray-700 font-medium">{item.label}:</label>
+                <input
+                  type="text"
+                  value={item.value}
+                  readOnly
+                  className="w-full p-2 mt-1 border border-gray-300 rounded-lg bg-gray-100 text-center"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
 
         <div className="right-section">
           {/* Aquí puedes agregar una imagen guía si es necesario */}
         </div>
       </div>
 
-      <div className="parameters-and-charts-wrapper">
-        <div className="parameters-section">
-          <h2 className="section-title">Parámetros para la Construcción del Hidrograma</h2>
-          <div className="hidrograma-section">
-            <label className="parameter-label">Tiempo de Retraso tr (h):</label>
-            <input type="text" className="parameter-input" value={hidrogramaValues.tiempoRetraso} readOnly />
+      {/* Contenedor Principal */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 shadow-md rounded-lg border border-gray-300">
 
-            <label className="parameter-label">Tiempo Pico tp (h):</label>
-            <input type="text" className="parameter-input" value={hidrogramaValues.tiempoPico} readOnly />
+        {/* Sección de Parámetros */}
+        <div className="bg-gray-50 p-6 rounded-lg shadow">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">
+            Parámetros para la Construcción del Hidrograma
+          </h2>
 
-            <label className="parameter-label">Tiempo Base tb (h):</label>
-            <input type="text" className="parameter-input" value={hidrogramaValues.tiempoBase} readOnly />
-
-            <label className="parameter-label">Caudal Pico Qp (m³/s):</label>
-            <input type="text" className="parameter-input" value={hidrogramaValues.caudalPico} readOnly />
-            <button className="generate-button" onClick={graficarHidrogramas}>Graficar Hidrogramas</button>
+          <div className="space-y-4">
+            {[
+              { label: "Tiempo de Retraso tr (h):", value: hidrogramaValues.tiempoRetraso },
+              { label: "Tiempo Pico tp (h):", value: hidrogramaValues.tiempoPico },
+              { label: "Tiempo Base tb (h):", value: hidrogramaValues.tiempoBase },
+              { label: "Caudal Pico Qp (m³/s):", value: hidrogramaValues.caudalPico }
+            ].map((item, index) => (
+              <div key={index} className="flex flex-col">
+                <label className="text-gray-700 font-medium">{item.label}</label>
+                <input
+                  type="text"
+                  value={item.value}
+                  readOnly
+                  className="w-full p-2 mt-1 border border-gray-300 rounded-lg bg-gray-100 text-center"
+                />
+              </div>
+            ))}
           </div>
+
+          {/* Botón para Graficar */}
+          <button
+            onClick={graficarHidrogramas}
+            className="mt-6 px-5 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition w-full"
+          >
+            Graficar Hidrogramas
+          </button>
         </div>
 
-        <div className="chart-wrapper">
+        {/* Sección de Gráficos */}
+        <div className="flex flex-col gap-6">
           {chartData.triangular && (
-            <div className="chart-section">
-              <h3 className="chart-title">Hidrograma Triangular</h3>
+            <div className="bg-white p-4 shadow rounded-lg">
+              <h3 className="text-lg font-semibold text-gray-700 mb-2">Hidrograma Triangular</h3>
               <Line data={chartData.triangular} />
             </div>
           )}
+
           {chartData.scs && (
-            <div className="chart-section">
-              <h3 className="chart-title">Hidrograma SCS</h3>
+            <div className="bg-white p-4 shadow rounded-lg">
+              <h3 className="text-lg font-semibold text-gray-700 mb-2">Hidrograma SCS</h3>
               <Line data={chartData.scs} />
             </div>
           )}
         </div>
+
       </div>
+
     </div>
   );
 };
