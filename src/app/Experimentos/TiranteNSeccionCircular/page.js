@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import '../App.css';
+
 
 const ExperimentoCircular = () => {
     const [data, setData] = useState({

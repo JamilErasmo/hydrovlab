@@ -17,6 +17,7 @@
     "@mui/material": "^6.1.5",
     "axios": "^1.7.7",
     "chart.js": "^4.4.7",
+    "chartjs-adapter-date-fns": "^3.0.0",
     "file-saver": "^2.0.5",
     "jstat": "^1.9.6",
     "next": "^14.2.14",

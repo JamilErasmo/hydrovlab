@@ -197,27 +197,27 @@ function BalanceHidrico() {
   return (
     <div className="max-w-4xl mx-auto text-[#5377A9] p-8">
       {/* Título */}
-      <h1 className="text-center text-2xl font-bold mb-6">Balance Hídrico</h1>
-
+      <h1 className="text-center text-3xl font-bold text-gray-800 mb-8">Balance Hídrico</h1>
 
       {/* Panel de Entrada */}
-      <div className="border border-gray-400 p-6 mb-8 bg-white shadow-md rounded-lg">
-        <div className="flex flex-wrap gap-10">
+      <div className="border border-gray-200 p-8 mb-10 bg-white shadow-lg rounded-xl">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+
           {/* Columna 1: Precipitación */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-800 mb-3">PRECIPITACIÓN</h3>
+            <h3 className="text-xl font-semibold text-gray-700 mb-4">🌧 PRECIPITACIÓN</h3>
             {[
               "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO",
               "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"
             ].map((mes, i) => (
-              <div key={`p_${i}`} className="flex items-center gap-3 mb-2">
-                <label className="w-24 font-medium">{mes}:</label>
+              <div key={`p_${i}`} className="flex items-center gap-4 mb-3">
+                <label className="w-32 font-medium text-gray-600">{mes}:</label>
                 <input
                   type="number"
                   step="1"
                   value={prec[i]}
                   onChange={(e) => handlePrecChange(i, e.target.value)}
-                  className="w-20 p-2 border border-gray-300 rounded-lg text-center focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                  className="w-24 p-2 border border-gray-300 rounded-md text-center focus:ring-2 focus:ring-[#5377A9] focus:border-[#5377A9] transition duration-200 shadow-sm"
                 />
               </div>
             ))}
@@ -225,89 +225,88 @@ function BalanceHidrico() {
 
           {/* Columna 2: Evapotranspiración */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-800 mb-3">EVAPOTRANSPIRACIÓN</h3>
+            <h3 className="text-xl font-semibold text-gray-700 mb-4">🌡 EVAPOTRANSPIRACIÓN</h3>
             {[
               "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO",
               "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"
             ].map((mes, i) => (
-              <div key={`et_${i}`} className="flex items-center gap-3 mb-2">
-                <label className="w-24 font-medium">{mes}:</label>
+              <div key={`et_${i}`} className="flex items-center gap-4 mb-3">
+                <label className="w-32 font-medium text-gray-600">{mes}:</label>
                 <input
                   type="number"
                   step="1"
                   value={et[i]}
                   onChange={(e) => handleEtChange(i, e.target.value)}
-                  className="w-20 p-2 border border-gray-300 rounded-lg text-center focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                  className="w-24 p-2 border border-gray-300 rounded-md text-center focus:ring-2 focus:ring-[#5377A9] focus:border-[#5377A9] transition duration-200 shadow-sm"
                 />
               </div>
             ))}
           </div>
         </div>
       </div>
-
-
       {/* Botonera */}
-      <div className="text-center mb-6 space-x-4">
+      <div className="flex justify-center gap-4 mb-8">
         <button
           onClick={DatosEjemplo}
-          className="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
+          className="px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl shadow-md hover:scale-105 transform transition duration-200"
         >
           EJEMPLO
         </button>
         <button
           onClick={Nuevo}
-          className="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
+          className="px-6 py-3 bg-gradient-to-r from-gray-500 to-gray-600 text-white font-semibold rounded-xl shadow-md hover:scale-105 transform transition duration-200"
         >
           NUEVO
         </button>
         <button
           onClick={Calcular}
-          className="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
+          className="px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold rounded-xl shadow-md hover:scale-105 transform transition duration-200"
         >
-          CALCULAR
+          CALCULAR 
         </button>
         <button
           onClick={descargarExcel}
-          className="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
+          className="px-6 py-3 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white font-semibold rounded-xl shadow-md hover:scale-105 transform transition duration-200"
         >
           DESCARGAR RESULTADOS
         </button>
       </div>
 
-
       {/* Resultados */}
-      <h2 className="text-center text-xl font-bold text-gray-700 border-b-2 border-gray-300 pb-2 mb-4">
-        RESULTADOS
+      <h2 className="text-center text-2xl font-bold text-gray-800 border-b-4 border-[#5377A9] pb-3 mb-6">
+        📊 RESULTADOS
       </h2>
 
-      <div className="overflow-x-auto bg-white shadow-md rounded-lg p-4">
-        <table className="w-full border-collapse border border-gray-400">
+      <div className="overflow-x-auto bg-white shadow-lg rounded-xl p-6">
+        <table className="w-full border-collapse border border-gray-300 rounded-lg">
           <thead>
-            <tr className="bg-gray-200 text-gray-800">
-              <th className="p-2"></th>
+            <tr className="bg-gradient-to-r from-gray-200 to-gray-300 text-gray-900">
+              <th className="p-3"></th>
               {[
                 "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO",
                 "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"
               ].map((mes, i) => (
-                <th key={i} className="p-2 text-center">{mes}</th>
+                <th key={i} className="p-3 text-center font-semibold">{mes}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {[
-              { label: "P", data: prec },
-              { label: "ET", data: et },
-              { label: "P-ET", data: pet },
-              { label: "R", data: r },
-              { label: "VR", data: vr },
-              { label: "ETR", data: etr },
-              { label: "D", data: d },
-              { label: "EX", data: ex }
+              { label: "🌧 P", data: prec },
+              { label: "🌡 ET", data: et },
+              { label: "📉 P-ET", data: pet },
+              { label: "💧 R", data: r },
+              { label: "📊 VR", data: vr },
+              { label: "🌱 ETR", data: etr },
+              { label: "🔥 D", data: d },
+              { label: "⚡ EX", data: ex }
             ].map(({ label, data }, index) => (
-              <tr key={index} className="border-b border-gray-300">
-                <th className="p-2 text-left font-semibold">{label}</th>
+              <tr key={index} className="border-b border-gray-300 odd:bg-gray-50 hover:bg-gray-100 transition">
+                <th className="p-3 text-left font-semibold text-gray-800">{label}</th>
                 {data.map((val, i) => (
-                  <td key={i} className="p-2 text-right">{val === "" ? "--" : val}</td>
+                  <td key={i} className="p-3 text-right text-gray-700">
+                    {val === "" ? "--" : val}
+                  </td>
                 ))}
               </tr>
             ))}
@@ -315,7 +314,7 @@ function BalanceHidrico() {
         </table>
       </div>
 
-    </div>
+    </div >
   );
 }
 

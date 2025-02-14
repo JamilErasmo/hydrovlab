@@ -362,7 +362,7 @@ const BondadYAjuste = () => {
                   <td className="border border-gray-300 px-2 py-1">{row.F_logPearson.toFixed(6)}</td>
                   <td className="border border-gray-300 px-2 py-1">{row.diff_logPearson.toFixed(6)}</td>
                   <td className="border border-gray-300 px-2 py-1">{row.F_gumbel.toFixed(6)}</td>
-                  <td className="border border-gray-300 px-2 py-1">{row.diff_gumbel.toFixed(6)}</td>
+                  <td className="border border-gray-300 px-2 py-1">{row.diff_gumbel.toFixed(6)}</td>b
                 </tr>
               ))}
             </tbody>

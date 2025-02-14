@@ -56,7 +56,7 @@ export default function Navbar() {
               {/* Aquí se añade el logo junto con el nombre */}
               <img src="/images/logo.png" alt="HYDROLAB Logo" className="h-8 w-8 mr-2" />
               <Link href="/" className="text-2xl font-bold text-blue-600">
-                HYDROLAB
+                HYDROVLAB
               </Link>
             </div>
             <div className="hidden sm:block sm:ml-6">
