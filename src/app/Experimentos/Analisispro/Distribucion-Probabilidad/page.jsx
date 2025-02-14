@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import FileUploader from "./components/FileUploader";
 import InputForm from "./components/InputForm";
 import ResultsTable from "./components/ResultsTable";
@@ -12,14 +12,21 @@ import {
   calculateNormalDistribution,
   calculatePearsonIII
 } from "./functions/FuncionesProbabilidad";
-import { calculateGumbelInv, calculateLogNormalDistributionInv, calculateLogPearsonIIIInv, calculateNormalDistributionInv, calculatePearsonIIIInv } from "./functions/FuncionesProbabilidadInv";
+import {
+  calculateGumbelInv,
+  calculateLogNormalDistributionInv,
+  calculateLogPearsonIIIInv,
+  calculateNormalDistributionInv,
+  calculatePearsonIIIInv
+} from "./functions/FuncionesProbabilidadInv";
 
 const DistribucionProbabilidad = () => {
   const [results, setResults] = useState([]);
   const [data, setData] = useState([NaN]);
   const [value, setValue] = useState(7500);
-  const [option, setOption] = useState('A'); // 'A' or 'B'
+  const [option, setOption] = useState('A');
   const [inputType, setInputType] = useState('caudal');
+
   const {
     mediaAritmetica,
     desviacionStandar,
@@ -33,33 +40,17 @@ const DistribucionProbabilidad = () => {
     calculateSnYn,
   } = useAnalisisProbabilistico(data);
 
-  useEffect(() => {
+  // Función para limpiar y resetear datos
+  const handleClean = useCallback(() => {
     cleanAll();
-    setValue(option === 'A' ? 7500 : 60);
     setResults([]);
     setData([NaN]);
+    setOption('A');
+    setValue(7500);
+  }, [cleanAll]);
 
-  }, [option]);
-
-  useEffect(() => {
-    if (data.length <= 0) {
-      setData([NaN]);
-      return;
-    }
-    calculateAll();
-    handleCalculate(inputType, value);
-
-  }, [data]);
-
-  const formatResult = (methodName, { probability, returnPeriod, value, params }) => ({
-    method: methodName,
-    probability: probability?.toFixed(4),
-    returnPeriod: returnPeriod?.toFixed(1),
-    value: value?.toFixed(4),
-    params: params,
-  });
-
-  const handleCalculate = (inputType, inputValue) => {
+  // Función para manejar cálculos
+  const handleCalculate = useCallback((inputType, inputValue) => {
     setInputType(inputType);
     setValue(inputValue);
 
@@ -82,40 +73,55 @@ const DistribucionProbabilidad = () => {
       ];
     }
 
-    const formattedResults = newResults
-      .map((result, index) =>
-        formatResult(
-          ["Normal", "Log-Normal", "Pearson III", "Log-Pearson III", "Gumbel"][index],
-          result || {
-            method: NaN,
-            probability: NaN,
-            returnPeriod: NaN,
-            value: NaN,
-            params: NaN,
-          }
-        )
-      );
+    const formattedResults = newResults.map((result, index) => ({
+      method: ["Normal", "Log-Normal", "Pearson III", "Log-Pearson III", "Gumbel"][index],
+      probability: result?.probability?.toFixed(4),
+      returnPeriod: result?.returnPeriod?.toFixed(1),
+      value: result?.value?.toFixed(4),
+      params: result?.params,
+    }));
 
     setResults(formattedResults);
-  };
+  }, [
+    option,
+    mediaAritmetica,
+    desviacionStandar,
+    logMediaAritmetica,
+    logDesviacionStandar,
+    log10MediaAritmetica,
+    log10DesviacionStandar,
+    cs,
+    calculateSnYn,
+    data,
+  ]);
 
-  const handleClean = () => {
+  // Efecto para actualizar cálculos cuando cambia `data`
+  useEffect(() => {
+    if (data.length <= 0) {
+      setData([NaN]);
+      return;
+    }
+    calculateAll();
+    handleCalculate(inputType, value);
+  }, [data, calculateAll, handleCalculate, inputType, value]);
+
+  // Efecto para resetear datos cuando cambia `option`
+  useEffect(() => {
     cleanAll();
+    setValue(option === 'A' ? 7500 : 60);
     setResults([]);
     setData([NaN]);
-    setOption('A');
-    setValue(7500);
-  };
+  }, [option, cleanAll]);
 
-  const handleExampleClick = () => {
+  // Función para manejar datos de ejemplo
+  const handleExampleClick = useCallback(() => {
     const exampleData = [
       2230, 3220, 2246, 1804, 2737, 2070, 3682, 4240, 2367, 7061, 2489, 2350,
       3706, 2675, 6267, 5971, 4744, 6000, 4060, 6900, 5565, 3130, 2414, 1796,
       7430,
     ];
-
     setData(exampleData);
-  };
+  }, []);
 
   const renderExampleData = () => (
     <div>
@@ -130,18 +136,14 @@ const DistribucionProbabilidad = () => {
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
-
       <h1 className="text-2xl font-bold text-center mb-6 uppercase text-blue-600">
         Funciones de Distribución de Probabilidad
       </h1>
 
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-
         <div className="p-3 bg-white border border-gray-200 rounded-lg shadow-md">
           <FileUploader onUpload={setData} />
         </div>
-
 
         <div className="p-6 bg-white border border-gray-200 rounded-lg shadow-md">
           <InputForm
@@ -159,22 +161,20 @@ const DistribucionProbabilidad = () => {
 
       <div className="py-4">
         <div className="flex items-center gap-4 py mb-6 bg-gray-100 border border-gray-300 rounded-lg p-4 shadow-md">
-          <h3 className="text-lg font-semibold text-gray-800">📊 Datos:</h3>
+          <h3 className="text-lg font-semibold text-gray-800">Datos:</h3>
           <div className="overflow-x-auto">
             {data.length > 0 ? renderExampleData() : <span className="text-gray-500">No hay datos cargados</span>}
           </div>
         </div>
       </div>
 
-
       <ResultsTable
         isData={data.length > 0 && !isNaN(data[0])}
         results={results}
         onClean={handleClean}
-        option={option} // Pasar opción para cambiar los encabezados de la tabla
+        option={option}
       />
     </div>
-
   );
 };
 

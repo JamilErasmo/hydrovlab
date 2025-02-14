@@ -10,32 +10,30 @@ import ResultsDisplay from './components/ResultsDisplay';
 import StationSelector from './components/StationSelector';
 import TimeSeriesGraph from './components/TimeSeriesGraph';
 
-export const AppContext = createContext();
-
 function CorrelacionOrtogonal() {
   const [stations, setStations] = useState([]);
   const [selectedStation, setSelectedStation] = useState(null);
   const [selectedStationsForFilling, setSelectedStationsForFilling] = useState([]);
   const [baseStation, setBaseStation] = useState(null);
   const [analysisStation, setAnalysisStation] = useState(null);
-
   const [data, setData] = useState({});
   const [fileUploaded, setFileUploaded] = useState(false);
   const [correlationResults, setCorrelationResults] = useState({});
   const [showData, setShowData] = useState(false);
 
-  const handleFileUpload = async (file) => {
+  // Manejo de carga de archivos
+  const handleFileUpload = useCallback((file) => {
     const reader = new FileReader();
 
     reader.onload = (event) => {
       const content = event.target.result;
-      const lines = content.split('\n').filter(line => line.trim() !== '');
+      const lines = content.split("\n").filter((line) => line.trim() !== "");
 
       const newStations = new Set();
       const newData = {};
 
-      lines.forEach((line, index) => {
-        const columns = line.split('\t').map(col => col.trim());
+      lines.forEach((line) => {
+        const columns = line.split("\t").map((col) => col.trim());
         if (columns.length >= 3) {
           const stationCode = columns[2];
           newStations.add(stationCode);
@@ -43,22 +41,17 @@ function CorrelacionOrtogonal() {
           if (!newData[stationCode]) {
             newData[stationCode] = {
               coordinates: [columns[0], columns[1]],
-              data: {}
+              data: {},
             };
           }
 
           const year = columns[4];
-          // Keep -100.0 as is, don't convert it to null
-          const monthlyData = columns.slice(5, 17).map(val => {
-            if (val === '-100.0') return -100.0;
-            return val === '' || val === '.' ? 0 : parseFloat(val);
-          });
-          const total = columns[17] === '-100.0' ? -100.0 : (parseFloat(columns[17]) || null);
+          const monthlyData = columns.slice(5, 17).map((val) =>
+            val === "-100.0" ? -100.0 : val === "" || val === "." ? 0 : parseFloat(val)
+          );
+          const total = columns[17] === "-100.0" ? -100.0 : parseFloat(columns[17]) || null;
 
-          newData[stationCode].data[year] = {
-            monthly: monthlyData,
-            total: total
-          };
+          newData[stationCode].data[year] = { monthly: monthlyData, total };
         }
       });
 
@@ -68,113 +61,116 @@ function CorrelacionOrtogonal() {
     };
 
     reader.readAsText(file);
-  };
+  }, []);
 
-  // Function to toggle visibility of data
-  const toggleDataVisibility = () => {
-    setShowData(!showData);
-  };
+  // Función para alternar la visibilidad de los datos
+  const toggleDataVisibility = useCallback(() => {
+    setShowData((prev) => !prev);
+  }, []);
 
-  // Render data in a row format
-  const renderData = () => {
-    if (Object.keys(data).length === 0) return <p>No data loaded yet.</p>;
+  // Renderizar datos cargados
+  const renderData = useCallback(() => {
+    if (Object.keys(data).length === 0) return <p>No hay datos cargados.</p>;
 
     return (
       <div className="overflow-x-auto whitespace-nowrap p-4 bg-white rounded-lg shadow-md border border-gray-300">
         {Object.entries(data).map(([station, stationData]) => (
           <div key={station} className="inline-block mr-5 p-4 bg-gray-50 rounded-lg shadow">
             <h4 className="text-lg font-semibold text-gray-800">{station}</h4>
-            <p className="text-gray-700">Coordenadas: {stationData.coordinates.join(', ')}</p>
+            <p className="text-gray-700">Coordenadas: {stationData.coordinates.join(", ")}</p>
             <ul className="list-disc list-inside text-gray-700">
               {Object.entries(stationData.data).map(([year, yearData]) => (
                 <li key={year} className="mt-2">
-                  <span className="font-medium text-gray-900">{year}:</span> {yearData.monthly.join(', ')}
-                  <span className="text-gray-600"> (Total: {yearData.total || 'N/A'})</span>
+                  <span className="font-medium text-gray-900">{year}:</span> {yearData.monthly.join(", ")}
+                  <span className="text-gray-600"> (Total: {yearData.total || "N/A"})</span>
                 </li>
               ))}
             </ul>
           </div>
         ))}
       </div>
-
     );
-  };
+  }, [data]);
 
-  // Simulated data filling process
-  const handleDataFilling = () => {
-    if (baseStation && analysisStation && Object.keys(data).length > 0) {
-      const baseStationData = data[baseStation]?.data;
-      const analysisStationData = data[analysisStation]?.data;
-
-      if (baseStationData && analysisStationData) {
-        const years = Object.keys(baseStationData);
-        let baseSum = 0, analysisSum = 0;
-        let baseMax = 0, analysisMax = 0;
-
-        // Calculating sums and max values
-        years.forEach(year => {
-          if (baseStationData[year].total !== -100.0 && analysisStationData[year].total !== -100.0) {
-            baseSum += baseStationData[year].total;
-            analysisSum += analysisStationData[year].total;
-            baseMax = Math.max(baseMax, baseSum);
-            analysisMax = Math.max(analysisMax, analysisSum);
-          }
-        });
-
-        // Simulating results (real calculations would go here)
-        const results = {
-          baseStationMean: baseSum / years.length,
-          analysisStationMean: analysisSum / years.length,
-          baseStationVariance: 0, // Placeholder
-          analysisStationVariance: 0, // Placeholder
-          covariance: 0, // Placeholder
-          lambdaCoefficient: 0, // Placeholder
-          slope: 0, // Placeholder
-          pearsonCoefficient: 0, // Placeholder
-          equation1: "y = mx + b", // Placeholder
-          equation2: "y = ax^2 + bx + c", // Placeholder,
-          filledData: years.map(year => ({
-            year: year,
-            data: baseStationData[year].monthly.map((_, idx) =>
-              analysisStationData[year].monthly[idx] !== -100.0 ?
-                analysisStationData[year].monthly[idx] :
-                baseStationData[year].monthly[idx])
-          }))
-        };
-
-        // Set the results in context
-        setCorrelationResults(results);
-      } else {
-        alert("No data available for the selected stations.");
-      }
-    } else {
+  // Función para procesar el llenado de datos mediante correlación ortogonal
+  const handleDataFilling = useCallback(() => {
+    if (!baseStation || !analysisStation || Object.keys(data).length === 0) {
       alert("Por favor, seleccione ambas estaciones y asegúrese de que el archivo ha sido cargado.");
+      return;
     }
-  };
 
-  useEffect(() => {
-    // Make handleDataFilling available in the context
-    AppContext.handleDataFilling = handleDataFilling;
+    const baseStationData = data[baseStation]?.data;
+    const analysisStationData = data[analysisStation]?.data;
+
+    if (!baseStationData || !analysisStationData) {
+      alert("No hay datos disponibles para las estaciones seleccionadas.");
+      return;
+    }
+
+    const years = Object.keys(baseStationData);
+    let baseSum = 0,
+      analysisSum = 0;
+
+    // Calcular sumas
+    years.forEach((year) => {
+      if (
+        baseStationData[year]?.total !== -100.0 &&
+        analysisStationData[year]?.total !== -100.0
+      ) {
+        baseSum += baseStationData[year].total;
+        analysisSum += analysisStationData[year].total;
+      }
+    });
+
+    // Simulación de resultados
+    const results = {
+      baseStationMean: baseSum / years.length || 0,
+      analysisStationMean: analysisSum / years.length || 0,
+      baseStationVariance: 0, // Placeholder
+      analysisStationVariance: 0, // Placeholder
+      covariance: 0, // Placeholder
+      lambdaCoefficient: 0, // Placeholder
+      slope: 0, // Placeholder
+      pearsonCoefficient: 0, // Placeholder
+      equation1: "y = mx + b", // Placeholder
+      equation2: "y = ax^2 + bx + c", // Placeholder,
+      filledData: years.map((year) => ({
+        year,
+        data: baseStationData[year].monthly.map((value, idx) =>
+          analysisStationData[year].monthly[idx] !== -100.0
+            ? analysisStationData[year].monthly[idx]
+            : value
+        ),
+      })),
+    };
+
+    setCorrelationResults(results);
   }, [baseStation, analysisStation, data]);
 
   return (
-    <AppContext.Provider value={{
-      stations,
-      setStations,
-      selectedStation,
-      setSelectedStation,
-      data,
-      setData,
-      fileUploaded,
-      setFileUploaded,
-      correlationResults,
-      setCorrelationResults,
-      handleFileUpload,
-      baseStation,
-      setBaseStation,
-      analysisStation,
-      setAnalysisStation
-    }}>
+    <AppContext.Provider
+      value={{
+        stations,
+        setStations,
+        selectedStation,
+        setSelectedStation,
+        selectedStationsForFilling,
+        setSelectedStationsForFilling,
+        data,
+        setData,
+        fileUploaded,
+        setFileUploaded,
+        correlationResults,
+        setCorrelationResults,
+        handleFileUpload,
+        baseStation,
+        setBaseStation,
+        analysisStation,
+        setAnalysisStation,
+        handleDataFilling,
+      }}
+    >
+
       <div className='py-10 '>
         <div className="max-w-6xl mx-auto p-8 bg-white shadow-lg rounded-xl">
           {/* Título Principal */}
