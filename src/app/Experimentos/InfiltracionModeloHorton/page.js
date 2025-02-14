@@ -1,5 +1,7 @@
 'use client';
 import React, { useState } from 'react';
+import Chart from 'chart.js/auto';
+
 const ExperimentoInfiltracion = () => {
     const [fo, setFo] = useState('');
     const [fc, setFc] = useState('');
