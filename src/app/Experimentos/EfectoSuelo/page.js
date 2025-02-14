@@ -428,20 +428,5 @@ const EfectoSuelo = () => {
   );
 };
 
-// Barra de navegación
-const NavBar = () => (
-  <nav className="navbar">
-    <img src={logo} alt="Logo" className="logo" />
-    <div className="menu" id="menu">
-      <a href="#bienvenida" className="menu-item">Bienvenida</a>
-      <a href="#laboratorios" className="menu-item">Laboratorios</a>
-      <a href="#blog" className="menu-item">Blog Técnicos</a>
-      <a href="#equipo" className="menu-item">Equipo</a>
-      <a href="#recursos" className="menu-item">Recursos Académicos</a>
-      <a href="#investigacion" className="menu-item">Investigación</a>
-      <a href="#usuario" className="menu-item">lmgranda4</a>
-    </div>
-  </nav>
-);
 
 export default EfectoSuelo;

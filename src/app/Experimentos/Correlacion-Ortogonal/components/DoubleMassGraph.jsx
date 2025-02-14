@@ -1,3 +1,4 @@
+'use client';
 import { Chart } from 'chart.js/auto';
 import React, { useContext, useEffect, useRef } from 'react';
 import { AppContext } from '../page';
