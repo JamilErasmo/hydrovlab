@@ -432,10 +432,10 @@ export default function MPenman() {
               Ea (cal/cm²/día): <span className="font-bold text-blue-700">{resultados.Ea2}</span>
             </p>
             <p className="text-lg font-medium text-gray-700">
-              E'o (cal/cm²/día): <span className="font-bold text-blue-700">{resultados.EoCal}</span>
+              {"E'o (cal/cm²/día):"} <span className="font-bold text-blue-700">{resultados.EoCal}</span>
             </p>
             <p className="text-lg font-medium text-gray-700">
-              E'o (mm/día): <span className="font-bold text-blue-700">{resultados.EoMm}</span>
+              {"E'o (mm/día):"} <span className="font-bold text-blue-700">{resultados.EoMm}</span>
             </p>
           </div>
         )}

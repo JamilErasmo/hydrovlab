@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -54,7 +55,7 @@ export default function Navbar() {
           <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex-shrink-0 flex items-center">
               {/* Aquí se añade el logo junto con el nombre */}
-              <img src="/images/logo.png" alt="HYDROLAB Logo" className="h-8 w-8 mr-2" />
+              <Image src="/images/logo.png" alt="HYDROLAB Logo" className="h-8 w-8 mr-2" />
               <Link href="/" className="text-2xl font-bold text-blue-600">
                 HYDROVLAB
               </Link>
