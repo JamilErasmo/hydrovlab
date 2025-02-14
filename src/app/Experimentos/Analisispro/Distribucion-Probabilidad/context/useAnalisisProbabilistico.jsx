@@ -1,5 +1,5 @@
 import jstat from "jstat";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 export default function useAnalisisProbabilistico(data) {
 	const [mediaAritmetica, setMediaAritmetica] = useState(null);
@@ -10,66 +10,52 @@ export default function useAnalisisProbabilistico(data) {
 	const [log10DesviacionStandar, setLog10DesviacionStandar] = useState(null);
 	const [cs, setCs] = useState(null);
 
-	// Calculate arithmetic mean and standard deviation
-	const calMediaDesvi = () => {
-		const n = data.length;
-		if (n === 0) return;
-		const mean = jstat.mean(data);
-		setMediaAritmetica(mean);
-		const stdDev = jstat.stdev(data, true); // true for population standard deviation
-		setDesviacionStandar(stdDev);
-	};
+	// Calcular media aritmética y desviación estándar
+	const calMediaDesvi = useCallback(() => {
+		if (data.length === 0) return;
+		setMediaAritmetica(jstat.mean(data));
+		setDesviacionStandar(jstat.stdev(data, true)); // true para desviación estándar poblacional
+	}, [data]);
 
-	// Calculate log mean and log standard deviation (natural log)
-	const logCalMediaDesvi = () => {
-		let n = data.length - 1; // Equivalent to UBound in VB.NET
-		let s = 0;
-		for (let i = 0; i <= n; i++) {
-			s += Math.log(data[i]);
-		}
-		let logMediaAritmetica = s / (n + 1); // n is incremented by 1 as in VB.NET
-
-		let su = 0;
-		for (let j = 0; j <= n; j++) {
-			su += Math.pow(Math.log(data[j]) - logMediaAritmetica, 2);
-		}
-		let logDesviacionStandar = Math.sqrt(su / (n + 1)); // n1 is n in this case, incremented by 1
+	// Calcular media y desviación estándar en logaritmo natural
+	const logCalMediaDesvi = useCallback(() => {
+		if (data.length === 0) return;
+		const logData = data.map(Math.log);
+		const logMediaAritmetica = jstat.mean(logData);
+		const logDesviacionStandar = jstat.stdev(logData, true);
 
 		setLogMediaAritmetica(logMediaAritmetica);
 		setLogDesviacionStandar(logDesviacionStandar);
-	};
+	}, [data]);
 
-	// Calculate log10 mean and log10 standard deviation
-	const log10CalMediaDesvi = () => {
+	// Calcular media y desviación estándar en logaritmo base 10
+	const log10CalMediaDesvi = useCallback(() => {
+		if (data.length === 0) return;
 		const log10Data = data.map(Math.log10);
-		const log10MediaAritmetica = jstat.mean(log10Data)
-		const log10DesviacionStandar = jstat.stdev(log10Data, true)
-		// Calculate skewness 
-		let n = data.length - 1; // Equivalent to UBound in VB.NET
-		let s = 0;
-		for (let i = 0; i <= n; i++) {
-			let term = (Math.log10(data[i]) - log10MediaAritmetica) / log10DesviacionStandar;
-			s += Math.pow(term, 3);
-		}
-		let cs = ((n + 1) / ((n) * (n - 1))) * s; // Adjust for n+1 in the numerator to match VB.NET
+		const log10MediaAritmetica = jstat.mean(log10Data);
+		const log10DesviacionStandar = jstat.stdev(log10Data, true);
+
+		// Calcular asimetría (Cs)
+		const n = data.length - 1;
+		const cs = data.reduce((sum, value) => {
+			const term = (Math.log10(value) - log10MediaAritmetica) / log10DesviacionStandar;
+			return sum + Math.pow(term, 3);
+		}, 0) * ((n + 1) / (n * (n - 1)));
 
 		setLog10MediaAritmetica(log10MediaAritmetica);
 		setLog10DesviacionStandar(log10DesviacionStandar);
 		setCs(cs);
-	};
-
-	useEffect(() => {
-		calculateAll();
 	}, [data]);
 
-	// Trigger all calculations
-	const calculateAll = () => {
+	// Ejecutar todos los cálculos
+	const calculateAll = useCallback(() => {
 		calMediaDesvi();
 		logCalMediaDesvi();
 		log10CalMediaDesvi();
-	};
+	}, [calMediaDesvi, logCalMediaDesvi, log10CalMediaDesvi]);
 
-	const cleanAll = () => {
+	// Limpiar todos los valores
+	const cleanAll = useCallback(() => {
 		setMediaAritmetica(null);
 		setDesviacionStandar(null);
 		setLogMediaAritmetica(null);
@@ -77,20 +63,27 @@ export default function useAnalisisProbabilistico(data) {
 		setLog10MediaAritmetica(null);
 		setLog10DesviacionStandar(null);
 		setCs(null);
-	};
+	}, []);
 
-	// Helper for Gumbel distribution
-	const calculateSnYn = () => {
+	// Calcular Sn y Yn para la distribución de Gumbel
+	const calculateSnYn = useCallback(() => {
 		const n = data.length;
 		if (n === 0) return { sn: 0, yn: 0 };
+
 		const yi = data.map((_, j) => -Math.log(Math.log((n + 1) / (j + 1))));
 		const mean_yi = jstat.mean(yi);
 		const sum_squares = yi.reduce((acc, val) => acc + Math.pow(val - mean_yi, 2), 0);
+
 		return {
 			sn: Math.sqrt(sum_squares / n),
 			yn: mean_yi,
 		};
-	};
+	}, [data]);
+
+	// Ejecutar cálculos cuando `data` cambie
+	useEffect(() => {
+		calculateAll();
+	}, [calculateAll]);
 
 	return {
 		mediaAritmetica,
@@ -102,6 +95,6 @@ export default function useAnalisisProbabilistico(data) {
 		cs,
 		calculateAll,
 		cleanAll,
-		calculateSnYn, // Added for Gumbel distribution
+		calculateSnYn,
 	};
 }
