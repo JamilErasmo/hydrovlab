@@ -82,7 +82,11 @@ export default function Simulaciones() {
         { id: 57, title: 'MetodoMuskingum', description: 'POR DEFECTO', link: '/Experimentos/MetodoMuskingum', category: 'Tránsito de Avenidas' },
         { id: 58, title: 'MetodoMuskingumCunge', description: 'POR DEFECTO', link: '/Experimentos/MetodoMuskingumCunge', category: 'Tránsito de Avenidas' },
         { id: 59, title: 'MetodoOnda', description: 'POR DEFECTO', link: '/Experimentos/MetodoOnda', category: 'Tránsito de Avenidas' },
-        { id: 60, title: 'MetodoPiscina', description: 'POR DEFECTO', link: '/Experimentos/MetodoPiscina', category: 'Tránsito de Avenidas' }
+        { id: 60, title: 'MetodoPiscina', description: 'POR DEFECTO', link: '/Experimentos/MetodoPiscina', category: 'Tránsito de Avenidas' },
+        { id: 61, title: 'TransporteDeSedimento', description: 'POR DEFECTO', link: '/Experimentos/TransporteDeSedimento', category: 'Transporte de sedimentos' },
+        { id: 62, title: 'TransporteSedimentosSuspension', description: 'POR DEFECTO', link: '/Experimentos/TransporteSedimentosSuspension', category: 'Transporte de sedimentos' },
+        { id: 63, title: 'TransporteSedimentosTotal', description: 'POR DEFECTO', link: '/Experimentos/TransporteSedimentosTotal', category: 'Transporte de sedimentos' },
+
     ];
 
 
