@@ -12,13 +12,28 @@ export default function RecursosAcademicos() {
       ? DOCUMENTOS
       : DOCUMENTOS.filter(documento => documento.category === categoria);
   };
+  const filtrarPublicaciones = (categoria) => {
+    return categoria === 'Todos'
+      ? DOCUMENTOS
+      : DOCUMENTOS.filter(documento => documento.category === categoria);
+  };
 
   const filtrarVideos = (categoria) => {
     return categoria === 'Todos'
       ? VIDEOS
       : VIDEOS.filter(video => video.category === categoria);
   };
-  const CATEGORIAS_DOCUMENTOS = ['Todos', 'Manuales', 'Simulaciones', 'Laboratorios'];
+  const CATEGORIAS_PUBLICADOS = ['TODOS', 'PAPER', 'TESIS', 'DOCUMENTOS'];
+  const Publicaciones = [
+    { id: 1, title: 'Manual de Hidrología', description: 'Guía detallada sobre hidrología aplicada.', category: 'Manuales', year: 2020, author: 'Dr. Juan Pérez', link: '/recursos/manual-hidrologia.pdf' },
+    { id: 2, title: 'Guía de Simulaciones', description: 'Instrucciones paso a paso para realizar simulaciones.', category: 'Simulaciones', year: 2021, author: 'Ing. María López', link: '/recursos/guia-simulaciones.pdf' },
+    { id: 3, title: 'Prácticas de Laboratorio', description: 'Conjunto de prácticas para el laboratorio virtual.', category: 'Laboratorios', year: 2019, author: 'Dr. Carlos García', link: '/recursos/practicas-laboratorio.pdf' },
+    { id: 4, title: 'Estudio de Caso de Hidrología', description: 'Análisis detallado de un caso de estudio en hidrología.', category: 'Manuales', year: 2021, author: 'Dr. Juan Pérez', link: '/recursos/estudio-caso-hidrologia.pdf' },
+    { id: 5, title: 'Simulación Avanzada', description: 'Guía para realizar simulaciones avanzadas en hidrología.', category: 'Simulaciones', year: 2022, author: 'Ing. María López', link: '/recursos/simulacion-avanzada.pdf' },
+    { id: 6, title: 'Laboratorio de Hidráulica', description: 'Prácticas de laboratorio enfocadas en hidráulica.', category: 'Laboratorios', year: 2020, author: 'Dr. Carlos García', link: '/recursos/laboratorio-hidraulica.pdf' }
+  ];
+
+  const CATEGORIAS_DOCUMENTOS = ['TODOS', 'PAPER', 'TESIS', 'DOCUMENTOS'];
   const DOCUMENTOS = [
     { id: 1, title: 'Manual de Hidrología', description: 'Guía detallada sobre hidrología aplicada.', category: 'Manuales', year: 2020, author: 'Dr. Juan Pérez', link: '/recursos/manual-hidrologia.pdf' },
     { id: 2, title: 'Guía de Simulaciones', description: 'Instrucciones paso a paso para realizar simulaciones.', category: 'Simulaciones', year: 2021, author: 'Ing. María López', link: '/recursos/guia-simulaciones.pdf' },
@@ -106,6 +121,7 @@ export default function RecursosAcademicos() {
 
   const documentosFiltrados = filtrarDocumentos(categoriaDocumentos);
   const videosFiltrados = filtrarVideos(categoriaVideos);
+  const publicacionesFiltradas = filtrarPublicaciones(categoriaDocumentos);
 
   return (
     <section className="py-8 bg-gradient-to-r from-blue-100">
@@ -118,11 +134,17 @@ export default function RecursosAcademicos() {
         </div>
 
         <div className="flex justify-center mb-6">
-          <button
+        <button
             onClick={() => setPaginaActual('Documentos')}
             className={`px-4 py-2 mx-2 font-semibold rounded-lg transition-colors duration-300 ${paginaActual === 'Documentos' ? 'bg-blue-600 text-white' : 'bg-gray-300 text-gray-800 hover:bg-gray-400'}`}
           >
             Documentos
+          </button>
+          <button
+            onClick={() => setPaginaActual('Publicaciones')}
+            className={`px-4 py-2 mx-2 font-semibold rounded-lg transition-colors duration-300 ${paginaActual === 'Publicaciones' ? 'bg-blue-600 text-white' : 'bg-gray-300 text-gray-800 hover:bg-gray-400'}`}
+          >
+            Publicaciones
           </button>
           <button
             onClick={() => setPaginaActual('Videos')}

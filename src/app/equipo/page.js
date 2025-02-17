@@ -163,7 +163,6 @@ export default function Equipo() {
         className=" relative bg-no-repeat bg-center  py-14"
         style={{ backgroundImage: "url('/images/universidades.png')" }}
       >
-
       </section>
     </div>
   );

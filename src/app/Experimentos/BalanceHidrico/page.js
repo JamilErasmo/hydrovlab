@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from "react";
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 
 function BalanceHidrico() {
   // -- 1. Estados de INPUTS (Precipitación y Evapotranspiración) como strings vacíos:
@@ -195,7 +196,10 @@ function BalanceHidrico() {
 
   // -- 9. Render JSX (inputs + botones + tabla):
   return (
+
     <div className="max-w-4xl mx-auto text-[#5377A9] p-8">
+      <BackButton />
+
       {/* Título */}
       <h1 className="text-center text-3xl font-bold text-gray-800 mb-8">Balance Hídrico</h1>
 
@@ -262,7 +266,7 @@ function BalanceHidrico() {
           onClick={Calcular}
           className="px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold rounded-xl shadow-md hover:scale-105 transform transition duration-200"
         >
-          CALCULAR 
+          CALCULAR
         </button>
         <button
           onClick={descargarExcel}

@@ -33,7 +33,7 @@ export default function Simulaciones() {
     const simulaciones = [
         { id: 1, title: 'Balance Hídrico', description: 'Simulación del balance hídrico considerando diferentes parámetros.', link: '/Experimentos/BalanceHidrico', category: 'Evapotranspiración' },
         { id: 2, title: 'Blaney Criddle Global', description: 'Cálculo de evapotranspiración con el método global.', link: '/Experimentos/BlaneyCriddleGlobal', category: 'Evapotranspiración' },
-        { id: 3, title: 'Blaney Criddle Parcial', description: 'Evapotranspiración en periodos parciales.', link: '/Experimentos/BlaneyCriddleParcial', category: '     ' },
+        { id: 3, title: 'Blaney Criddle Parcial', description: 'Evapotranspiración en periodos parciales.', link: '/Experimentos/BlaneyCriddleParcial', category: 'Evapotranspiración' },
         { id: 4, title: 'Blaney Criddle Parcial Perenne', description: 'Evapotranspiración para cultivos perennes.', link: '/Experimentos/BlaneyCriddleParcialPerenne', category: 'Evapotranspiración' },
         { id: 5, title: 'Efecto de la Tormenta', description: 'Simula el efecto de tormentas e inundaciones.', link: '/Experimentos/EfectoTormenta', category: 'Lluvia escorrentía' },
         { id: 6, title: 'Hargreaves', description: 'Método de Hargreaves para calcular la evapotranspiración.', link: '/Experimentos/Hargreaves', category: 'Evapotranspiración' },
@@ -48,10 +48,6 @@ export default function Simulaciones() {
         { id: 15, title: 'Tirante N Circular', description: 'Cálculo del tirante normal en secciones circulares.', link: '/Experimentos/TiranteNSeccionCircular', category: 'Simulación continua' },
         { id: 16, title: 'Tirante N Parabólica', description: 'Cálculo del tirante normal en secciones parabólicas.', link: '/Experimentos/TiranteNSeccionParabolica', category: 'Simulación continua' },
         { id: 17, title: 'Tirante N Trapezoidal', description: 'Cálculo del tirante normal en secciones trapezoidales.', link: '/Experimentos/TiranteNSeccionTrapezoidal', category: 'Simulación continua' },
-
-        {/*nueva data*/ },
-        { id: 18, title: 'Evapotraspiracion', description: 'Calcula el balance de humedad en el suelo.', link: '/Experimentos/Evapotraspiracion', category: 'Evapotranspiración' },
-        { id: 19, title: 'INFILTRACIÓN SCS', description: 'DETERMINA LA PRECIPITACIÓN EFECTIVA Y LA RETENCIÓN  POR EL MÉTODO SCS CON LOS CARACTERÍSTICAS HIDROLÓGICAS DE LA CUENCA VÍDEO', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Infiltación' },
         { id: 20, title: 'INFILTRACIÓN GREEN-AMPT', description: 'DETERMINA LA TASA DE INFILTRACIÓN E INFILTRACIÓN ACUMULADA POR EL MÉTODO DE GREEN-AMPT CON LAS CARACTERÍSTICAS DEL SUELO Y SUS CONDICIONES INSTANTÁNEAS VÍDEO', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Infiltación' },
         { id: 21, title: 'INFILTRACIÓN HORTON', description: 'DETERMINA LA TASA DE INFILTRACIÓN E INFILTRACIÓN ACUMULADA POR EL MÉTODO DE HORTON CON LAS CARACTERÍSTICAS DEL SUELO Y SUS CONDICIONES INSTANTÁNEAS VÍDEO', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Infiltación' },
         { id: 22, title: 'INFILTRACIÓN RICHARD-PHILLIPS', description: 'DETERMINA LA TASA DE INFILTRACIÓN E INFILTRACIÓN ACUMULADA POR EL MÉTODO DE PHILIP CON LAS CARACTERÍSTICAS DEL SUELO Y SUS CONDICIONES INSTANTÁNEAS VÍDEO', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Infiltación' },
@@ -63,7 +59,32 @@ export default function Simulaciones() {
         { id: 28, title: 'Método de Fleming', description: 'Permite calcular la producción de sedimentos en una cuenca hidrográfica en base a las características de su cobertura y al caudal medio que ésta presenta. Foro', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Producción de sedimentos' },
         { id: 29, title: 'Método de Fournier', description: 'Calcula la producción de sedimentos en una cuenca hidrográfica en base a la precipitación y el relieve. Foro', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Producción de sedimentos' },
         { id: 30, title: 'Transporte de Sedimentos', description: 'Permite calcular el material transportado por la corriente, tanto dentro de la capa de fondo como en suspensión.  Se pueden aplicar los métodos de Colby, Engelund-Hasen, Shen-Hung, Yang, Ackers-White, Brownlie, Karim-Kénnedy y Graf -Acaroglu. Foro', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Transporte de sedimentos' },
+        { id: 31, title: 'CurvaRemazoBakhmeteff', description: 'POR DEFECTO', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Hidráulica de canales' },
+        { id: 32, title: 'CurvaRemazoTramos', description: 'POR DEFECTO', link: '/Experimentos/CurvaRemazoTramos', category: 'Hidráulica de canales' },
+        { id: 33, title: 'RaizEcuacion', description: 'POR DEFECTO', link: '/Experimentos/RaizEcuacion', category: 'Hidráulica de canales' },
+        { id: 38, title: 'TiranteNSeccionCircular', description: 'POR DEFECTO', link: '/Experimentos/TiranteNSeccionCircular', category: 'Hidráulica de canales' },
+        { id: 39, title: 'TiranteNSeccionParabolica', description: 'POR DEFECTO', link: '/Experimentos/TiranteNSeccionParabolica', category: 'Hidráulica de canales' },
+        { id: 40, title: 'TiranteNSeccionTrapezoidal', description: 'POR DEFECTO', link: '/Experimentos/TiranteNSeccionTrapezoidal', category: 'Hidráulica de canales' },
+        { id: 41, title: 'MetodoDupuitCon', description: 'POR DEFECTO', link: '/Experimentos/MetodoDupuitCon', category: 'Hidráulica de Pozos' },
+        { id: 42, title: 'MetodoDupuitSin', description: 'POR DEFECTO', link: '/Experimentos/MetodoDupuitSin', category: 'Hidráulica de Pozos' },
+        { id: 43, title: 'MetodoThiemCon', description: 'POR DEFECTO', link: '/Experimentos/MetodoThiemCon', category: 'Hidráulica de Pozos' },
+        { id: 44, title: 'MetodoThiemSin', description: 'POR DEFECTO', link: '/Experimentos/MetodoThiemSin', category: 'Hidráulica de Pozos' },
+        { id: 45, title: 'InfiltracionMetodoIndice', description: 'POR DEFECTO', link: '/Experimentos/InfiltracionMetodoIndice', category: 'Infiltracion' },
+        { id: 46, title: 'InfiltracionModeloGreen', description: 'POR DEFECTO', link: '/Experimentos/InfiltracionModeloGreen', category: 'Infiltracion' },
+        { id: 47, title: 'InfiltracionModeloHorton', description: 'POR DEFECTO', link: '/Experimentos/InfiltracionModeloHorton', category: 'Infiltracion' },
+        { id: 48, title: 'InfiltracionModeloRichards', description: 'POR DEFECTO', link: '/Experimentos/InfiltracionModeloRichards', category: 'Infiltracion' },
+        { id: 49, title: 'InfiltracionNumeroCurva', description: 'POR DEFECTO', link: '/Experimentos/InfiltracionNumeroCurva', category: 'Infiltracion' },
+        { id: 50, title: 'EfectoDuracionTormenta', description: 'POR DEFECTO', link: '/Experimentos/EfectoDuracionTormenta', category: 'Lluvia escorrentía' },
+        { id: 51, title: 'EfectoPrecipitacion', description: 'POR DEFECTO', link: '/Experimentos/EfectoPrecipitacion', category: 'Lluvia escorrentía' },
+        { id: 52, title: 'EfectoSuelo', description: 'POR DEFECTO', link: '/Experimentos/EfectoSuelo', category: 'Lluvia escorrentía' },
+        { id: 53, title: 'HidrogramaUnitario', description: 'POR DEFECTO', link: '/Experimentos/HidrogramaUnitario', category: 'Lluvia escorrentía' },
+        { id: 54, title: 'EcuacionUniversal', description: 'POR DEFECTO', link: '/Experimentos/EcuacionUniversal', category: 'Producción de sedimentos' },
+        { id: 57, title: 'MetodoMuskingum', description: 'POR DEFECTO', link: '/Experimentos/MetodoMuskingum', category: 'Tránsito de Avenidas' },
+        { id: 58, title: 'MetodoMuskingumCunge', description: 'POR DEFECTO', link: '/Experimentos/MetodoMuskingumCunge', category: 'Tránsito de Avenidas' },
+        { id: 59, title: 'MetodoOnda', description: 'POR DEFECTO', link: '/Experimentos/MetodoOnda', category: 'Tránsito de Avenidas' },
+        { id: 60, title: 'MetodoPiscina', description: 'POR DEFECTO', link: '/Experimentos/MetodoPiscina', category: 'Tránsito de Avenidas' }
     ];
+
 
 
     const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('Todas');

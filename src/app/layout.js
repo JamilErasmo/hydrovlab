@@ -4,6 +4,7 @@ import "./globals.css";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import Navbar from '../components/Navbar'
 import Footer from "@/components/Footer";
+import NavigationTracker from "@/components/NavigationTracker";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -29,6 +30,7 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Navbar />
+        <NavigationTracker />
         {children}
         <Footer />
       </body>
