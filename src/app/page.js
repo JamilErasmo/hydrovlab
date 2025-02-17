@@ -14,12 +14,6 @@ export default function home() {
         </div>
       </section>
 
-      <section
-        className="relative bg-no-repeat bg-center bg-white py-14"
-        style={{ backgroundImage: "url('/images/universidades.png')" }}
-      >
-  
-      </section>
 
       {/* Sección de qué es */}
       <section className="py-10 bg-white">

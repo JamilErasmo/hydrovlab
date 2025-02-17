@@ -54,8 +54,13 @@ export default function Navbar() {
 
           <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex-shrink-0 flex items-center">
-              {/* Aquí se añade el logo junto con el nombre */}
-              <Image src="/images/logo.png" alt="HYDROLAB Logo" className="h-8 w-8 mr-2" />
+              <Image
+                src="/images/logo.png"
+                alt="HYDROLAB Logo"
+                width={32}
+                height={32}
+                className="h-8 w-8 mr-2 object-contain"
+              />
               <Link href="/" className="text-2xl font-bold text-blue-600">
                 HYDROVLAB
               </Link>
