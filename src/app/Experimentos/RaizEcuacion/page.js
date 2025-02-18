@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import '../App.css';
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 
 const RaizEcuacion = () => {
     const [constante, setConstante] = useState('');
@@ -50,6 +50,7 @@ const RaizEcuacion = () => {
 
     return (
         <div className="py-10">
+                  <BackButton />
             <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300 max-w-lg mx-auto mt-6">
                 {/* Título */}
                 <h1 className="text-2xl font-bold text-blue-700 text-center mb-6">

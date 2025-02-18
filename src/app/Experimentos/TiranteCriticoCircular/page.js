@@ -1,7 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import '../App.css';
-
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 const TiranteCriticoCircular = () => {
     const [caudal, setCaudal] = useState('');
     const [diametro, setDiametro] = useState('');
@@ -66,6 +65,7 @@ const TiranteCriticoCircular = () => {
 
     return (
         <div className='py-10'>
+                  <BackButton />
             <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300 max-w-2xl mx-auto mt-6">
                 <h1 className="text-2xl font-bold text-blue-700 text-center mb-6">
                     Tirante Crítico en Sección Circular

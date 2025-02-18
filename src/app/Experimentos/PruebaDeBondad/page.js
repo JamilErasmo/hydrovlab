@@ -1,5 +1,6 @@
 'use client';
 import React, { useState, useRef } from 'react';
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 
 const BondadYAjuste = () => {
   // Estados para datos, resultados, mensajes y nivel de significancia
@@ -222,6 +223,7 @@ const BondadYAjuste = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
+            <BackButton />
       <div >
         <h1 className="text-3xl font-bold text-blue-700 mb-4 uppercase tracking-wide">
           Prueba de Bondad de Ajuste

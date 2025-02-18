@@ -1,6 +1,7 @@
 'use client';
 import { Line } from "react-chartjs-2";
 import React, { useState, useEffect } from 'react';
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -265,6 +266,7 @@ const NuevoExperimento = () => {
 
     return (
         <div className="p-8 min-h-screen">
+                  <BackButton />
             <div className="p-6 bg-white rounded-2xl shadow-md border border-gray-300 space-y-6 max-w-lg mx-auto">
                 {/* Título Principal */}
                 <h2 className="text-2xl font-bold text-blue-700 uppercase tracking-wide text-center">

@@ -75,6 +75,7 @@ const TiranteConjugadoSTrapezoidal = () => {
 
     return (
         <div className="py-10 max-w-2xl mx-auto">
+                  <BackButton />
             {/* Título del Experimento */}
             <h1 className="text-2xl font-bold text-blue-700 text-center mb-6">
                 Análisis de Tirante Conjugado - Sección Trapezoidal

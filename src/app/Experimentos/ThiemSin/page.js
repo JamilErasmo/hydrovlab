@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 
 const ThiemCalculations = () => {
   const [inputs, setInputs] = useState({
@@ -129,6 +130,7 @@ const ThiemCalculations = () => {
 
   return (
     <div style={{ padding: '20px' }}>
+            <BackButton />
       <h2 className="text-2xl font-bold text-blue-700 text-center uppercase tracking-wide">
         Régimen Permanente: Acuífero Confinado
       </h2>

@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 const Turc = () => {
     const [precipitacion, setPrecipitacion] = useState('');
     const [temperatura, setTemperatura] = useState('');
@@ -47,6 +47,7 @@ const Turc = () => {
 
     return (
         <div className='py-10'>
+                  <BackButton />
             <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300 max-w-xl mx-auto mt-6">
                 <h1 className="text-2xl font-bold text-blue-700 text-center mb-6">Método de Turc</h1>
 

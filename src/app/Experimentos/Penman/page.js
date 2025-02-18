@@ -1,6 +1,7 @@
 
 'use client';
 import React, { useState } from 'react';
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 
 export function penmanEjemplo() {
   return {
@@ -285,6 +286,7 @@ export default function MPenman() {
 
   return (
     <div className="py-14" >
+            <BackButton />
       <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300 max-w-2xl mx-auto mt-6">
         {/* Título Principal */}
         <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">

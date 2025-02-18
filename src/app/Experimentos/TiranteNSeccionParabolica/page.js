@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from "react";
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 
 function App() {
   // Estados de entradas
@@ -236,6 +237,7 @@ function App() {
 
   return (
     <div className="py-10 font-sans">
+            <BackButton />
       <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-300 max-w-2xl mx-auto">
         <h1 className="text-3xl font-bold text-center text-blue-700 mb-8">
           TIRANTENPARABÓLICA

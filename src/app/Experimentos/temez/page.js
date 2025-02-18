@@ -4,6 +4,7 @@ import Head from 'next/head';
 import { useState } from 'react';
 import InputForm from '../../../components/InputForm';
 import Results from '../../../components/Results';
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 
 export default function Home() {
   const [results, setResults] = useState(null);
@@ -17,6 +18,7 @@ export default function Home() {
       </Head>
 
       <main className="min-h-screen bg-gray-100 p-6">
+      <BackButton />
         {/* Título principal */}
         <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6">
           <h1 className="text-3xl font-bold text-gray-800 mb-4 text-center">

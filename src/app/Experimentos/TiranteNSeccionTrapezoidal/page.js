@@ -1,7 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import '../App.css';
-
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 const Experimento = () => {
     const [data, setData] = useState({
         Q: 1.5,
@@ -98,6 +97,7 @@ const Experimento = () => {
 
     return (
         <div className='py-10'>
+                  <BackButton />
             <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300 max-w-2xl mx-auto mt-6">
                 <h1 className="text-3xl font-bold text-blue-700 text-center mb-6">
                     Análisis Tirante N Sec Trapezoidal
