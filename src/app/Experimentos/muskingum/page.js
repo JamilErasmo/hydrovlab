@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { Line } from 'react-chartjs-2';
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -308,6 +309,7 @@ const EstimacionesKYX = () => {
 
   return (
     <div className='py-8'>
+            <BackButton />
       <div className='py-12 w-full text-center'>
         <h1 className="text-2xl font-bold mb-4">Estimaciones de K y X</h1>
         <div className="flex justify-center">

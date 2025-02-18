@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 const ExperimentoInfiltracion = () => {
     const [porosidadEfectiva, setPorosidadEfectiva] = useState('');
     const [porosidad, setPorosidad] = useState('');

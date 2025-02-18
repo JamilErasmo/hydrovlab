@@ -4,6 +4,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import DeleteIcon from '@mui/icons-material/Delete';
 
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -219,10 +220,11 @@ const EfectoSuelo = () => {
 
   return (
     <div className="app">
-      <ArrowBackIosIcon
+            <BackButton />
+      {/* <ArrowBackIosIcon
         className="text-gray-600 cursor-pointer hover:text-gray-800 transition"
         onClick={() => window.history.back()}
-      />
+      /> */}
       <h1 className="text-2xl font-bold text-gray-800">
         Efecto del Uso del Suelo en la Tormenta
       </h1>

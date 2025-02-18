@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from "react";
-
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 const BlaneyCriddleParcialPerenne = () => {
   // Estados para los valores de latitud, cultivo, mes, temperatura, y resultados
   const [latitud, setLatitud] = useState("");
@@ -90,6 +90,7 @@ const BlaneyCriddleParcialPerenne = () => {
 
   return (
     <div  className=" py-14">
+            <BackButton />
       <div className="w-96 mx-auto text-center border border-gray-300 p-6 bg-gray-100 shadow-md rounded-lg">
         <h2 className="text-xl font-semibold text-gray-800">Método de Criddle Parcial Perenne</h2>
 

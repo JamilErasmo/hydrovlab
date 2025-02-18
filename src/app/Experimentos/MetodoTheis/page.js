@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 const Experimento5 = () => {
   const [inputs, setInputs] = useState({
     transmisividad: '',
@@ -94,6 +94,7 @@ const Experimento5 = () => {
 
   return (
     <div className='py-10'>
+            <BackButton />
       <div className="max-w-lg mx-auto p-6 bg-white shadow-lg rounded-lg">
         {/* Título */}
         <h2 className="text-center text-2xl font-bold text-blue-700 mb-6">

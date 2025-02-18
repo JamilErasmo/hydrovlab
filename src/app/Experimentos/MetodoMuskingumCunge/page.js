@@ -1,6 +1,7 @@
 // src/MuskingumCunge.js
 'use client';
 import React, { useState } from 'react';
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 import {
   LineChart,
   Line,
@@ -285,6 +286,7 @@ const MuskingumCunge = () => {
 
   return (
     <div style={{ padding: '20px' }}>
+            <BackButton />
       {/* Contenedor de Datos de Entrada */}
       <div className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md border border-gray-300 mt-6">
 

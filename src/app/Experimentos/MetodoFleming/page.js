@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 const ExperimentoFlemingInerhi = () => {
     const [caudal, setCaudal] = useState('');
     const [factorSeleccionado, setFactorSeleccionado] = useState('0'); // Selección inicial
@@ -65,6 +65,7 @@ const ExperimentoFlemingInerhi = () => {
 
     return (
         <div className="py-14" >
+                  <BackButton />
             <div className="py-14 bg-white p-6 rounded-lg shadow-md border border-gray-300 mt-6 max-w-lg mx-auto">
 
                 {/* Título */}

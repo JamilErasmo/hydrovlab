@@ -1,10 +1,12 @@
 'use client';
 import React from 'react';
 import Link from "next/link";
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 
 const LluviaEscorrentia = () => {
   return (
     <div className="home">
+            <BackButton />
 
       {/* Título */}
       <h2 className="text-2xl font-bold text-gray-800 mb-6">Evapotranspiración</h2>

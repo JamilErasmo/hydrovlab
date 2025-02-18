@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import DeleteIcon from '@mui/icons-material/Delete';
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 
 import {
   Chart as ChartJS,
@@ -184,6 +185,7 @@ const EfectoPrecipitacion = () => {
 
   return (
     <div className="py-6 px-4">
+            <BackButton />
 
       {/* Encabezado con botón de retroceso */}
       <div className="flex items-center gap-4 mb-6">

@@ -1,5 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 
 const RegimenPermanente = () => {
   const [inputs, setInputs] = useState({
@@ -150,6 +151,7 @@ const RegimenPermanente = () => {
 
   return (
     <div className="p-6 bg-white shadow-md rounded-lg">
+            <BackButton />
       <h2 className="text-2xl font-bold text-blue-700 text-center uppercase tracking-wide">
         Régimen Permanente: Acuífero Libre
       </h2>

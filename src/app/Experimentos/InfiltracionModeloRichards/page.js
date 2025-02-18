@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 const ExperimentoSaturacion = () => {
     const [conductividad, setConductividad] = useState('');
     const [seccion, setSeccion] = useState('');
@@ -56,6 +56,7 @@ const ExperimentoSaturacion = () => {
 
     return (
         <div>
+                  <BackButton />
             <h1>Experimento de Saturación</h1>
             <div>
                 <h3>Datos de Entrada</h3>

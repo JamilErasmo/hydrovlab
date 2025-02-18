@@ -1,6 +1,7 @@
 // src/PiscinaNivelada.js
 'use client';
 import React, { useState } from 'react';
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 import {
   LineChart,
   Line,
@@ -291,6 +292,7 @@ const PiscinaNivelada = () => {
 
   return (
     <div style={{ padding: '20px' }}>
+            <BackButton />
       {/* Formulario de entrada (Área y Tiempo) */}
       <div className="mb-6 p-6 bg-white shadow-md rounded-lg">
         <h2 className="text-xl font-semibold text-gray-700 mb-4">Datos de Entrada</h2>

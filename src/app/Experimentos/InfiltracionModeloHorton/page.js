@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import Chart from 'chart.js/auto';
-
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 const ExperimentoInfiltracion = () => {
     const [fo, setFo] = useState('');
     const [fc, setFc] = useState('');

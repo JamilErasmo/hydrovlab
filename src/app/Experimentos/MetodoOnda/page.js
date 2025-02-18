@@ -1,6 +1,7 @@
 // src/OndaCinematica.js
 'use client';
 import React, { useState } from 'react';
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 import {
   LineChart,
   Line,
@@ -164,6 +165,7 @@ const OndaCinematica = () => {
 
   return (
     <div style={{ padding: '20px' }}>
+            <BackButton />
       <h1 className="text-3xl font-bold text-blue-700 text-center uppercase tracking-wide">
         Método Onda Cinemática
       </h1>

@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 function createStroreData(col1, col2, col3, col4) {
   return {
     Columna1: col1,
@@ -719,6 +719,7 @@ const Mblaneyc = () => {
   // ==================================================
   return (
     <div className="m-4">
+            <BackButton />
       <div className="text-center">
         <h1 className="text-2xl font-bold text-gray-800 uppercase">
           Método de Blaney Criddle Global

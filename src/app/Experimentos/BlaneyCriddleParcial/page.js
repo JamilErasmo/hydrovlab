@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 const BlaneyCriddleParcial = () => {
   // Estados para los datos de entrada
   const [lat, setLat] = useState('');

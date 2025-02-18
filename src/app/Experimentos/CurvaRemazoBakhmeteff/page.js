@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import '../App.css';
-
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 const CurvaRemansoBakhmeteff = () => {
   const [caudal, setCaudal] = useState('');
   const [anchoSolera, setAnchoSolera] = useState('');
@@ -90,7 +90,7 @@ const CurvaRemansoBakhmeteff = () => {
 
   return (
     <div className="app">
-
+      <BackButton />
 
       {/* Contenedor principal */}
       <div className="flex flex-col bg-white p-6 shadow-md rounded-lg border border-gray-300">

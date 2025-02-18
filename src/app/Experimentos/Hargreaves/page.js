@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 
 const Hargreaves = () => {
     const [lat, setLat] = useState('');

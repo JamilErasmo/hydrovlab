@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import '../App.css';
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 
 const CurvaDeRemanso = () => {
   const [caudal, setCaudal] = useState('');

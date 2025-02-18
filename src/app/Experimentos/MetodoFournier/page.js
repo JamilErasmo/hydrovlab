@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from "react";
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 
 const ExperimentoFournier = () => {
   const [p, setP] = useState("");
@@ -53,7 +54,7 @@ const ExperimentoFournier = () => {
 
   return (
     <div className="py-10">
-
+      <BackButton />
       <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300 max-w-lg mx-auto mt-6">
 
 

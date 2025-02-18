@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 import CalculateIcon from '@mui/icons-material/Calculate';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -169,6 +169,7 @@ const HidrogramaUnitario = () => {
     <div className="app">
       {/* Contenedor Principal */}
       <div className="bg-white p-6 shadow-md rounded-lg border border-gray-300">
+      <BackButton />
 
         {/* Encabezado */}
         <h1 className="text-2xl font-bold text-gray-800 text-center mb-6">
