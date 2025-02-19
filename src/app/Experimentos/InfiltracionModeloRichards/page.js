@@ -55,63 +55,106 @@ const ExperimentoSaturacion = () => {
     };
 
     return (
-        <div>
-                  <BackButton />
-            <h1>Experimento de Saturación</h1>
-            <div>
-                <h3>Datos de Entrada</h3>
-                <label>Sección Transversal (cm²): </label>
-                <input
-                    type="number"
-                    value={seccion}
-                    onChange={(e) => setSeccion(e.target.value)}
-                />
-                <br />
-                <label>Tiempo de Saturación (h): </label>
-                <input
-                    type="number"
-                    value={tiempoSaturacion}
-                    onChange={(e) => setTiempoSaturacion(e.target.value)}
-                />
-                <br />
-                <label>Volumen de Agua (cm³): </label>
-                <input
-                    type="number"
-                    value={volumenAgua}
-                    onChange={(e) => setVolumenAgua(e.target.value)}
-                />
-                <br />
-                <label>Conductividad Hidráulica (cm/h): </label>
-                <input
-                    type="number"
-                    value={conductividad}
-                    onChange={(e) => setConductividad(e.target.value)}
-                />
-                <br />
-                <label>Tiempo Aplicado (h): </label>
-                <input
-                    type="number"
-                    value={tiempoAplicado}
-                    onChange={(e) => setTiempoAplicado(e.target.value)}
-                />
+        <div className='container mx-auto py-8'>
+            <BackButton />
+            <div className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md border border-gray-300 mt-6">
+                <h1 className="text-2xl font-bold text-center mb-6">Experimento de Saturación</h1>
+
+                <div className="space-y-4">
+                    <h3 className="text-lg font-semibold">Datos de Entrada</h3>
+
+                    <div className="flex flex-col">
+                        <label className="font-medium">Sección Transversal (cm²):</label>
+                        <input
+                            type="number"
+                            value={seccion}
+                            onChange={(e) => setSeccion(e.target.value)}
+                            className="p-2 border border-gray-300 rounded-md"
+                        />
+                    </div>
+
+                    <div className="flex flex-col">
+                        <label className="font-medium">Tiempo de Saturación (h):</label>
+                        <input
+                            type="number"
+                            value={tiempoSaturacion}
+                            onChange={(e) => setTiempoSaturacion(e.target.value)}
+                            className="p-2 border border-gray-300 rounded-md"
+                        />
+                    </div>
+
+                    <div className="flex flex-col">
+                        <label className="font-medium">Volumen de Agua (cm³):</label>
+                        <input
+                            type="number"
+                            value={volumenAgua}
+                            onChange={(e) => setVolumenAgua(e.target.value)}
+                            className="p-2 border border-gray-300 rounded-md"
+                        />
+                    </div>
+
+                    <div className="flex flex-col">
+                        <label className="font-medium">Conductividad Hidráulica (cm/h):</label>
+                        <input
+                            type="number"
+                            value={conductividad}
+                            onChange={(e) => setConductividad(e.target.value)}
+                            className="p-2 border border-gray-300 rounded-md"
+                        />
+                    </div>
+
+                    <div className="flex flex-col">
+                        <label className="font-medium">Tiempo Aplicado (h):</label>
+                        <input
+                            type="number"
+                            value={tiempoAplicado}
+                            onChange={(e) => setTiempoAplicado(e.target.value)}
+                            className="p-2 border border-gray-300 rounded-md"
+                        />
+                    </div>
+                </div>
             </div>
 
-            <div style={{ marginTop: '20px' }}>
-                <button onClick={cargarEjemplo}>Ejemplo</button>
-                <button onClick={calcularResultados} style={{ marginLeft: '10px' }}>
+            <div className="mt-6 flex justify-center space-x-4">
+                <button
+                    onClick={cargarEjemplo}
+                    className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300 ease-in-out"
+                >
+                    Ejemplo
+                </button>
+
+                <button
+                    onClick={calcularResultados}
+                    className="px-4 py-2 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 transition duration-300 ease-in-out"
+                >
                     Calcular
                 </button>
-                <button onClick={limpiarCampos} style={{ marginLeft: '10px' }}>
+
+                <button
+                    onClick={limpiarCampos}
+                    className="px-4 py-2 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 transition duration-300 ease-in-out"
+                >
                     Limpiar
                 </button>
             </div>
 
-            <div style={{ marginTop: '20px' }}>
-                <h3>Resultados</h3>
-                <p><strong>Infiltración Acumulada:</strong> {infiltracionAcumulada ? `${infiltracionAcumulada} cm` : ''}</p>
-                <p><strong>Adsorción:</strong> {adsorcion ? `${adsorcion} cm-h^(-0.5)` : ''}</p>
-                <p><strong>Infiltración:</strong> {infiltracion ? `${infiltracion} cm` : ''}</p>
+
+            <div className="mt-6 p-6 bg-white rounded-lg shadow-md border border-gray-300">
+                <h3 className="text-xl font-semibold text-gray-700 mb-4">Resultados</h3>
+
+                <p className="text-gray-800">
+                    <strong>Infiltración Acumulada:</strong> {infiltracionAcumulada ? `${infiltracionAcumulada} cm` : 'N/A'}
+                </p>
+
+                <p className="text-gray-800">
+                    <strong>Adsorción:</strong> {adsorcion ? `${adsorcion} cm-h⁻¹⁺⁵` : 'N/A'}
+                </p>
+
+                <p className="text-gray-800">
+                    <strong>Infiltración:</strong> {infiltracion ? `${infiltracion} cm` : 'N/A'}
+                </p>
             </div>
+
         </div>
     );
 };
