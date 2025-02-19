@@ -8,7 +8,7 @@ export default function Simulaciones() {
         'Análisis estocástico',
         'Evapotranspiración',
         'Hidráulica de Pozos',
-        'Infiltrado',
+        'Infiltración',
         'Lluvia escorrentía',
         'Modelo de Lluvia Escorrentía',
         'Producción de sedimentos',
@@ -72,7 +72,7 @@ export default function Simulaciones() {
         { id: 33, title: 'Prueba de Bondad de Ajuste', description: 'Esta herramienta nos permite analizar por el método Kolmogorov Smirnov, la función de distribución de probabilidad que se ajusta mejor a la serie de datos recopilados en  registros histórico de valores extremos', link: '/Experimentos/PruebaDeBondad', category: 'Análisis Probabilístico' },
 
         { id: 34, title: 'Curva de Remanso (Tramos Fijos)', description: 'El flujo gradualmente variado constituye una clase especial de flujo permanente no uniforme y se caracteriza por una variación continua del tirante (y con ello el área la velocidad, etc.), a lo largo del perfil de la ecuacion ongitudinal del canal', link: '/Experimentos/CurvaRemazoTramos', category: 'Hidráulica de canales' },
-        { id: 34, title: 'Curva de Remanso(Bakhmeteff)', description: 'El flujo gradualmente variado constituye una clase especial de flujo permanente no uniforme y se caracteriza por una variación continua del tirante (y con ello el área la velocidad, etc.), a lo largo del perfil longitudinal del canal.', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Hidráulica de canales' },
+        { id: 35, title: 'Curva de Remanso(Bakhmeteff)', description: 'El flujo gradualmente variado constituye una clase especial de flujo permanente no uniforme y se caracteriza por una variación continua del tirante (y con ello el área la velocidad, etc.), a lo largo del perfil longitudinal del canal.', link: '/Experimentos/CurvaRemazoBakhmeteff', category: 'Hidráulica de canales' },
         { id: 36, title: 'Raiz de una Ecuación', description: '	En casos hidráulicos es frecuente tener que resolver una ecuación compleja de grado superior.', link: '/Experimentos/RaizEcuacion', category: 'Hidráulica de canales' },
         { id: 37, title: 'Resalto Hidráulico (S. Circular)', description: 'Es resalto o salto hidráulico es un fenómeno local que se presenta en un flujo rápidamente variado, en el cual en un corto tramo, el tirante cambia de un  valor inferior al crítico a otro superior a este.', link: '/Experimentos/ResaltoHidraulicoCircular', category: 'Hidráulica de canales.' },
         { id: 38, title: 'Resalto Hidráulico (S.Trapezoidal)', description: 'Es resalto o salto hidráulico es un fenómeno local que se presenta en un flujo rápidamente variado, en el cual en un corto tramo, el tirante cambia de un  valor inferior al crítico a otro superior a este.', link: '/Experimentos/ResaltoHidraulicoTrapezoidal', category: 'Hidráulica de canales' },
