@@ -94,7 +94,7 @@ const TiranteConjugadoCircular = () => {
 
     return (
         <div className="py-12">
-                  <BackButton />
+            <BackButton />
             <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300 max-w-2xl mx-auto mt-6">
                 {/* Título del Experimento */}
                 <h1 className="text-2xl font-bold text-blue-700 text-center mb-6">

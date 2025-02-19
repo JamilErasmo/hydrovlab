@@ -1,5 +1,7 @@
 'use client';
 import React, { useState } from 'react';
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
+
 
 const TiranteConjugadoSTrapezoidal = () => {
     const [caudal, setCaudal] = useState('');
@@ -75,7 +77,7 @@ const TiranteConjugadoSTrapezoidal = () => {
 
     return (
         <div className="py-10 max-w-2xl mx-auto">
-                  <BackButton />
+            <BackButton />
             {/* Título del Experimento */}
             <h1 className="text-2xl font-bold text-blue-700 text-center mb-6">
                 Análisis de Tirante Conjugado - Sección Trapezoidal
