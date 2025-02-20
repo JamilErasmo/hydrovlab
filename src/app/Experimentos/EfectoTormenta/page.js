@@ -186,6 +186,7 @@ const EfectoPrecipitacion = () => {
 
   return (
     <div className="app">
+            <BackButton />
       {/* Contenedor Principal */}
       <div className="bg-white p-6 shadow-md rounded-lg border border-gray-300">
 

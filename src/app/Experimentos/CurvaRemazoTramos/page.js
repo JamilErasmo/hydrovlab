@@ -116,6 +116,7 @@ const CurvaDeRemanso = () => {
 
   return (
     <div className="app">
+            <BackButton />
       {/* Contenedor principal */}
       <div className="bg-white p-6 shadow-md rounded-lg border border-gray-300">
 

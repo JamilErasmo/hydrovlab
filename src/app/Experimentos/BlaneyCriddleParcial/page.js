@@ -255,6 +255,7 @@ const BlaneyCriddleParcial = () => {
 
   return (
     <div className="py-8">
+            <BackButton />
 
       <div className="py-14 max-w-3xl mx-auto text-[#5377A9] bg-white shadow-md rounded-lg">
 

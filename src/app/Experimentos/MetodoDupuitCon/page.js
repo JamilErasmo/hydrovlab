@@ -181,6 +181,7 @@ const MetodoDupuit = () => {
 
     return (
         <div className='py-10'>
+                  <BackButton />
             <h2 className="text-2xl font-bold text-blue-700 text-center uppercase tracking-wide">
                 Método de Dupuit: Con Pozos de Observación
             </h2>

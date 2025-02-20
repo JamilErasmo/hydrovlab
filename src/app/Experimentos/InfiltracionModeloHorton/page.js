@@ -87,6 +87,7 @@ const ExperimentoInfiltracion = () => {
         <div>
             {/* Contenedor Principal */}
             <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300 mt-6">
+            <BackButton />
 
                 {/* Título */}
                 <h1 className="text-2xl font-bold text-blue-700 text-center uppercase tracking-wide">

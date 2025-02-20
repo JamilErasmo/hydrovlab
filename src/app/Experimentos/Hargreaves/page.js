@@ -115,6 +115,7 @@ const Hargreaves = () => {
         <div>
             {/* Contenedor Principal */}
             <div className="bg-white p-6 shadow-md rounded-lg border border-gray-300">
+            <BackButton />
 
                 {/* Título */}
                 <h1 className="text-2xl font-bold text-gray-800 text-center mb-4">
