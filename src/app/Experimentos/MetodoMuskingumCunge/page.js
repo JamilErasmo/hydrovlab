@@ -286,7 +286,7 @@ const MuskingumCunge = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-            <BackButton />
+      <BackButton />
       {/* Contenedor de Datos de Entrada */}
       <div className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md border border-gray-300 mt-6">
 
@@ -484,15 +484,15 @@ const MuskingumCunge = () => {
 
       {/* Contenedor de la Gráfica */}
       {showGraph && rows.length > 0 && (
-        <div className="flex justify-center items-center flex-col mt-6">
-          <h3 className="text-xl font-bold text-blue-700 text-center mb-4">
+        <div className="flex justify-center items-center flex-col mt-8">
+          <h3 className="text-xl font-bold text-blue-700 text-center mb-6">
             Gráfica de Caudal Salida (Qs)
           </h3>
 
           {/* Contenedor Responsive */}
           <div className="w-full md:w-3/4 lg:w-1/2 bg-white shadow-md p-4 rounded-lg">
-            <ResponsiveContainer width="100%" height={400}>
-              <LineChart data={rows}>
+            <ResponsiveContainer width="100%" height={500}> {/* Aumenta la altura */}
+              <LineChart data={rows} margin={{ top: 20, right: 30, left: 50, bottom: 30 }}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis
                   dataKey="Columna2"
@@ -500,6 +500,9 @@ const MuskingumCunge = () => {
                 />
                 <YAxis
                   label={{ value: 'Caudal Salida (Qs)', angle: -90, position: 'insideLeft' }}
+                  domain={[0, 1500]} // Establece el límite superior en 1500
+                  tick={{ fontSize: 14 }} // Aumenta el tamaño de los números del eje Y
+                  width={80} // Aumenta el ancho del eje Y
                 />
                 <Tooltip />
                 <Legend />
@@ -508,13 +511,17 @@ const MuskingumCunge = () => {
                   dataKey="Columna6"
                   name="Qs"
                   stroke="#8884d8"
-                  activeDot={{ r: 8 }}
+                  dot={{ r: 4 }} // Muestra todos los puntos
+                  activeDot={{ r: 6 }} // Punto resaltado al pasar el mouse
                 />
               </LineChart>
             </ResponsiveContainer>
           </div>
         </div>
       )}
+
+
+
 
     </div>
   );

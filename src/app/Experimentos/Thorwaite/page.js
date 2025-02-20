@@ -68,7 +68,7 @@ const Thorwaite = () => {
 
     return (
         <div className="py-10">
-                  <BackButton />
+            <BackButton />
             <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300 max-w-2xl mx-auto mt-6">
                 {/* Título del Experimento */}
                 <h1 className="text-2xl font-bold text-blue-700 text-center mb-6">
@@ -188,14 +188,18 @@ const Thorwaite = () => {
                                 </tbody>
                             </table>
                         </div>
-                        <div className="mt-4 text-gray-700">
-                            <p className="text-lg font-medium">
-                                <strong>I:</strong> {iTotal}
-                            </p>
-                            <p className="text-lg font-medium">
-                                <strong>a:</strong> {a}
-                            </p>
+                        <div className="mt-6 p-4 bg-gray-100 rounded-lg shadow-md border border-gray-300 max-w-md mx-auto">
+                            <h3 className="text-xl font-semibold text-gray-800 mb-3 text-center">Resultados</h3>
+                            <div className="flex flex-col space-y-2 text-gray-700">
+                                <p className="text-lg font-medium bg-white p-3 rounded-md shadow-sm">
+                                    <strong className="text-gray-900">I:</strong> {iTotal}
+                                </p>
+                                <p className="text-lg font-medium bg-white p-3 rounded-md shadow-sm">
+                                    <strong className="text-gray-900">a:</strong> {a}
+                                </p>
+                            </div>
                         </div>
+
                     </div>
                 )}
             </div>

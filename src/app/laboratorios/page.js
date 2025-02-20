@@ -87,14 +87,12 @@ export default function Simulaciones() {
     const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('Todas');
     const [busqueda, setBusqueda] = useState('');
 
-
     const simulacionesFiltradas = simulaciones.filter(
         (simulacion) =>
             (categoriaSeleccionada === 'Todas' || simulacion.category === categoriaSeleccionada) &&
             (simulacion.title?.toLowerCase().includes(busqueda?.toLowerCase() || '') ||
                 simulacion.description?.toLowerCase().includes(busqueda?.toLowerCase() || ''))
     );
-
 
     return (
         <section className="py-16 bg-gray-100">
@@ -112,67 +110,44 @@ export default function Simulaciones() {
                         <FaSearch className="absolute left-3 top-3 text-gray-400" />
                     </div>
                 </div>
-                <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
 
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
                     {/* Menú lateral de categorías */}
                     <div className="bg-blue-800 text-white shadow-lg rounded-lg p-6 self-start">
-                        <h2 className="text-2xl font-bold mb-6">Simulación</h2>
+                        <h2 className="text-2xl font-bold mb-6">Simulaciones</h2>
                         <ul>
-                            <li
-                                className={`mb-4 cursor-pointer categoria px-4 py-2 rounded-lg ${categoriaSeleccionada === 'Todas' ? 'bg-blue-700 text-white' : 'hover:bg-blue-100 hover:text-blue-700'
+                            {/* <li
+                                className={`mb-4 cursor-pointer px-4 py-2 rounded-lg ${categoriaSeleccionada === 'Todas' ? 'bg-blue-700 text-white' : 'hover:bg-blue-100 hover:text-blue-700'
                                     }`}
                                 onClick={() => setCategoriaSeleccionada('Todas')}
                             >
                                 Todas
-                            </li>
+                            </li> */}
                             {categorias.map((categoria, index) => (
                                 <li
                                     key={index}
-                                    className={`mb-4 cursor-pointer categoria px-4 py-2 rounded-lg ${categoriaSeleccionada === categoria ? 'bg-blue-700 text-white' : 'hover:bg-blue-100 hover:text-blue-700'
+                                    className={`mb-4 cursor-pointer px-4 py-2 rounded-lg ${categoriaSeleccionada === categoria ? 'bg-blue-700 text-white' : 'hover:bg-blue-100 hover:text-blue-700'
                                         }`}
                                     onClick={() => setCategoriaSeleccionada(categoria)}
                                 >
                                     {categoria}
                                 </li>
                             ))}
-
-                            <h2 className="text-2xl font-bold mb-6">Análisis</h2>
-                            {categoriasAnali.map((categoria, index) => (
-                                <li
-                                    key={index}
-                                    className={`mb-4 cursor-pointer categoria px-4 py-2 rounded-lg ${categoriaSeleccionada === categoria ? 'bg-blue-700 text-white' : 'hover:bg-blue-100 hover:text-blue-700'
-                                        }`}
-                                    onClick={() => setCategoriaSeleccionada(categoria)}
-                                >
-                                    {categoria}
-                                </li>
-                            ))}
-
-
-                            <h2 className="text-2xl font-bold mb-6">Diseño</h2>
-
-
-                            {categoriasDiseño.map((categoria, index) => (
-                                <li
-                                    key={index}
-                                    className={`mb-4 cursor-pointer categoria px-4 py-2 rounded-lg ${categoriaSeleccionada === categoria ? 'bg-blue-700 text-white' : 'hover:bg-blue-100 hover:text-blue-700'
-                                        }`}
-                                    onClick={() => setCategoriaSeleccionada(categoria)}
-                                >
-                                    {categoria}
-                                </li>
-                            ))}
-
                         </ul>
-
-
-
-
                     </div>
 
-                    {/* Aplicaciones existentes */}
+                    {/* Contenido principal */}
                     <div className="lg:col-span-3">
                         <h2 className="text-2xl font-bold mb-6 text-blue-800">Aplicaciones existentes</h2>
+
+                        {/* Descripción cuando se muestran todas las simulaciones */}
+                        {categoriaSeleccionada === 'Todas' && (
+                            <p className="text-gray-600 mb-6">
+                                Aquí encontrarás una variedad de simulaciones sobre diferentes temas. Usa el filtro lateral para seleccionar una categoría o ingresa una palabra clave en la barra de búsqueda.
+                            </p>
+                        )}
+
+                        {/* Lista de simulaciones */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                             {simulacionesFiltradas.length > 0 ? (
                                 simulacionesFiltradas.map((simulacion) => (
@@ -195,10 +170,8 @@ export default function Simulaciones() {
                             )}
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>
     );
-
 }
