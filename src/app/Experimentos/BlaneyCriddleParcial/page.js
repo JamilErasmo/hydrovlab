@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
+
 const BlaneyCriddleParcial = () => {
   // Estados para los datos de entrada
   const [lat, setLat] = useState('');
@@ -14,6 +15,9 @@ const BlaneyCriddleParcial = () => {
   const [kci, setKci] = useState(null);
   const [fi, setFi] = useState(null);
   const [eti, setEti] = useState(null);
+
+  // Estado para el mensaje de error
+  const [error, setError] = useState('');
 
   // Función que retorna el índice del mes (1-12) en español
   const procIndexMes = (mes) => {
@@ -63,10 +67,7 @@ const BlaneyCriddleParcial = () => {
         tbl[i][j] = lgrn[c3++];
       }
     }
-    // Determinar el índice del cultivo (según el orden):
-    // "Trigo" -> 1, "Trigo de Invierno" -> 2, "Sorgo de grano" -> 3, "Algodon" -> 4,
-    // "Frijol" -> 5, "Lechuga" -> 6, "Zanahoria" -> 7, "Papa" -> 8, "Calabaza" -> 9,
-    // "Papa1" o "Papa 2" -> 10, "Tomate" -> 11
+    // Determinar el índice del cultivo
     let cropIndex;
     switch (cul) {
       case "Trigo": cropIndex = 1; break;
@@ -105,7 +106,6 @@ const BlaneyCriddleParcial = () => {
 
   // Función procInterpolarN – Calcula la interpolación para latitud NORTE
   const procInterpolarN = (latitud, msi) => {
-    // Porcentajes de sol para la latitud Norte (tabla de 37 filas x 13 columnas)
     const lgrn = [
       0, 8.5, 7.66, 8.49, 8.21, 8.5, 8.22, 8.5, 8.45, 8.21, 8.5, 8.22, 8.5,
       5, 8.32, 7.57, 8.47, 8.29, 8.65, 8.41, 8.67, 8.66, 8.23, 8.42, 8.07, 8.3,
@@ -125,9 +125,8 @@ const BlaneyCriddleParcial = () => {
       27, 7.43, 7.09, 8.38, 8.65, 9.4, 9.32, 9.52, 9.13, 8.32, 8.03, 7.36, 7.31,
       28, 7.4, 7.0, 8.39, 8.68, 9.46, 9.38, 9.58, 9.16, 8.32, 8.02, 7.27, 7.27,
       29, 7.35, 7.04, 8.37, 8.7, 9.49, 9.43, 9.61, 9.19, 8.32, 8.0, 7.24, 7.2,
-      30, 7.3, 7.03, 8.38, 8.72, 9.53, 9.49, 7.19, 7.15, // Nota: aquí se debe completar la tabla según el VB original.
+      30, 7.3, 7.03, 8.38, 8.72, 9.53, 9.49, 7.19, 7.15,
     ];
-    // Se construye una tabla de 37 filas x 13 columnas
     let tbl = [];
     let c3 = 0;
     for (let i = 0; i < 37; i++) {
@@ -158,7 +157,6 @@ const BlaneyCriddleParcial = () => {
 
   // Función procInterpolarS – Calcula la interpolación para latitud SUR
   const procInterpolarS = (latitud, msi) => {
-    // Porcentajes de sol para la latitud Sur (tabla de 15 filas x 13 columnas)
     const lgrs = [
       0, 8.5, 7.66, 8.49, 8.21, 8.5, 8.22, 8.5, 8.49, 8.21, 8.5, 8.22, 8.5,
       5, 8.68, 7.76, 8.51, 8.15, 8.18, 7.86, 8.14, 8.27, 8.17, 8.62, 8.53, 8.88,
@@ -175,7 +173,6 @@ const BlaneyCriddleParcial = () => {
       44, 10.54, 8.78, 8.69, 7.38, 6.73, 6.08, 6.51, 7.25, 7.99, 9.31, 9.94, 10.8,
       46, 10.69, 8.86, 8.7, 7.32, 6.61, 5.02, 6.37, 7.16, 7.96, 9.37, 10.07, 10.97
     ];
-    // Construir una tabla de 15 filas x 13 columnas
     let tbl = [];
     let c3 = 0;
     for (let i = 0; i < 15; i++) {
@@ -212,17 +209,20 @@ const BlaneyCriddleParcial = () => {
     setLatType("Norte");
     setPlantingMonth("Abril");
     setCrop("Algodon");
-    // Limpiar resultados anteriores
+    // Limpiar resultados y mensaje de error anteriores
     setKci(null);
     setFi(null);
     setEti(null);
+    setError('');
   };
 
   const handleCalcular = () => {
     if (lat === '' || coe === '' || tmp === '') {
-      alert("Por favor, complete todos los campos numéricos.");
+      setError("Por favor, complete todos los campos numéricos.");
       return;
     }
+    // Limpiar error si todo está bien
+    setError('');
     const latVal = Number(lat);
     const pcs = Number(coe);
     const temp = Number(tmp);
@@ -245,28 +245,25 @@ const BlaneyCriddleParcial = () => {
     setLat('');
     setCoe('');
     setTmp('');
-    setLatType("Norte");
-    setCrop("Trigo");
-    setPlantingMonth("Enero");
+    setLatType("");
+    setCrop("");
+    setPlantingMonth("");
     setKci(null);
     setFi(null);
     setEti(null);
+    setError('');
   };
 
   return (
     <div className="py-8">
-            <BackButton />
+      <BackButton />
 
       <div className="py-14 max-w-3xl mx-auto text-[#5377A9] bg-white shadow-md rounded-lg">
-
         {/* Encabezado */}
         <div className="text-center">
-
           <h1 className="text-2xl font-bold uppercase mt-4">Método de Blaney Criddle Parcial</h1>
         </div>
-
-        {/* Sección de Ingreso de Datos */}
-        <h2 className="text-xl font-semibold mt-6 border-b-2 border-gray-300 pb-2">Ingreso de Datos</h2>
+        <br />
 
         {/* Contenedor principal */}
         <div className="border border-gray-300 p-6 mb-6 bg-white shadow-md rounded-lg space-y-4">
@@ -351,7 +348,11 @@ const BlaneyCriddleParcial = () => {
               <option value="Sur">Sur</option>
             </select>
           </div>
+
+          {/* Mensaje de error */}
+          {error && <p className="text-red-500 text-center mt-2">{error}</p>}
         </div>
+
         {/* Botonera */}
         <div className="mt-4 flex flex-wrap gap-4">
           <button
@@ -378,7 +379,6 @@ const BlaneyCriddleParcial = () => {
 
         {/* Sección de Resultados */}
         <h2 className="text-xl font-semibold text-gray-800 mt-6">RESULTADOS</h2>
-
         <div className="border border-gray-300 p-4 w-40 mx-auto text-right bg-white shadow-md rounded-lg">
           <div className="flex justify-between items-center mb-2">
             <label className="text-gray-700 font-medium">Kci:</label>
@@ -389,7 +389,6 @@ const BlaneyCriddleParcial = () => {
               className="w-16 p-1 border border-gray-300 rounded-lg bg-gray-100 text-center"
             />
           </div>
-
           <div className="flex justify-between items-center mb-2">
             <label className="text-gray-700 font-medium">Fi:</label>
             <input
@@ -399,7 +398,6 @@ const BlaneyCriddleParcial = () => {
               className="w-16 p-1 border border-gray-300 rounded-lg bg-gray-100 text-center"
             />
           </div>
-
           <div className="flex justify-between items-center">
             <label className="text-gray-700 font-medium">Eti:</label>
             <input
@@ -410,7 +408,6 @@ const BlaneyCriddleParcial = () => {
             />
           </div>
         </div>
-
       </div>
     </div>
   );

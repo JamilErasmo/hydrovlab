@@ -18,6 +18,7 @@ const ExperimentoInfiltracion = () => {
     const [tiempoEncharcamiento, setTiempoEncharcamiento] = useState('');
     const [profundidadAguaInfiltrada, setProfundidadAguaInfiltrada] = useState('');
     const [calcularFInicial, setCalcularFInicial] = useState(false);
+    const [error, setError] = useState('');
 
     const cargarEjemplo = () => {
         setPorosidadEfectiva(0.486);
@@ -31,6 +32,7 @@ const ExperimentoInfiltracion = () => {
         } else {
             setFInicial('');
         }
+        setError('');
     };
 
     const limpiarCampos = () => {
@@ -49,14 +51,15 @@ const ExperimentoInfiltracion = () => {
         setTiempoEncharcamiento('');
         setProfundidadAguaInfiltrada('');
         setCalcularFInicial(false);
+        setError('');
     };
 
     const calcularPrimeraParte = () => {
         if (porosidad === '' || porosidadEfectiva === '' || saturacionEfectiva === '') {
-            alert('Por favor, ingresa todos los datos necesarios para calcular.');
+            setError('Por favor, ingresa todos los datos necesarios para calcular.');
             return;
         }
-
+        setError('');
         const n = parseFloat(porosidad);
         const ne = parseFloat(porosidadEfectiva);
         const se = parseFloat(saturacionEfectiva);
@@ -88,10 +91,10 @@ const ExperimentoInfiltracion = () => {
             conductividadHidraulica === '' ||
             cambioContenidoHumedad === ''
         ) {
-            alert('Por favor, completa los datos necesarios para calcular la infiltración acumulada.');
+            setError('Por favor, completa los datos necesarios para calcular la infiltración acumulada.');
             return;
         }
-
+        setError('');
         let x1 = parseFloat(fInicial);
         let x = 0;
         const k = parseFloat(conductividadHidraulica);
@@ -111,10 +114,10 @@ const ExperimentoInfiltracion = () => {
 
     const calcularTerceraParte = () => {
         if (intensidadLluvia === '' || conductividadHidraulica === '' || cambioContenidoHumedad === '') {
-            alert('Por favor, completa los datos necesarios para calcular el tiempo de encharcamiento.');
+            setError('Por favor, completa los datos necesarios para calcular el tiempo de encharcamiento.');
             return;
         }
-
+        setError('');
         const IP = parseFloat(intensidadLluvia);
         const k = parseFloat(conductividadHidraulica);
         const CabSu = parseFloat(cabezaSuccion);
@@ -129,90 +132,75 @@ const ExperimentoInfiltracion = () => {
 
     return (
         <div className="container mx-auto max-w-3xl p-4">
-            {/* Contenedor Principal */}
-            <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300 mt-6">
-                <BackButton />
+            <BackButton />
+            {/* Título Principal */}
+            <h1 className="text-2xl font-bold text-gray-800 text-center mb-6">
+                Experimento de Infiltración
+            </h1>
 
-                {/* Título Principal */}
-                <h1 className="text-2xl font-bold text-gray-800 text-center mb-6">
-                    Experimento de Infiltración
-                </h1>
-
-                {/* Sección de Entrada de Datos */}
-                <div className="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-300">
-                    <h3 className="text-xl font-semibold text-gray-800 mb-4">Datos de Entrada</h3>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {[
-                            { label: "Porosidad Efectiva:", value: porosidadEfectiva, setter: setPorosidadEfectiva },
-                            { label: "Porosidad:", value: porosidad, setter: setPorosidad },
-                            { label: "Cabeza de Succión en el Frente Mojado (cm):", value: cabezaSuccion, setter: setCabezaSuccion },
-                            { label: "Conductividad Hidráulica (K) (cm/h):", value: conductividadHidraulica, setter: setConductividadHidraulica },
-                            { label: "Tiempo (horas):", value: tiempo, setter: setTiempo },
-                            { label: "Saturación Efectiva Se:", value: saturacionEfectiva, setter: setSaturacionEfectiva }
-                        ].map((item, index) => (
-                            <div key={index} className="flex flex-col">
-                                <label className="text-gray-700 font-medium">{item.label}</label>
-                                <input
-                                    type="number"
-                                    value={item.value}
-                                    onChange={(e) => item.setter(e.target.value)}
-                                    className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                                />
-                            </div>
-                        ))}
-                    </div>
+            {/* Sección de Entrada de Datos */}
+            <div className="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-300">
+                <h3 className="text-xl font-semibold text-gray-800 mb-4">Datos de Entrada</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {[
+                        { label: "Porosidad Efectiva:", value: porosidadEfectiva, setter: setPorosidadEfectiva },
+                        { label: "Porosidad:", value: porosidad, setter: setPorosidad },
+                        { label: "Cabeza de Succión en el Frente Mojado (cm):", value: cabezaSuccion, setter: setCabezaSuccion },
+                        { label: "Conductividad Hidráulica (K) (cm/h):", value: conductividadHidraulica, setter: setConductividadHidraulica },
+                        { label: "Tiempo (horas):", value: tiempo, setter: setTiempo },
+                        { label: "Saturación Efectiva Se:", value: saturacionEfectiva, setter: setSaturacionEfectiva }
+                    ].map((item, index) => (
+                        <div key={index} className="flex flex-col">
+                            <label className="text-gray-700 font-medium">{item.label}</label>
+                            <input
+                                type="number"
+                                value={item.value}
+                                onChange={(e) => item.setter(e.target.value)}
+                                className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                            />
+                        </div>
+                    ))}
                 </div>
-
             </div>
-            {/* Contenedor de Botones */}
-            <div className="mt-6 flex justify-center gap-4">
 
-                {/* Botón de Ejemplo */}
+            {/* Sección de Botones para Ejemplo, Calcular y Limpiar */}
+            <div className="mt-6 flex justify-center gap-4">
                 <button
                     onClick={cargarEjemplo}
                     className="px-5 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
                 >
                     Ejemplo
                 </button>
-
-                {/* Botón de Calcular */}
                 <button
                     onClick={calcularPrimeraParte}
                     className="px-5 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition"
                 >
                     Calcular
                 </button>
-
-                {/* Botón de Limpiar */}
                 <button
                     onClick={limpiarCampos}
                     className="px-5 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition"
                 >
                     Limpiar
                 </button>
-
             </div>
 
-            {/* Contenedor de Resultados */}
+            {/* Mensaje de Error */}
+            {error && <p className="text-red-500 text-center mt-4">{error}</p>}
+
+            {/* Resultados de la Primera Parte */}
             <div className="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-300 mt-6">
-
-                {/* Título */}
                 <h3 className="text-xl font-semibold text-gray-800 mb-4">Resultados</h3>
-
-                {/* Resultados de Contenido de Humedad */}
                 <div className="text-gray-700 space-y-2">
                     <p className="text-lg font-medium">
                         Contenido Residual de Humedad del Suelo:
-                        <span className="font-bold text-blue-700"> {contenidoResidualHumedad || '--'}</span> Tanto x1
+                        <span className="font-bold text-blue-700"> {contenidoResidualHumedad || '--'}</span>
                     </p>
                     <p className="text-lg font-medium">
                         Cambio en el Contenido de Humedad:
-                        <span className="font-bold text-blue-700"> {cambioContenidoHumedad || '--'}</span> Tanto x1
+                        <span className="font-bold text-blue-700"> {cambioContenidoHumedad || '--'}</span>
                     </p>
                 </div>
-
-                {/* Checkbox para Cálculo */}
                 <div className="mt-4 flex items-center gap-3">
                     <input
                         type="checkbox"
@@ -222,8 +210,6 @@ const ExperimentoInfiltracion = () => {
                     />
                     <label className="text-gray-800 font-medium">F(t) = kt Calculado</label>
                 </div>
-
-                {/* Campo Opcional de F(t) Valor Inicial */}
                 <div className="mt-4 flex flex-col">
                     <label className="text-gray-700 font-medium">F(t) Valor Inicial (Opcional):</label>
                     <div className="flex items-center gap-2">
@@ -237,23 +223,17 @@ const ExperimentoInfiltracion = () => {
                         <span className="text-gray-700">cm</span>
                     </div>
                 </div>
-
             </div>
-            {/* Contenedor Principal */}
+
+            {/* Sección de Infiltración Acumulada */}
             <div className="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-300 mt-6">
-
-                {/* Título */}
                 <h3 className="text-xl font-semibold text-gray-800 mb-4">Infiltración Acumulada</h3>
-
-                {/* Botón de Cálculo */}
                 <button
                     onClick={calcularSegundaParte}
                     className="w-full px-5 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition"
                 >
                     Calcular F
                 </button>
-
-                {/* Resultados */}
                 <div className="mt-4 text-gray-700 space-y-2">
                     <p className="text-lg font-medium">
                         Infiltración Acumulada F:
@@ -264,16 +244,11 @@ const ExperimentoInfiltracion = () => {
                         <span className="font-bold text-blue-700"> {tasaInfiltracion || '--'}</span> cm/h
                     </p>
                 </div>
-
             </div>
 
-            {/* Contenedor Principal */}
+            {/* Sección de Tiempo de Encharcamiento */}
             <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300 mt-6">
-
-                {/* Título */}
                 <h3 className="text-xl font-semibold text-gray-800 mb-4">Tiempo de Encharcamiento</h3>
-
-                {/* Input de Intensidad de Lluvia */}
                 <div className="mb-4">
                     <label className="text-gray-700 font-medium block mb-1">Intensidad de Lluvia (cm/h):</label>
                     <input
@@ -284,16 +259,12 @@ const ExperimentoInfiltracion = () => {
                         className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
                     />
                 </div>
-
-                {/* Botón de Cálculo */}
                 <button
                     onClick={calcularTerceraParte}
                     className="w-full px-5 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
                 >
                     Calcular Tiempo de Encharcamiento
                 </button>
-
-                {/* Resultados */}
                 <div className="mt-4 text-gray-700">
                     <p className="text-lg font-medium">
                         Tiempo de Encharcamiento:
@@ -304,9 +275,7 @@ const ExperimentoInfiltracion = () => {
                         <span className="font-bold text-blue-700"> {profundidadAguaInfiltrada || '--'}</span> cm
                     </p>
                 </div>
-
             </div>
-
         </div>
     );
 };

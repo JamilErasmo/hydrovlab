@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 import React, { useState } from 'react';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
@@ -49,13 +50,18 @@ const EfectoPrecipitacion = () => {
     tiempoBase: '',
     caudalPico: '',
   });
+  // Se actualiza chartData para incluir ambas gráficas
   const [chartData, setChartData] = useState(null);
+  // Estado para mensajes de error
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     setInputValues({
       ...inputValues,
       [e.target.name]: e.target.value,
     });
+    // Limpiar error al modificar algún valor
+    setError('');
   };
 
   const roundToThree = (num) => {
@@ -69,10 +75,10 @@ const EfectoPrecipitacion = () => {
     const J = parseFloat(pendienteMedia);
 
     if (isNaN(A) || isNaN(L) || isNaN(J)) {
-      alert('Por favor, ingrese valores numéricos válidos.');
+      setError('Por favor, ingrese valores numéricos válidos.');
       return;
     }
-
+    setError('');
     const kirpich = (3.97 * Math.pow(L, 0.77) * Math.pow(J, -0.385)) / 60;
     const california = 0.066 * Math.pow(L / Math.pow(J, 0.5), 0.77);
     const giandotti = (4 * Math.sqrt(A) + 1.5 * L) / (25.3 * Math.sqrt(J * L));
@@ -99,12 +105,12 @@ const EfectoPrecipitacion = () => {
     const Tc = parseFloat(resultValues.tiempoConcentracion);
 
     if (isNaN(A) || isNaN(Tc)) {
-      alert('Por favor, asegúrese de que todos los valores de entrada y el tiempo de concentración sean válidos.');
+      setError('Por favor, asegúrese de que todos los valores de entrada y el tiempo de concentración sean válidos.');
       return;
     }
-
+    setError('');
     const tr = 0.6 * Tc;
-    const tp = inputValues.duracionEfectiva / 2 + tr;
+    const tp = parseFloat(inputValues.duracionEfectiva) / 2 + tr;
     const tb = 2.67 * tp;
     const qp = (0.208 * A) / tp;
     const Qpico = qp * parseFloat(inputValues.precipitacionEfectiva);
@@ -116,7 +122,8 @@ const EfectoPrecipitacion = () => {
       caudalPico: roundToThree(Qpico),
     });
 
-    const data = {
+    // Datos para el Hidrograma Triangular
+    const triangularData = {
       labels: Array.from({ length: 101 }, (_, i) => roundToThree(i * tb / 100)),
       datasets: [
         {
@@ -132,7 +139,28 @@ const EfectoPrecipitacion = () => {
       ],
     };
 
-    setChartData(data);
+    // Datos para el Hidrograma SCS
+    const scsCoefficients = [
+      0, 0.015, 0.075, 0.16, 0.28, 0.43, 0.6, 0.77, 0.89, 0.97,
+      1.0, 0.98, 0.92, 0.84, 0.75, 0.65, 0.57, 0.43, 0.32, 0.24,
+      0.18, 0.13, 0.098, 0.075, 0.036, 0.018, 0.009, 0.004
+    ];
+    const scsData = {
+      labels: Array.from({ length: scsCoefficients.length }, (_, i) => roundToThree(i * tp / (scsCoefficients.length - 1))),
+      datasets: [
+        {
+          label: 'Hidrograma SCS',
+          data: scsCoefficients.map(val => roundToThree(val * qp)),
+          borderColor: 'rgba(153,102,255,1)',
+          fill: false,
+        },
+      ],
+    };
+
+    setChartData({
+      triangular: triangularData,
+      scs: scsData,
+    });
   };
 
   const fillExampleValues = () => {
@@ -157,6 +185,7 @@ const EfectoPrecipitacion = () => {
       caudalPico: '',
     });
     setChartData(null);
+    setError('');
   };
 
   const clearFields = () => {
@@ -181,11 +210,12 @@ const EfectoPrecipitacion = () => {
       caudalPico: '',
     });
     setChartData(null);
+    setError('');
   };
 
   return (
     <div className="py-6 px-4">
-            <BackButton />
+      <BackButton />
 
       {/* Encabezado con botón de retroceso */}
       <div className="flex items-center gap-4 mb-6">
@@ -198,11 +228,9 @@ const EfectoPrecipitacion = () => {
 
       {/* Contenedor principal con 3 columnas */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 bg-white border border-gray-300 rounded-lg shadow-md max-w-5xl mx-auto">
-
         {/* Sección de Entrada de Datos */}
         <div className="p-4 bg-gray-50 rounded-lg shadow">
           <h2 className="text-lg font-semibold text-gray-700 mb-4">Entrada de Datos</h2>
-
           {/* Campos de Entrada */}
           <div className="flex flex-col gap-4">
             <label className="text-gray-600">Área de la Cuenca (km²):</label>
@@ -213,7 +241,6 @@ const EfectoPrecipitacion = () => {
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
             />
-
             <label className="text-gray-600">Longitud del Cauce (km):</label>
             <input
               type="text"
@@ -222,7 +249,6 @@ const EfectoPrecipitacion = () => {
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
             />
-
             <label className="text-gray-600">Pendiente Media del Cauce (m/m):</label>
             <input
               type="text"
@@ -231,7 +257,6 @@ const EfectoPrecipitacion = () => {
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
             />
-
             <label className="text-gray-600">Duración Efectiva (h):</label>
             <input
               type="text"
@@ -240,7 +265,6 @@ const EfectoPrecipitacion = () => {
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
             />
-
             <label className="text-gray-600">Precipitación Efectiva (mm):</label>
             <input
               type="text"
@@ -250,7 +274,6 @@ const EfectoPrecipitacion = () => {
               className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
             />
           </div>
-
           {/* Botón de Calcular */}
           <button
             onClick={calcular}
@@ -258,7 +281,6 @@ const EfectoPrecipitacion = () => {
           >
             Calcular
           </button>
-
           {/* Botones Secundarios */}
           <div className="flex justify-between mt-4">
             <button
@@ -268,7 +290,6 @@ const EfectoPrecipitacion = () => {
               <CalculateIcon className="text-white" />
               <span>Ejemplo</span>
             </button>
-
             <button
               onClick={clearFields}
               className="flex items-center gap-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
@@ -277,26 +298,23 @@ const EfectoPrecipitacion = () => {
               <span>Limpiar</span>
             </button>
           </div>
+          {/* Mensaje de Error */}
+          {error && <p className="text-red-500 text-center mt-4">{error}</p>}
         </div>
 
         {/* Sección de Resultados */}
         <div className="p-4 bg-gray-50 rounded-lg shadow">
           <h2 className="text-lg font-semibold text-gray-700 mb-4">Resultados</h2>
-
           {/* Resultados Calculados */}
           <div className="flex flex-col gap-3">
             <label className="text-gray-600">Fórmula de Kirpich (h):</label>
             <input type="text" value={resultValues.kirpich} readOnly className="w-full p-2 border border-gray-300 rounded-lg bg-gray-100" />
-
             <label className="text-gray-600">Fórmula Californiana del U.S.B.R (h):</label>
             <input type="text" value={resultValues.california} readOnly className="w-full p-2 border border-gray-300 rounded-lg bg-gray-100" />
-
             <label className="text-gray-600">Fórmula de Giandotti (h):</label>
             <input type="text" value={resultValues.giandotti} readOnly className="w-full p-2 border border-gray-300 rounded-lg bg-gray-100" />
-
             <label className="text-gray-600">Fórmula de Témez (h):</label>
             <input type="text" value={resultValues.temez} readOnly className="w-full p-2 border border-gray-300 rounded-lg bg-gray-100" />
-
             <label className="text-gray-600">Tiempo de Concentración Definitivo (h):</label>
             <input type="text" value={resultValues.tiempoConcentracion} readOnly className="w-full p-2 border border-gray-300 rounded-lg bg-gray-100" />
           </div>
@@ -308,12 +326,10 @@ const EfectoPrecipitacion = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 bg-white border border-gray-300 rounded-lg shadow-md max-w-5xl mx-auto">
-
+      <div className="grid grid-cols-1 gap-6 p-6 bg-white border border-gray-300 rounded-lg shadow-md max-w-5xl mx-auto">
         {/* Sección de Parámetros */}
         <div className="p-4 bg-gray-50 rounded-lg shadow">
           <h2 className="text-lg font-semibold text-gray-700 mb-4">Parámetros para la Construcción del Hidrograma</h2>
-
           {/* Entradas de Parámetros */}
           <div className="flex flex-col gap-4">
             <label className="text-gray-600">Tiempo de Retraso tr (h):</label>
@@ -323,7 +339,6 @@ const EfectoPrecipitacion = () => {
               readOnly
               className="w-full p-2 border border-gray-300 rounded-lg bg-gray-100"
             />
-
             <label className="text-gray-600">Tiempo Pico tp (h):</label>
             <input
               type="text"
@@ -331,7 +346,6 @@ const EfectoPrecipitacion = () => {
               readOnly
               className="w-full p-2 border border-gray-300 rounded-lg bg-gray-100"
             />
-
             <label className="text-gray-600">Tiempo Base tb (h):</label>
             <input
               type="text"
@@ -339,7 +353,6 @@ const EfectoPrecipitacion = () => {
               readOnly
               className="w-full p-2 border border-gray-300 rounded-lg bg-gray-100"
             />
-
             <label className="text-gray-600">Caudal Pico Qp (m³/s):</label>
             <input
               type="text"
@@ -348,7 +361,6 @@ const EfectoPrecipitacion = () => {
               className="w-full p-2 border border-gray-300 rounded-lg bg-gray-100"
             />
           </div>
-
           {/* Botón de Graficar */}
           <button
             onClick={graficarHidrogramas}
@@ -358,24 +370,26 @@ const EfectoPrecipitacion = () => {
           </button>
         </div>
 
-        {/* Sección del Gráfico */}
-        <div className="p-4 bg-white rounded-lg shadow">
+        {/* Sección de Gráficos */}
+        <div className="p-4">
           {chartData ? (
-            <div>
-              <h3 className="text-lg font-semibold text-gray-700 mb-4 text-center">Hidrograma Triangular</h3>
-              <Line data={chartData} />
+            <div className="grid grid-cols-1 gap-6">
+              <div className="p-4 bg-white rounded-lg shadow">
+                <h3 className="text-lg font-semibold text-gray-700 mb-4 text-center">Hidrograma Triangular</h3>
+                <Line data={chartData.triangular} />
+              </div>
+              <div className="p-4 bg-white rounded-lg shadow">
+                <h3 className="text-lg font-semibold text-gray-700 mb-4 text-center">Hidrograma SCS</h3>
+                <Line data={chartData.scs} />
+              </div>
             </div>
           ) : (
             <p className="text-center text-gray-500">No hay datos para graficar.</p>
           )}
         </div>
-
       </div>
-
     </div>
   );
 };
-
-
 
 export default EfectoPrecipitacion;

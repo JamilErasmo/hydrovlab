@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
+
 const Experimento5 = () => {
   const [inputs, setInputs] = useState({
     transmisividad: '',
@@ -13,6 +14,7 @@ const Experimento5 = () => {
 
   const [result, setResult] = useState(null);
   const [activeCalculation, setActiveCalculation] = useState('Q');
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,6 +29,7 @@ const Experimento5 = () => {
   const calculateQ_Exp5 = () => {
     const { transmisividad, almacenamiento, abatimiento, tiempo, distancia } = inputs;
     if (transmisividad && almacenamiento && abatimiento && tiempo && distancia) {
+      setError('');
       const T = parseFloat(transmisividad);
       const S = parseFloat(almacenamiento);
       const s = parseFloat(abatimiento);
@@ -37,13 +40,15 @@ const Experimento5 = () => {
       const Q = (4 * Math.PI * T * s) / W;
       setResult({ Q: parseFloat(Q.toFixed(2)) });
     } else {
-      alert("Por favor, complete todos los campos para calcular el caudal de extracción (Q).");
+      setError("Por favor, complete todos los campos para calcular el caudal de extracción (Q).");
+      return;
     }
   };
 
   const calculateZ_Exp5 = () => {
     const { Q, transmisividad, almacenamiento, tiempo, distancia } = inputs;
     if (Q && transmisividad && almacenamiento && tiempo && distancia) {
+      setError('');
       const T = parseFloat(transmisividad);
       const S = parseFloat(almacenamiento);
       const Qval = parseFloat(Q);
@@ -54,7 +59,8 @@ const Experimento5 = () => {
       const s = (Qval / (4 * Math.PI * T)) * W;
       setResult({ s: parseFloat(s.toFixed(2)) });
     } else {
-      alert("Por favor, complete todos los campos para calcular el abatimiento (Z).");
+      setError("Por favor, complete todos los campos para calcular el abatimiento (Z).");
+      return;
     }
   };
 
@@ -68,9 +74,11 @@ const Experimento5 = () => {
       Q: '',
     });
     setResult(null);
+    setError('');
   };
 
   const loadExample = () => {
+    setError('');
     if (activeCalculation === 'Q') {
       setInputs({
         transmisividad: '752',
@@ -94,7 +102,7 @@ const Experimento5 = () => {
 
   return (
     <div className='py-10'>
-            <BackButton />
+      <BackButton />
       <div className="max-w-lg mx-auto p-6 bg-white shadow-lg rounded-lg">
         {/* Título */}
         <h2 className="text-center text-2xl font-bold text-blue-700 mb-6">
@@ -104,16 +112,22 @@ const Experimento5 = () => {
         {/* Botones de Selección */}
         <div className="flex justify-center gap-4 mb-6">
           <button
-            onClick={() => setActiveCalculation('Q')}
-            className={`px-4 py-2 rounded-md font-medium transition-all ${activeCalculation === 'Q' ? 'bg-blue-700 text-white' : 'bg-gray-400 text-white'
-              }`}
+            onClick={() => {
+              setActiveCalculation('Q');
+              setResult(null);
+              setError('');
+            }}
+            className={`px-4 py-2 rounded-md font-medium transition-all ${activeCalculation === 'Q' ? 'bg-blue-700 text-white' : 'bg-gray-400 text-white'}`}
           >
             Determinar Q
           </button>
           <button
-            onClick={() => setActiveCalculation('Z')}
-            className={`px-4 py-2 rounded-md font-medium transition-all ${activeCalculation === 'Z' ? 'bg-blue-700 text-white' : 'bg-gray-400 text-white'
-              }`}
+            onClick={() => {
+              setActiveCalculation('Z');
+              setResult(null);
+              setError('');
+            }}
+            className={`px-4 py-2 rounded-md font-medium transition-all ${activeCalculation === 'Z' ? 'bg-blue-700 text-white' : 'bg-gray-400 text-white'}`}
           >
             Determinar Z
           </button>
@@ -160,28 +174,34 @@ const Experimento5 = () => {
 
         {/* Botones de Acción */}
         <div className="flex justify-center gap-4 mb-6">
-          <button onClick={activeCalculation === 'Q' ? calculateQ_Exp5 : calculateZ_Exp5}
+          <button
+            onClick={activeCalculation === 'Q' ? calculateQ_Exp5 : calculateZ_Exp5}
             className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md transition-all"
           >
             Calcular
           </button>
 
-          <button onClick={clearFields}
+          <button
+            onClick={clearFields}
             className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md transition-all"
           >
             Limpiar
           </button>
 
-          <button onClick={loadExample}
+          <button
+            onClick={loadExample}
             className="bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded-md transition-all"
           >
             Ejemplo
           </button>
         </div>
 
+        {/* Mensaje de Error */}
+        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+
         {/* Resultado */}
         {result && (
-          <div className="bg-gray-100 border-l-4 border-blue-500 p-4 rounded-md text-center">
+          <div className="bg-gray-100 border-l-4 border-blue-500 p-4 rounded-md text-center shadow-md">
             <h3 className="font-bold text-blue-700">Resultado:</h3>
             {activeCalculation === 'Q' ? (
               <p className="text-lg"><strong>Caudal de extracción (Q):</strong> {result.Q} m³/día</p>
@@ -192,8 +212,6 @@ const Experimento5 = () => {
         )}
       </div>
     </div>
-
-
   );
 };
 

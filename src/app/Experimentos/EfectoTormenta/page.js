@@ -1,6 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
 'use client'
 import React, { useState } from 'react';
-
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
@@ -51,12 +52,16 @@ const EfectoPrecipitacion = () => {
     caudalPico: '',
   });
   const [chartData, setChartData] = useState(null);
+  // Estado para mensajes de error
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     setInputValues({
       ...inputValues,
       [e.target.name]: e.target.value,
     });
+    // Limpiar mensaje de error al modificar algún valor
+    setError('');
   };
 
   const roundToThree = (num) => {
@@ -70,10 +75,10 @@ const EfectoPrecipitacion = () => {
     const J = parseFloat(pendienteMedia);
 
     if (isNaN(A) || isNaN(L) || isNaN(J)) {
-      alert('Por favor, ingrese valores numéricos válidos.');
+      setError('Por favor, ingrese valores numéricos válidos.');
       return;
     }
-
+    setError('');
     const kirpich = (3.97 * Math.pow(L, 0.77) * Math.pow(J, -0.385)) / 60;
     const california = 0.066 * Math.pow(L / Math.pow(J, 0.5), 0.77);
     const giandotti = (4 * Math.sqrt(A) + 1.5 * L) / (25.3 * Math.sqrt(J * L));
@@ -100,12 +105,12 @@ const EfectoPrecipitacion = () => {
     const Tc = parseFloat(resultValues.tiempoConcentracion);
 
     if (isNaN(A) || isNaN(Tc)) {
-      alert('Por favor, asegúrese de que todos los valores de entrada y el tiempo de concentración sean válidos.');
+      setError('Por favor, asegúrese de que todos los valores de entrada y el tiempo de concentración sean válidos.');
       return;
     }
-
+    setError('');
     const tr = 0.6 * Tc;
-    const tp = inputValues.duracionEfectiva / 2 + tr;
+    const tp = parseFloat(inputValues.duracionEfectiva) / 2 + tr;
     const tb = 2.67 * tp;
     const qp = (0.208 * A) / tp;
     const Qpico = qp * parseFloat(inputValues.precipitacionEfectiva);
@@ -158,6 +163,7 @@ const EfectoPrecipitacion = () => {
       caudalPico: '',
     });
     setChartData(null);
+    setError('');
   };
 
   const clearFields = () => {
@@ -182,26 +188,24 @@ const EfectoPrecipitacion = () => {
       caudalPico: '',
     });
     setChartData(null);
+    setError('');
   };
 
   return (
     <div className="container mx-auto max-w-3xl p-4">
-            <BackButton />
+      <BackButton />
+
       {/* Contenedor Principal */}
       <div className="bg-white p-6 shadow-md rounded-lg border border-gray-300">
-
-        {/* Encabezado */}
         <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">
           Efecto de la precipitación efectiva en la tormenta
         </h2>
 
         {/* Sección de Entrada de Datos y Resultados */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-          {/* Sección de Entrada de Datos */}
+          {/* Entrada de Datos */}
           <div className="bg-gray-50 p-6 rounded-lg shadow">
             <h3 className="text-xl font-semibold text-gray-800 mb-4">Entrada de Datos</h3>
-
             <div className="space-y-4">
               {[
                 { label: "Área de la Cuenca (km²):", name: "areaCuenca", value: inputValues.areaCuenca },
@@ -240,7 +244,6 @@ const EfectoPrecipitacion = () => {
                 <CalculateIcon className="mr-2" />
                 Ejemplo
               </button>
-
               <button
                 onClick={clearFields}
                 className="flex items-center px-5 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition"
@@ -249,12 +252,14 @@ const EfectoPrecipitacion = () => {
                 Limpiar
               </button>
             </div>
+
+            {/* Mensaje de Error */}
+            {error && <p className="text-red-500 text-center mt-4">{error}</p>}
           </div>
 
-          {/* Sección de Resultados */}
+          {/* Resultados */}
           <div className="bg-white p-6 rounded-lg shadow">
             <h3 className="text-xl font-semibold text-gray-800 mb-4">Resultados</h3>
-
             <div className="space-y-4">
               {[
                 { label: "Fórmula de Kirpich (h):", value: resultValues.kirpich },
@@ -276,18 +281,15 @@ const EfectoPrecipitacion = () => {
             </div>
           </div>
         </div>
-
       </div>
 
-      {/* Contenedor Principal */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 shadow-md rounded-lg border border-gray-300">
-
-        {/* Sección de Parámetros */}
+      {/* Sección de Parámetros y Gráficas */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 border border-gray-300 rounded-lg shadow-md max-w-5xl mx-auto mt-6">
+        {/* Parámetros */}
         <div className="bg-gray-50 p-6 rounded-lg shadow">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">
             Parámetros para la Construcción del Hidrograma
           </h2>
-
           <div className="space-y-4">
             {[
               { label: "Tiempo de Retraso tr (h):", value: hidrogramaValues.tiempoRetraso },
@@ -306,8 +308,6 @@ const EfectoPrecipitacion = () => {
               </div>
             ))}
           </div>
-
-          {/* Botón para Graficar */}
           <button
             onClick={graficarHidrogramas}
             className="mt-6 w-full px-5 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
@@ -316,22 +316,20 @@ const EfectoPrecipitacion = () => {
           </button>
         </div>
 
-        {/* Sección de Gráfico */}
+        {/* Gráfica */}
         <div className="bg-white p-6 rounded-lg shadow">
-          {chartData && (
+          {chartData ? (
             <div>
-              <h3 className="text-lg font-semibold text-gray-700 mb-2">Hidrograma Triangular</h3>
+              <h3 className="text-lg font-semibold text-gray-700 mb-4 text-center">Hidrograma Triangular</h3>
               <Line data={chartData} />
             </div>
+          ) : (
+            <p className="text-center text-gray-500">No hay datos para graficar.</p>
           )}
         </div>
-
       </div>
-
     </div>
   );
 };
-
-// Barra de navegación
 
 export default EfectoPrecipitacion;

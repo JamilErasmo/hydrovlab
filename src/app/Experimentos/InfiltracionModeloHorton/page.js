@@ -13,6 +13,7 @@ const ExperimentoInfiltracion = () => {
     const [volumen, setVolumen] = useState(null);
     const [graficaVisible, setGraficaVisible] = useState(false);
     const [nuevoTiempo, setNuevoTiempo] = useState('');
+    const [error, setError] = useState('');
 
     const cargarEjemplo = () => {
         setFo(4.5);
@@ -23,6 +24,7 @@ const ExperimentoInfiltracion = () => {
         setInfiltraciones([4.27, 3.84, 3.29, 2.44, 0.9]);
         setVolumen(null);
         setGraficaVisible(false);
+        setError('');
     };
 
     const limpiarCampos = () => {
@@ -35,19 +37,19 @@ const ExperimentoInfiltracion = () => {
         setVolumen(null);
         setGraficaVisible(false);
         setNuevoTiempo('');
+        setError('');
     };
 
     const agregarTiempo = () => {
         if (!nuevoTiempo || !fo || !fc || !k || !numDatos) {
-            alert('Por favor, ingresa todos los datos necesarios.');
+            setError('Por favor, ingresa todos los datos necesarios.');
             return;
         }
-
-        if (tiempos.length >= numDatos) {
-            alert('Ya se han ingresado el número de datos especificados.');
+        if (tiempos.length >= parseInt(numDatos)) {
+            setError('Ya se han ingresado el número de datos especificados.');
             return;
         }
-
+        setError('');
         const t = parseFloat(nuevoTiempo);
         const f = parseFloat(fc) + (parseFloat(fo) - parseFloat(fc)) * Math.exp(-parseFloat(k) * t);
         setTiempos((prev) => [...prev, t]);
@@ -57,17 +59,16 @@ const ExperimentoInfiltracion = () => {
 
     const calcularVolumen = () => {
         if (tiempos.length !== parseInt(numDatos) || infiltraciones.length !== parseInt(numDatos)) {
-            alert('Por favor, asegúrate de que se hayan ingresado todos los datos necesarios.');
+            setError('Por favor, asegúrate de que se hayan ingresado todos los datos necesarios.');
             return;
         }
-
+        setError('');
         let area = 0;
         for (let i = 0; i < tiempos.length - 1; i++) {
             const base = tiempos[i + 1] - tiempos[i];
             const altura = (infiltraciones[i] + infiltraciones[i + 1]) / 2;
             area += base * altura;
         }
-
         setVolumen(area.toFixed(2));
         setGraficaVisible(true); // Mostrar la gráfica al calcular
     };
@@ -88,16 +89,13 @@ const ExperimentoInfiltracion = () => {
         <div className="container mx-auto max-w-3xl p-4">
             {/* Contenedor Principal */}
             <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300 mt-6">
-            <BackButton />
-
+                <BackButton />
                 {/* Título */}
                 <h1 className="text-2xl font-bold text-blue-700 text-center uppercase tracking-wide">
                     Experimento de Infiltración
                 </h1>
-
                 {/* Subtítulo */}
                 <h3 className="text-xl font-semibold text-gray-800 mt-4 mb-4">Datos de Entrada</h3>
-
                 {/* Campos de Entrada */}
                 <div className="space-y-4">
                     {[
@@ -118,7 +116,6 @@ const ExperimentoInfiltracion = () => {
                         </div>
                     ))}
                 </div>
-
                 {/* Botón de Agregar Tiempo */}
                 <button
                     onClick={agregarTiempo}
@@ -126,13 +123,9 @@ const ExperimentoInfiltracion = () => {
                 >
                     Agregar Tiempo
                 </button>
-
             </div>
-
-
             {/* Contenedor de Botones */}
             <div className="mt-6 flex justify-center gap-4">
-
                 {/* Botón de Ejemplo */}
                 <button
                     onClick={cargarEjemplo}
@@ -140,7 +133,6 @@ const ExperimentoInfiltracion = () => {
                 >
                     Ejemplo
                 </button>
-
                 {/* Botón de Calcular */}
                 <button
                     onClick={calcularVolumen}
@@ -148,7 +140,6 @@ const ExperimentoInfiltracion = () => {
                 >
                     Calcular
                 </button>
-
                 {/* Botón de Limpiar */}
                 <button
                     onClick={limpiarCampos}
@@ -156,22 +147,18 @@ const ExperimentoInfiltracion = () => {
                 >
                     Limpiar
                 </button>
-
             </div>
-
-
+            {/* Mensaje de Error */}
+            {error && <p className="text-red-500 text-center mt-4">{error}</p>}
             {/* Contenedor Principal */}
             <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300 mt-6">
-
                 {/* Título */}
                 <h3 className="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Resultados</h3>
-
                 {/* Volumen de Infiltración */}
                 <p className="text-lg font-medium text-gray-700">
                     <strong className="text-blue-700">Volumen de Infiltración:</strong>
                     <span className="font-bold">{volumen ? `${volumen} pulg³` : ' Sin calcular'}</span>
                 </p>
-
                 {/* Sección de Tiempos Ingresados */}
                 <h4 className="text-lg font-semibold text-gray-800 mt-4">Tiempos Ingresados:</h4>
                 <div className="bg-gray-100 p-3 rounded-lg shadow-sm">
@@ -183,7 +170,6 @@ const ExperimentoInfiltracion = () => {
                         <p className="text-gray-500 ml-4">Sin datos</p>
                     )}
                 </div>
-
                 {/* Sección de Infiltraciones Calculadas */}
                 <h4 className="text-lg font-semibold text-gray-800 mt-4">Infiltraciones Calculadas:</h4>
                 <div className="bg-gray-100 p-3 rounded-lg shadow-sm">
@@ -195,17 +181,13 @@ const ExperimentoInfiltracion = () => {
                         <p className="text-gray-500 ml-4">Sin datos</p>
                     )}
                 </div>
-
             </div>
-
             {graficaVisible && (
                 <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300 mt-6 flex flex-col items-center">
-
                     {/* Título Centrado */}
                     <h3 className="text-xl font-semibold text-gray-800 mb-4 text-center">
                         Gráfica del Volumen de Infiltración
                     </h3>
-
                     {/* Contenedor de la Gráfica Centrada */}
                     <div className="w-full flex justify-center">
                         <Chart
@@ -217,11 +199,8 @@ const ExperimentoInfiltracion = () => {
                             className="max-w-3xl w-full"
                         />
                     </div>
-
                 </div>
             )}
-
-
         </div>
     );
 };

@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
+
 const ExperimentoSaturacion = () => {
     const [conductividad, setConductividad] = useState('');
     const [seccion, setSeccion] = useState('');
@@ -10,6 +11,7 @@ const ExperimentoSaturacion = () => {
     const [infiltracionAcumulada, setInfiltracionAcumulada] = useState(null);
     const [adsorcion, setAdsorcion] = useState(null);
     const [infiltracion, setInfiltracion] = useState(null);
+    const [error, setError] = useState('');
 
     const cargarEjemplo = () => {
         setConductividad(0.4);
@@ -20,6 +22,7 @@ const ExperimentoSaturacion = () => {
         setInfiltracionAcumulada(null);
         setAdsorcion(null);
         setInfiltracion(null);
+        setError('');
     };
 
     const limpiarCampos = () => {
@@ -31,14 +34,15 @@ const ExperimentoSaturacion = () => {
         setInfiltracionAcumulada(null);
         setAdsorcion(null);
         setInfiltracion(null);
+        setError('');
     };
 
     const calcularResultados = () => {
         if (!conductividad || !seccion || !volumenAgua || !tiempoAplicado || !tiempoSaturacion) {
-            alert('Por favor, asegúrate de ingresar todos los datos necesarios.');
+            setError('Por favor, asegúrate de ingresar todos los datos necesarios.');
             return;
         }
-
+        setError('');
         const VolAg = parseFloat(volumenAgua);
         const AreaSecT = parseFloat(seccion);
         const TSat = parseFloat(tiempoSaturacion);
@@ -47,7 +51,7 @@ const ExperimentoSaturacion = () => {
 
         const infilAcum = (VolAg / AreaSecT).toFixed(3);
         const ads = (infilAcum / Math.sqrt(TSat)).toFixed(3);
-        const infil = (((ads * Math.sqrt(TApli)) + (k * TApli)).toFixed(3));
+        const infil = ((ads * Math.sqrt(TApli)) + (k * TApli)).toFixed(3);
 
         setInfiltracionAcumulada(infilAcum);
         setAdsorcion(ads);
@@ -138,23 +142,24 @@ const ExperimentoSaturacion = () => {
                 </button>
             </div>
 
+            {/* Mensaje de Error */}
+            {error && <p className="text-red-500 text-center mt-4">{error}</p>}
 
             <div className="mt-6 p-6 bg-white rounded-lg shadow-md border border-gray-300">
                 <h3 className="text-xl font-semibold text-gray-700 mb-4">Resultados</h3>
 
                 <p className="text-gray-800">
-                    <strong>Infiltración Acumulada:</strong> {infiltracionAcumulada ? `${infiltracionAcumulada} cm` : 'N/A'}
+                    <strong>Infiltración Acumulada:</strong> {infiltracionAcumulada ? `${infiltracionAcumulada} cm` : ''}
                 </p>
 
                 <p className="text-gray-800">
-                    <strong>Adsorción:</strong> {adsorcion ? `${adsorcion} cm-h⁻¹⁺⁵` : 'N/A'}
+                    <strong>Adsorción:</strong> {adsorcion ? `${adsorcion} cm-h⁻¹⁺⁵` : ''}
                 </p>
 
                 <p className="text-gray-800">
-                    <strong>Infiltración:</strong> {infiltracion ? `${infiltracion} cm` : 'N/A'}
+                    <strong>Infiltración:</strong> {infiltracion ? `${infiltracion} cm` : ''}
                 </p>
             </div>
-
         </div>
     );
 };

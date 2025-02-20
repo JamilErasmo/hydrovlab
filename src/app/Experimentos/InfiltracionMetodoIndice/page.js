@@ -19,6 +19,7 @@ const HidrogramaExperimento = () => {
     const [indiceFi, setIndiceFi] = useState(null);
     const [checkTiempo, setCheckTiempo] = useState(false);
     const [altura, setAltura] = useState('');
+    const [error, setError] = useState('');
 
     const cargarEjemplo = () => {
         setAreaCuenca(36);
@@ -36,6 +37,7 @@ const HidrogramaExperimento = () => {
         setHpe(null);
         setIndiceFi(null);
         setCheckTiempo(true);
+        setError('');
     };
 
     const limpiarCampos = () => {
@@ -55,36 +57,47 @@ const HidrogramaExperimento = () => {
         setIndiceFi(null);
         setCheckTiempo(false);
         setAltura('');
+        setError('');
     };
 
     const generarIntervalosConCheckbox = () => {
         if (!intervalosTiempo || !numDatos) {
-            alert('Por favor, completa los campos de intervalos de tiempo y número de datos.');
+            setError('Por favor, completa los campos de intervalos de tiempo y número de datos.');
             setCheckTiempo(false);
             return;
         }
-
+        setError('');
         const intervalos = Array.from({ length: parseInt(numDatos) }, (_, i) => (i + 1) * parseFloat(intervalosTiempo));
         setListX(intervalos);
-        alert('Intervalos de tiempo generados. Ahora puedes agregar alturas.');
+        // Se omite el mensaje de éxito para mantener la consistencia.
     };
 
     const agregarAltura = () => {
         if (!altura || listY.length >= listX.length) {
-            alert('Ingresa una altura válida o verifica que no hayas excedido el número de datos.');
+            setError('Ingresa una altura válida o verifica que no hayas excedido el número de datos.');
             return;
         }
-
+        setError('');
         setListY([...listY, parseFloat(altura)]);
         setAltura('');
     };
 
     const calcularResultados = () => {
-        if (!areaCuenca || !numDatos || !picoX || !picoY || !p1X || !p1Y || !p2X || !p2Y || listY.length !== listX.length) {
-            alert('Asegúrate de ingresar todos los datos necesarios correctamente.');
+        if (
+            !areaCuenca ||
+            !numDatos ||
+            !picoX ||
+            !picoY ||
+            !p1X ||
+            !p1Y ||
+            !p2X ||
+            !p2Y ||
+            listY.length !== listX.length
+        ) {
+            setError('Asegúrate de ingresar todos los datos necesarios correctamente.');
             return;
         }
-
+        setError('');
         const p1x = parseFloat(p1X);
         const picox = parseFloat(picoX);
         const p2x = parseFloat(p2X);
@@ -95,7 +108,7 @@ const HidrogramaExperimento = () => {
 
         const a1 = (p1x * picoy) + (picox * p2y) + (p2x * p1y);
         const a2 = (p1y * picox) + (picoy * p2x) + (p2y * p1x);
-        const volumen = Math.abs(a1 - a2) / 2 * 3600;
+        const volumen = (Math.abs(a1 - a2) / 2) * 3600;
         const hpeCalc = (volumen / (Ac * 1000000)) * 1000;
 
         let fi = 0.1;
@@ -104,7 +117,6 @@ const HidrogramaExperimento = () => {
         const int = parseFloat(intervalosTiempo);
 
         do {
-            // eslint-disable-next-line no-loop-func
             inVecY = listY.map((y) => Math.max((y - fi) * int, 0));
             b3 = inVecY.reduce((sum, value) => sum + value, 0);
             fi += 0.001;
@@ -117,19 +129,13 @@ const HidrogramaExperimento = () => {
 
     return (
         <div className="container mx-auto max-w-3xl p-4">
-            {/* Contenedor Principal */}
             <div className="bg-white p-6 shadow-md rounded-lg border border-gray-300 mt-6">
-            <BackButton />
-
-                {/* Título Principal */}
+                <BackButton />
                 <h1 className="text-2xl font-bold text-gray-800 text-center mb-6">
                     Infiltración - Método Índice de Infiltración Media
                 </h1>
-
-                {/* Sección de Entrada de Datos */}
                 <div className="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-300 mb-6">
                     <h3 className="text-xl font-semibold text-gray-800 mb-4">Datos de Entrada</h3>
-
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {[
                             { label: "Área Cuenca (Km²):", value: areaCuenca, setter: setAreaCuenca },
@@ -147,11 +153,8 @@ const HidrogramaExperimento = () => {
                         ))}
                     </div>
                 </div>
-
-                {/* Sección de Coordenadas del Triángulo */}
                 <div className="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-300 mb-6">
                     <h3 className="text-xl font-semibold text-gray-800 mb-4">Coordenadas del Triángulo</h3>
-
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {[
                             { label: "Pico X:", value: picoX, setter: setPicoX },
@@ -173,11 +176,8 @@ const HidrogramaExperimento = () => {
                         ))}
                     </div>
                 </div>
-
-                {/* Sección del Hietograma */}
                 <div className="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-300 mb-6">
                     <h3 className="text-xl font-semibold text-gray-800 mb-4">Hietograma</h3>
-
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="flex flex-col">
                             <label className="text-gray-700 font-medium">Intervalos de Tiempo (Horas):</label>
@@ -188,7 +188,6 @@ const HidrogramaExperimento = () => {
                                 className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
                             />
                         </div>
-
                         <div className="flex items-center gap-3">
                             <input
                                 type="checkbox"
@@ -202,8 +201,6 @@ const HidrogramaExperimento = () => {
                             <label className="text-gray-700 font-medium">Generar Intervalos de Tiempo</label>
                         </div>
                     </div>
-
-                    {/* Altura del Hietograma */}
                     <div className="mt-4 flex flex-col">
                         <label className="text-gray-700 font-medium">Altura HP Hietograma (mm):</label>
                         <div className="flex gap-3">
@@ -221,16 +218,12 @@ const HidrogramaExperimento = () => {
                             </button>
                         </div>
                     </div>
-
-                    {/* Lista del Hietograma */}
                     <ul className="mt-4 list-disc pl-5 text-gray-700">
                         {listX.map((x, i) => (
                             <li key={i}>Tiempo: {x} horas - Altura: {listY[i] || 'Pendiente'} mm</li>
                         ))}
                     </ul>
                 </div>
-
-                {/* Botones de Acción */}
                 <div className="flex justify-center gap-4">
                     <button
                         onClick={cargarEjemplo}
@@ -238,14 +231,12 @@ const HidrogramaExperimento = () => {
                     >
                         Cargar Ejemplo
                     </button>
-
                     <button
                         onClick={calcularResultados}
                         className="px-5 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition"
                     >
                         Calcular
                     </button>
-
                     <button
                         onClick={limpiarCampos}
                         className="px-5 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition"
@@ -253,17 +244,20 @@ const HidrogramaExperimento = () => {
                         Limpiar
                     </button>
                 </div>
-
-                {/* Sección de Resultados */}
+                {error && <p className="text-red-500 text-center mt-4">{error}</p>}
                 <div className="mt-6 p-6 bg-gray-50 rounded-lg shadow-md border border-gray-300 text-center">
-                    <h3 className="text-xl font-semibold text-gray-800 mb-4">Resultados</h3>
-                    <p className="text-lg font-medium text-gray-700">Volumen de Escurrimiento Directo: <span className="font-bold text-blue-700">{volumenEscurrimientoDirecto || 'Sin calcular'}</span></p>
-                    <p className="text-lg font-medium text-gray-700">HPE: <span className="font-bold text-blue-700">{hpe || 'Sin calcular'}</span> mm</p>
-                    <p className="text-lg font-medium text-gray-700">Índice Fi: <span className="font-bold text-blue-700">{indiceFi || 'Sin calcular'}</span> mm</p>
+                    <h3 className="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Resultados</h3>
+                    <p className="text-lg font-medium text-gray-700">
+                        Volumen de Escurrimiento Directo: <span className="font-bold text-blue-700">{volumenEscurrimientoDirecto || ''}</span>
+                    </p>
+                    <p className="text-lg font-medium text-gray-700">
+                        HPE: <span className="font-bold text-blue-700">{hpe || ''}</span> mm
+                    </p>
+                    <p className="text-lg font-medium text-gray-700">
+                        Índice Fi: <span className="font-bold text-blue-700">{indiceFi || ''}</span> mm
+                    </p>
                 </div>
-
             </div>
-
         </div>
     );
 };

@@ -16,6 +16,7 @@ const MetodoDupuit = () => {
 
     const [result, setResult] = useState(null);
     const [activeCalculation, setActiveCalculation] = useState('Q');
+    const [error, setError] = useState('');
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -26,6 +27,7 @@ const MetodoDupuit = () => {
         const { nivelFreatico, transmisividad, descenso1, descenso2, distancia1, distancia2 } = inputs;
 
         if (nivelFreatico && transmisividad && descenso1 && descenso2 && distancia1 && distancia2) {
+            setError('');
             const T = parseFloat(transmisividad);
             const Ho = parseFloat(nivelFreatico);
             const k = T / Ho;
@@ -35,12 +37,12 @@ const MetodoDupuit = () => {
             const r2 = parseFloat(distancia2);
 
             const lnR = Math.log(r2 / r1);
-
             const Q = (Math.PI * k * (Math.pow(h2, 2) - Math.pow(h1, 2))) / lnR;
 
             setResult({ Q: parseFloat(Q.toFixed(2)) });
         } else {
-            alert('Por favor, complete todos los campos para calcular el caudal.');
+            setError('Por favor, complete todos los campos para calcular el caudal.');
+            return;
         }
     };
 
@@ -48,6 +50,7 @@ const MetodoDupuit = () => {
         const { nivelFreatico, transmisividad, caudal, radioPozo, distancia1, distancia2 } = inputs;
 
         if (nivelFreatico && transmisividad && caudal && radioPozo && distancia1 && distancia2) {
+            setError('');
             const hf = parseFloat(nivelFreatico);
             const Q = parseFloat(caudal);
             const T = parseFloat(transmisividad);
@@ -69,7 +72,8 @@ const MetodoDupuit = () => {
                 ZPozoObservacion1: parseFloat(ZPozoObservacion1.toFixed(2))
             });
         } else {
-            alert('Por favor, complete todos los campos para calcular el abatimiento.');
+            setError('Por favor, complete todos los campos para calcular el abatimiento.');
+            return;
         }
     };
 
@@ -77,6 +81,7 @@ const MetodoDupuit = () => {
         const { nivelFreatico, descenso1, descenso2, distancia1, distancia2, caudal } = inputs;
 
         if (nivelFreatico && descenso1 && descenso2 && distancia1 && distancia2 && caudal) {
+            setError('');
             const Ho = parseFloat(nivelFreatico);
             const d1 = parseFloat(descenso1);
             const d2 = parseFloat(descenso2);
@@ -85,13 +90,13 @@ const MetodoDupuit = () => {
             const Q = parseFloat(caudal);
 
             const lnR = Math.log(r2 / r1);
-
             // Invirtiendo el orden de la resta para obtener un valor positivo
             const K = (Q * lnR) / (Math.PI * (Math.pow(Ho - d2, 2) - Math.pow(Ho - d1, 2)));
 
             setResult({ K: parseFloat(K.toFixed(2)) });
         } else {
-            alert('Por favor, complete todos los campos para calcular la conductividad hidráulica.');
+            setError('Por favor, complete todos los campos para calcular la conductividad hidráulica.');
+            return;
         }
     };
 
@@ -100,6 +105,7 @@ const MetodoDupuit = () => {
         const { nivelFreatico, transmisividad, descenso1, distancia1, caudal } = inputs;
 
         if (nivelFreatico && transmisividad && descenso1 && distancia1 && caudal) {
+            setError('');
             const T = parseFloat(transmisividad);
             const Ho = parseFloat(nivelFreatico);
             // Usamos la distancia al pozo de observación 1 para obtener el resultado deseado.
@@ -117,7 +123,8 @@ const MetodoDupuit = () => {
 
             setResult({ R: parseFloat(R.toFixed(2)) });
         } else {
-            alert('Por favor, complete todos los campos para calcular el radio de influencia.');
+            setError('Por favor, complete todos los campos para calcular el radio de influencia.');
+            return;
         }
     };
 
@@ -133,9 +140,11 @@ const MetodoDupuit = () => {
             caudal: '',
         });
         setResult(null);
+        setError('');
     };
 
     const loadExample = () => {
+        setError('');
         if (activeCalculation === 'Q') {
             setInputs({
                 nivelFreatico: '12',
@@ -144,6 +153,7 @@ const MetodoDupuit = () => {
                 descenso2: '2',
                 distancia1: '100',
                 distancia2: '390',
+                caudal: '',
             });
         } else if (activeCalculation === 'Z') {
             setInputs({
@@ -164,6 +174,7 @@ const MetodoDupuit = () => {
                 distancia1: '110',
                 distancia2: '290',
                 caudal: '260',
+                transmisividad: '',
             });
         } else if (activeCalculation === 'R') {
             setInputs({
@@ -181,40 +192,52 @@ const MetodoDupuit = () => {
 
     return (
         <div className='py-10'>
-                  <BackButton />
+            <BackButton />
             <h2 className="text-2xl font-bold text-blue-700 text-center uppercase tracking-wide">
                 Método de Dupuit: Con Pozos de Observación
             </h2>
             <div className='py-10'>
                 <div className="flex justify-center flex-wrap gap-4 mb-6">
                     <button
-                        onClick={() => setActiveCalculation('Q')}
-                        className={`px-4 py-2 rounded-lg font-medium transition-all ${activeCalculation === 'Q' ? 'bg-blue-700 text-white shadow-md' : 'bg-gray-400 text-white hover:bg-gray-500'
-                            }`}
+                        onClick={() => {
+                            setActiveCalculation('Q');
+                            setError('');
+                            setResult(null);
+                        }}
+                        className={`px-4 py-2 rounded-lg font-medium transition-all ${activeCalculation === 'Q' ? 'bg-blue-700 text-white shadow-md' : 'bg-gray-400 text-white hover:bg-gray-500'}`}
                     >
                         Determinar Q
                     </button>
 
                     <button
-                        onClick={() => setActiveCalculation('Z')}
-                        className={`px-4 py-2 rounded-lg font-medium transition-all ${activeCalculation === 'Z' ? 'bg-blue-700 text-white shadow-md' : 'bg-gray-400 text-white hover:bg-gray-500'
-                            }`}
+                        onClick={() => {
+                            setActiveCalculation('Z');
+                            setError('');
+                            setResult(null);
+                        }}
+                        className={`px-4 py-2 rounded-lg font-medium transition-all ${activeCalculation === 'Z' ? 'bg-blue-700 text-white shadow-md' : 'bg-gray-400 text-white hover:bg-gray-500'}`}
                     >
                         Determinar Z
                     </button>
 
                     <button
-                        onClick={() => setActiveCalculation('K')}
-                        className={`px-4 py-2 rounded-lg font-medium transition-all ${activeCalculation === 'K' ? 'bg-blue-700 text-white shadow-md' : 'bg-gray-400 text-white hover:bg-gray-500'
-                            }`}
+                        onClick={() => {
+                            setActiveCalculation('K');
+                            setError('');
+                            setResult(null);
+                        }}
+                        className={`px-4 py-2 rounded-lg font-medium transition-all ${activeCalculation === 'K' ? 'bg-blue-700 text-white shadow-md' : 'bg-gray-400 text-white hover:bg-gray-500'}`}
                     >
                         Determinar K
                     </button>
 
                     <button
-                        onClick={() => setActiveCalculation('R')}
-                        className={`px-4 py-2 rounded-lg font-medium transition-all ${activeCalculation === 'R' ? 'bg-blue-700 text-white shadow-md' : 'bg-gray-400 text-white hover:bg-gray-500'
-                            }`}
+                        onClick={() => {
+                            setActiveCalculation('R');
+                            setError('');
+                            setResult(null);
+                        }}
+                        className={`px-4 py-2 rounded-lg font-medium transition-all ${activeCalculation === 'R' ? 'bg-blue-700 text-white shadow-md' : 'bg-gray-400 text-white hover:bg-gray-500'}`}
                     >
                         Determinar R
                     </button>
@@ -225,7 +248,6 @@ const MetodoDupuit = () => {
                 {activeCalculation === 'Q' && (
                     <div className="flex flex-col space-y-4 bg-gray-100 p-6 rounded-lg shadow-lg max-w-lg mx-auto">
                         <h2 className="text-lg font-bold text-center text-blue-700">Datos de Entrada</h2>
-
                         <label className="font-medium">Nivel freático original (m):</label>
                         <input
                             type="number"
@@ -284,7 +306,6 @@ const MetodoDupuit = () => {
                 {activeCalculation === 'Z' && (
                     <div className="flex flex-col space-y-4 bg-gray-100 p-6 rounded-lg shadow-lg max-w-lg mx-auto">
                         <h2 className="text-lg font-bold text-center text-blue-700">Datos de Entrada</h2>
-
                         <label className="font-medium">Nivel freático original (m):</label>
                         <input
                             type="number"
@@ -353,7 +374,6 @@ const MetodoDupuit = () => {
                 {activeCalculation === 'K' && (
                     <div className="flex flex-col space-y-4 bg-gray-100 p-6 rounded-lg shadow-lg max-w-lg mx-auto">
                         <h2 className="text-lg font-bold text-center text-blue-700">Datos de Entrada</h2>
-
                         <label className="font-medium">Nivel freático original (m):</label>
                         <input
                             type="number"
@@ -422,7 +442,6 @@ const MetodoDupuit = () => {
                 {activeCalculation === 'R' && (
                     <div className="flex flex-col space-y-4 bg-gray-100 p-6 rounded-lg shadow-lg max-w-lg mx-auto">
                         <h2 className="text-lg font-bold text-center text-blue-700">Datos de Entrada</h2>
-
                         <label className="font-medium">Nivel freático original (m):</label>
                         <input
                             type="number"
@@ -496,8 +515,11 @@ const MetodoDupuit = () => {
                         />
                     </div>
                 )}
-
             </div>
+
+            {/* Mensaje de error */}
+            {error && <p className="text-red-500 text-center mt-4">{error}</p>}
+
             <div className="flex justify-center space-x-4 mt-6">
                 <button
                     onClick={
@@ -533,13 +555,11 @@ const MetodoDupuit = () => {
             {result && (
                 <div className="mt-6 p-4 bg-gray-100 border border-gray-300 rounded-lg text-center shadow-md">
                     <h3 className="text-lg font-semibold text-blue-700">Resultado:</h3>
-
                     {activeCalculation === 'Q' && (
                         <p className="mt-2 text-gray-800 font-medium">
                             <span className="font-bold">Caudal:</span> {result.Q} m³/día
                         </p>
                     )}
-
                     {activeCalculation === 'Z' && (
                         <>
                             <p className="mt-2 text-gray-800 font-medium">
@@ -549,13 +569,11 @@ const MetodoDupuit = () => {
                             <p className="text-gray-700">Z (m) - Pozo de observación 1: {result.ZPozoObservacion1}</p>
                         </>
                     )}
-
                     {activeCalculation === 'K' && (
                         <p className="mt-2 text-gray-800 font-medium">
                             <span className="font-bold">Conductividad hidráulica:</span> {result.K} m/día
                         </p>
                     )}
-
                     {activeCalculation === 'R' && (
                         <p className="mt-2 text-gray-800 font-medium">
                             <span className="font-bold">Radio de influencia:</span> {result.R} m
@@ -563,7 +581,6 @@ const MetodoDupuit = () => {
                     )}
                 </div>
             )}
-
         </div>
     );
 };

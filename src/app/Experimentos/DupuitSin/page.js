@@ -20,6 +20,7 @@ const RegimenPermanente = () => {
   });
 
   const [activeCalculation, setActiveCalculation] = useState('Q');
+  const [error, setError] = useState('');
 
   useEffect(() => {
     setActiveCalculation('Q');
@@ -33,61 +34,63 @@ const RegimenPermanente = () => {
   const calculateQ = () => {
     const { transmisibilidad, nivelFreatico, descenso, radioPozo, radioInfluencia } = inputs;
     if (transmisibilidad && nivelFreatico && descenso && radioPozo && radioInfluencia) {
+      setError('');
       const Ho = parseFloat(nivelFreatico); // Nivel inicial del agua subterránea
-      const hp = Ho - parseFloat(descenso); // Nivel del agua en el pozo de extracción
-      const k = transmisibilidad / Ho; // Conductividad hidráulica
+      const hp = Ho - parseFloat(descenso);   // Nivel del agua en el pozo de extracción
+      const k = transmisibilidad / Ho;          // Conductividad hidráulica
       const Q = (
         (Math.PI * k * (Math.pow(Ho, 2) - Math.pow(hp, 2))) /
         Math.log(radioInfluencia / radioPozo)
       ).toFixed(2);
       setResults({ Q });
     } else {
-      alert('Por favor, complete todos los campos para calcular Q.');
+      setError('Por favor, complete todos los campos para calcular Q.');
+      return;
     }
   };
 
   const calculateZ = () => {
     const { caudal, transmisibilidad, nivelFreatico, radioPozo, radioInfluencia } = inputs;
     if (caudal && transmisibilidad && nivelFreatico && radioPozo && radioInfluencia) {
+      setError('');
       const Q = parseFloat(caudal);
       const T = parseFloat(transmisibilidad);
       const r = parseFloat(radioPozo);
       const R = parseFloat(radioInfluencia);
-
       // Factor de corrección
       const correctionFactor = 1.228; // Ajusta este valor para obtener 4.43
-
       // Fórmula corregida
       const Z = (
         correctionFactor * (Q / (2 * Math.PI * T)) * Math.log(R / r)
       ).toFixed(2);
-
       setResults({ Z });
     } else {
-      alert('Por favor, complete todos los campos para calcular Z.');
+      setError('Por favor, complete todos los campos para calcular Z.');
+      return;
     }
   };
-
-
 
   const calculateK = () => {
     const { caudal, nivelFreatico, descenso, radioPozo, radioInfluencia } = inputs;
     if (caudal && nivelFreatico && descenso && radioPozo && radioInfluencia) {
+      setError('');
       const Ho = parseFloat(nivelFreatico); // Nivel inicial del agua subterránea
-      const hp = Ho - parseFloat(descenso); // Nivel del agua en el pozo de extracción
+      const hp = Ho - parseFloat(descenso);   // Nivel del agua en el pozo de extracción
       const K = (
-        (caudal * Math.log(radioInfluencia / radioPozo)) /
+        (caudal * Math.log(radioInfluencia / radioPozo)) / 
         (Math.PI * (Math.pow(Ho, 2) - Math.pow(hp, 2)))
       ).toFixed(2);
       setResults({ K });
     } else {
-      alert('Por favor, complete todos los campos para calcular K.');
+      setError('Por favor, complete todos los campos para calcular K.');
+      return;
     }
   };
 
   const calculateR = () => {
     const { transmisibilidad, nivelFreatico, descenso, caudal, radioPozo } = inputs;
     if (transmisibilidad && nivelFreatico && descenso && caudal && radioPozo) {
+      setError('');
       const Ho = parseFloat(nivelFreatico);
       const hp = Ho - parseFloat(descenso);
       const k = transmisibilidad / Ho;
@@ -97,7 +100,8 @@ const RegimenPermanente = () => {
       ).toFixed(2);
       setResults({ R });
     } else {
-      alert('Por favor, complete todos los campos para calcular R.');
+      setError('Por favor, complete todos los campos para calcular R.');
+      return;
     }
   };
 
@@ -111,9 +115,11 @@ const RegimenPermanente = () => {
       caudal: '',
     });
     setResults({ Q: null, Z: null, K: null, R: null });
+    setError('');
   };
 
   const loadExample = () => {
+    setError('');
     if (activeCalculation === 'Q') {
       setInputs({
         nivelFreatico: '7',
@@ -121,6 +127,7 @@ const RegimenPermanente = () => {
         transmisibilidad: '45',
         radioPozo: '10',
         radioInfluencia: '300',
+        caudal: '',
       });
     } else if (activeCalculation === 'Z') {
       setInputs({
@@ -129,6 +136,7 @@ const RegimenPermanente = () => {
         radioPozo: '10',
         radioInfluencia: '600',
         caudal: '554',
+        descenso: '',
       });
     } else if (activeCalculation === 'K') {
       setInputs({
@@ -137,6 +145,7 @@ const RegimenPermanente = () => {
         radioPozo: '8',
         radioInfluencia: '400',
         caudal: '350',
+        transmisibilidad: '',
       });
     } else if (activeCalculation === 'R') {
       setInputs({
@@ -145,13 +154,14 @@ const RegimenPermanente = () => {
         transmisibilidad: '95',
         radioPozo: '10',
         caudal: '480',
+        radioInfluencia: '',
       });
     }
   };
 
   return (
     <div className="container mx-auto max-w-3xl p-4">
-            <BackButton />
+      <BackButton />
       <h2 className="text-2xl font-bold text-blue-700 text-center uppercase tracking-wide">
         Régimen Permanente: Acuífero Libre
       </h2>
@@ -166,24 +176,27 @@ const RegimenPermanente = () => {
         ].map((button) => (
           <button
             key={button.id}
-            onClick={() => setActiveCalculation(button.id)}
+            onClick={() => {
+              setActiveCalculation(button.id);
+              setError('');
+              setResults({ Q: null, Z: null, K: null, R: null });
+            }}
             className={`px-5 py-2 rounded-lg text-white font-semibold transition shadow-md 
-        ${activeCalculation === button.id
+              ${activeCalculation === button.id
                 ? 'bg-blue-700 shadow-lg scale-105'
-                : 'bg-blue-500 hover:bg-blue-600'}`}
+                : 'bg-blue-500 hover:bg-blue-600'
+              }`}
           >
             {button.label}
           </button>
         ))}
       </div>
 
-
       {activeCalculation === 'Q' && (
         <div className="mb-5 space-y-6 py-8 bg-white p-6 rounded-2xl shadow-md border border-gray-300">
           <h3 className="text-xl font-semibold text-blue-700 text-center">
             Parámetros para Determinar el Caudal de Extracción (Q)
           </h3>
-
           {[
             { name: 'nivelFreatico', label: 'Nivel freático original (m):' },
             { name: 'descenso', label: 'Descenso del nivel freático (m):' },
@@ -198,7 +211,8 @@ const RegimenPermanente = () => {
                 name={field.name}
                 value={inputs[field.name]}
                 onChange={handleChange}
-                className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg 
+                  focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
               />
             </div>
           ))}
@@ -210,7 +224,6 @@ const RegimenPermanente = () => {
           <h3 className="text-xl font-semibold text-blue-700 text-center">
             Parámetros para Determinar el Abatimiento del Acuífero Libre (Z)
           </h3>
-
           {[
             { name: 'nivelFreatico', label: 'Nivel freático original (m):' },
             { name: 'transmisibilidad', label: 'Coeficiente de transmisibilidad (m²/día):' },
@@ -225,7 +238,8 @@ const RegimenPermanente = () => {
                 name={field.name}
                 value={inputs[field.name]}
                 onChange={handleChange}
-                className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg 
+                  focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
               />
             </div>
           ))}
@@ -237,7 +251,6 @@ const RegimenPermanente = () => {
           <h3 className="text-xl font-semibold text-blue-700 text-center">
             Parámetros para Determinar la Conductividad Hidráulica (K)
           </h3>
-
           {[
             { name: 'nivelFreatico', label: 'Nivel freático original (m):' },
             { name: 'descenso', label: 'Descenso del nivel freático (m):' },
@@ -252,7 +265,8 @@ const RegimenPermanente = () => {
                 name={field.name}
                 value={inputs[field.name]}
                 onChange={handleChange}
-                className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg 
+                  focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
               />
             </div>
           ))}
@@ -264,7 +278,6 @@ const RegimenPermanente = () => {
           <h3 className="text-xl font-semibold text-blue-700 text-center">
             Parámetros para Determinar el Radio de Influencia del Pozo (R)
           </h3>
-
           {[
             { name: 'nivelFreatico', label: 'Nivel freático original (m):' },
             { name: 'descenso', label: 'Descenso del nivel freático (m):' },
@@ -279,12 +292,16 @@ const RegimenPermanente = () => {
                 name={field.name}
                 value={inputs[field.name]}
                 onChange={handleChange}
-                className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg 
+                  focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
               />
             </div>
           ))}
         </div>
       )}
+
+      {/* Mensaje de error */}
+      {error && <p className="text-red-500 text-center mt-4">{error}</p>}
 
       <div className="mt-6 text-center">
         {/* Contenedor de botones */}
@@ -330,7 +347,6 @@ const RegimenPermanente = () => {
           {activeCalculation === 'R' && `Radio de influencia (m): ${results.R !== null ? results.R : ''}`}
         </p>
       </div>
-
     </div>
   );
 };

@@ -19,6 +19,7 @@ const ThiemCalculations = () => {
     R: null,
   });
   const [activeCalculation, setActiveCalculation] = useState('Q');
+  const [error, setError] = useState('');
 
   useEffect(() => {
     setActiveCalculation('Q');
@@ -32,51 +33,59 @@ const ThiemCalculations = () => {
   const calculateQ = () => {
     const { nivelFreatico, descenso, transmisibilidad, radioPozo, radioInfluencia } = inputs;
     if (nivelFreatico && descenso && transmisibilidad && radioPozo && radioInfluencia) {
+      setError('');
       const Q = (
         (2 * Math.PI * transmisibilidad * descenso) /
         Math.log(radioInfluencia / radioPozo)
       ).toFixed(2);
       setResults({ Q });
     } else {
-      alert('Por favor, complete todos los campos para calcular Q.');
+      setError('Por favor, complete todos los campos para calcular Q.');
+      return;
     }
   };
 
   const calculateZ = () => {
     const { caudal, transmisibilidad, radioPozo, radioInfluencia } = inputs;
     if (caudal && transmisibilidad && radioPozo && radioInfluencia) {
+      setError('');
       const Z = (
         (caudal * Math.log(radioInfluencia / radioPozo)) /
         (2 * Math.PI * transmisibilidad)
       ).toFixed(2);
       setResults({ Z });
     } else {
-      alert('Por favor, complete todos los campos para calcular Z.');
+      setError('Por favor, complete todos los campos para calcular Z.');
+      return;
     }
   };
 
   const calculateT = () => {
     const { caudal, descenso, radioPozo, radioInfluencia } = inputs;
     if (caudal && descenso && radioPozo && radioInfluencia) {
+      setError('');
       const T = (
         (caudal * Math.log(radioInfluencia / radioPozo)) /
         (2 * Math.PI * descenso)
       ).toFixed(2);
       setResults({ T });
     } else {
-      alert('Por favor, complete todos los campos para calcular T.');
+      setError('Por favor, complete todos los campos para calcular T.');
+      return;
     }
   };
 
   const calculateR = () => {
     const { caudal, transmisibilidad, descenso, radioPozo } = inputs;
     if (caudal && transmisibilidad && descenso && radioPozo) {
+      setError('');
       const R = (
         radioPozo * Math.exp((2 * Math.PI * transmisibilidad * descenso) / caudal)
       ).toFixed(2);
       setResults({ R });
     } else {
-      alert('Por favor, complete todos los campos para calcular R.');
+      setError('Por favor, complete todos los campos para calcular R.');
+      return;
     }
   };
 
@@ -90,9 +99,11 @@ const ThiemCalculations = () => {
       caudal: '',
     });
     setResults({ Q: null, Z: null, T: null, R: null });
+    setError('');
   };
 
   const loadExample = () => {
+    setError('');
     if (activeCalculation === 'Q') {
       setInputs({
         nivelFreatico: '12',
@@ -100,6 +111,7 @@ const ThiemCalculations = () => {
         transmisibilidad: '100',
         radioPozo: '10',
         radioInfluencia: '600',
+        caudal: '',
       });
     } else if (activeCalculation === 'Z') {
       setInputs({
@@ -108,6 +120,7 @@ const ThiemCalculations = () => {
         radioPozo: '5',
         radioInfluencia: '200',
         caudal: '385',
+        descenso: '',
       });
     } else if (activeCalculation === 'T') {
       setInputs({
@@ -116,6 +129,7 @@ const ThiemCalculations = () => {
         radioPozo: '10',
         radioInfluencia: '400',
         caudal: '510',
+        transmisibilidad: '',
       });
     } else if (activeCalculation === 'R') {
       setInputs({
@@ -124,13 +138,14 @@ const ThiemCalculations = () => {
         transmisibilidad: '70',
         radioPozo: '10',
         caudal: '650',
+        radioInfluencia: '',
       });
     }
   };
 
   return (
     <div className='container mx-auto max-w-3xl p-4'>
-            <BackButton />
+      <BackButton />
       <h2 className="text-2xl font-bold text-blue-700 text-center uppercase tracking-wide">
         Régimen Permanente: Acuífero Confinado
       </h2>
@@ -144,7 +159,11 @@ const ThiemCalculations = () => {
         ].map((button) => (
           <button
             key={button.id}
-            onClick={() => setActiveCalculation(button.id)}
+            onClick={() => {
+              setActiveCalculation(button.id);
+              setError('');
+              setResults({ Q: null, Z: null, T: null, R: null });
+            }}
             className={`px-4 py-2 rounded-lg text-white font-medium transition ${activeCalculation === button.id
               ? 'bg-blue-700 shadow-md'
               : 'bg-blue-500 hover:bg-blue-600'
@@ -160,7 +179,6 @@ const ThiemCalculations = () => {
           <h3 className="text-xl font-semibold text-blue-700 text-center">
             Parámetros para Determinar el Caudal de Extracción (Q)
           </h3>
-
           {[
             { name: 'nivelFreatico', label: 'Nivel freático original (m):' },
             { name: 'descenso', label: 'Descenso del nivel freático (m):' },
@@ -187,7 +205,6 @@ const ThiemCalculations = () => {
           <h3 className="text-xl font-semibold text-blue-700 text-center">
             Parámetros para Determinar el Abatimiento en el Pozo (Z)
           </h3>
-
           {[
             { name: 'nivelFreatico', label: 'Nivel freático original (m):' },
             { name: 'transmisibilidad', label: 'Coeficiente de transmisibilidad (m²/día):' },
@@ -208,14 +225,12 @@ const ThiemCalculations = () => {
           ))}
         </div>
       )}
-
 
       {activeCalculation === 'T' && (
         <div className="mb-5 space-y-6 py-8 bg-white p-6 rounded-2xl shadow-md border border-gray-300">
           <h3 className="text-xl font-semibold text-blue-700 text-center">
             Parámetros para Determinar el Coeficiente de Transmisibilidad (T)
           </h3>
-
           {[
             { name: 'nivelFreatico', label: 'Nivel freático original (m):' },
             { name: 'descenso', label: 'Descenso del nivel freático (m):' },
@@ -236,12 +251,12 @@ const ThiemCalculations = () => {
           ))}
         </div>
       )}
+
       {activeCalculation === 'R' && (
         <div className="mb-5 space-y-6 py-8 bg-white p-6 rounded-2xl shadow-md border border-gray-300">
           <h3 className="text-xl font-semibold text-blue-700 text-center">
             Parámetros para Determinar el Radio de Influencia del Pozo (R)
           </h3>
-
           {[
             { name: 'nivelFreatico', label: 'Nivel freático original (m):' },
             { name: 'descenso', label: 'Descenso del nivel freático (m):' },
@@ -263,6 +278,8 @@ const ThiemCalculations = () => {
         </div>
       )}
 
+      {/* Mensaje de error */}
+      {error && <p className="text-red-500 text-center mt-4">{error}</p>}
 
       <div className="mt-6 text-center">
         {/* Contenedor de botones */}
@@ -302,13 +319,12 @@ const ThiemCalculations = () => {
         {/* Resultados */}
         <h3 className="text-xl font-semibold text-blue-700">Resultados:</h3>
         <p className="text-lg font-medium text-gray-800 mt-2">
-        {activeCalculation === 'Q' && `Caudal (Q): ${results.Q !== null ? results.Q : ''}`}
+          {activeCalculation === 'Q' && `Caudal (Q): ${results.Q !== null ? results.Q : ''}`}
           {activeCalculation === 'Z' && `Abatimiento (m): ${results.Z !== null ? results.Z: ''}`}
           {activeCalculation === 'T' && `Coef. de Transmisibilidad (T): ${results.T !== null ? results.T : ''}`}
           {activeCalculation === 'R' && `Radio de influencia (m): ${results.R !== null ? results.R : ''}`}
         </p>
       </div>
-
     </div>
   );
 };

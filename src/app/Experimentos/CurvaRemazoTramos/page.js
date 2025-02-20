@@ -14,6 +14,7 @@ const CurvaDeRemanso = () => {
   const [tiranteInicial, setTiranteInicial] = useState('');
   const [errorAprox, setErrorAprox] = useState('');
   const [resultados, setResultados] = useState([]);
+  const [error, setError] = useState('');
 
   const cargarEjemplo = () => {
     setCaudal(1.5);
@@ -26,6 +27,7 @@ const CurvaDeRemanso = () => {
     setNumTramos(10);
     setTiranteInicial(0.423);
     setErrorAprox(0.0001);
+    setError('');
   };
 
   const limpiarCampos = () => {
@@ -40,6 +42,7 @@ const CurvaDeRemanso = () => {
     setTiranteInicial('');
     setErrorAprox('');
     setResultados([]);
+    setError('');
   };
 
   const calcular = () => {
@@ -54,10 +57,22 @@ const CurvaDeRemanso = () => {
     const Y1 = parseFloat(tiranteInicial);
     const Er = parseFloat(errorAprox);
 
-    if (isNaN(Q) || isNaN(B) || isNaN(Z) || isNaN(S) || isNaN(N) || isNaN(X1) || isNaN(X) || isNaN(NT) || isNaN(Y1) || isNaN(Er)) {
-      alert('Por favor, asegúrese de llenar todos los campos correctamente.');
+    if (
+      isNaN(Q) ||
+      isNaN(B) ||
+      isNaN(Z) ||
+      isNaN(S) ||
+      isNaN(N) ||
+      isNaN(X1) ||
+      isNaN(X) ||
+      isNaN(NT) ||
+      isNaN(Y1) ||
+      isNaN(Er)
+    ) {
+      setError('Por favor, asegúrese de llenar todos los campos correctamente.');
       return;
     }
+    setError('');
 
     const M = Math.sqrt(1 + Z ** 2);
     const resultadosCalculados = [];
@@ -116,14 +131,9 @@ const CurvaDeRemanso = () => {
 
   return (
     <div className="app">
-            <BackButton />
-      {/* Contenedor principal */}
+      <BackButton />
       <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md border border-gray-300 mt-6">
-
-        {/* Título */}
         <h2 className="text-xl font-semibold text-gray-800 mb-4">Curva de Remanso (Tramos Fijos)</h2>
-
-        {/* Contenedor de Inputs */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[
             { label: "Caudal Q (m³/s):", value: caudal, setter: setCaudal },
@@ -142,14 +152,15 @@ const CurvaDeRemanso = () => {
               <input
                 type="number"
                 value={value}
-                onChange={(e) => setter(e.target.value)}
+                onChange={(e) => {
+                  setter(e.target.value);
+                  setError('');
+                }}
                 className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
               />
             </div>
           ))}
         </div>
-
-        {/* Botonera */}
         <div className="mt-6 flex justify-between">
           <button
             onClick={cargarEjemplo}
@@ -157,14 +168,12 @@ const CurvaDeRemanso = () => {
           >
             Ejemplo
           </button>
-
           <button
             onClick={calcular}
             className="px-5 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition"
           >
             Calcular
           </button>
-
           <button
             onClick={limpiarCampos}
             className="px-5 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition"
@@ -172,13 +181,13 @@ const CurvaDeRemanso = () => {
             Limpiar
           </button>
         </div>
-
+        {/* Mostrar mensaje de error si existe */}
+        {error && <p className="text-red-500 text-center mt-4">{error}</p>}
       </div>
 
       {resultados.length > 0 && (
         <div className="bg-white p-6 shadow-md rounded-lg border border-gray-300 mt-6">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">Resultados</h2>
-
           <div className="overflow-x-auto">
             <table className="w-full border border-gray-400 bg-white shadow-md rounded-lg text-gray-700">
               <thead>
@@ -199,7 +208,6 @@ const CurvaDeRemanso = () => {
           </div>
         </div>
       )}
-
     </div>
   );
 };
