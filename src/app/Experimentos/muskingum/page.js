@@ -313,7 +313,7 @@ const EstimacionesKYX = () => {
       <div className='py-12 w-full text-center'>
         <h1 className="text-2xl font-bold mb-4">Estimaciones de K y X</h1>
         <div className="flex justify-center">
-          <div className="mb-4 flex flex-wrap gap-2 justify-center items-center">
+          <div className="mb-4 flex flex-wrap gap-2 justify-center items-center py-6">
             <button
               onClick={handleEjemplo}
               className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition duration-300 ease-in-out"

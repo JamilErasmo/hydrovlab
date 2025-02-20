@@ -55,13 +55,33 @@ const BlaneyCriddleParcialPerenne = () => {
   // Función para interpolar Sur
   const interpolarSur = (latitud, mesSiembra) => {
     // Valores de insolación para el hemisferio sur (ficticios)
+    // La primera columna representa la latitud (0, 5, 10)
     const insolacionSur = [
       [0, 8.5, 7.66, 8.49, 8.21, 8.5, 8.22, 8.5, 8.45, 8.21, 8.5, 8.22, 8.5],
       [5, 8.68, 7.76, 8.51, 8.15, 8.34, 8.05, 8.33, 8.38, 8.19, 8.56, 8.37, 8.68],
       [10, 8.86, 7.87, 8.53, 8.09, 8.18, 7.86, 8.14, 8.27, 8.17, 8.62, 8.53, 8.88]
     ];
-    return insolacionSur[0][mesSiembra];
-  };
+  
+    // Si la latitud es menor o igual al valor mínimo de la tabla, usamos la primera fila
+    if (latitud <= insolacionSur[0][0]) {
+      return insolacionSur[0][mesSiembra];
+    }
+    // Si la latitud es mayor o igual al valor máximo de la tabla, usamos la última fila
+    if (latitud >= insolacionSur[insolacionSur.length - 1][0]) {
+      return insolacionSur[insolacionSur.length - 1][mesSiembra];
+    }
+    // Buscar entre qué dos filas se encuentra la latitud y hacer interpolación lineal
+    for (let i = 0; i < insolacionSur.length - 1; i++) {
+      const lat1 = insolacionSur[i][0];
+      const lat2 = insolacionSur[i + 1][0];
+      if (latitud >= lat1 && latitud <= lat2) {
+        const value1 = insolacionSur[i][mesSiembra];
+        const value2 = insolacionSur[i + 1][mesSiembra];
+        const fraccion = (latitud - lat1) / (lat2 - lat1);
+        return value1 + fraccion * (value2 - value1);
+      }
+    }
+  };  
 
   // Función que se ejecuta al presionar "Ejemplo"
   const handleEjemplo = () => {
@@ -89,8 +109,8 @@ const BlaneyCriddleParcialPerenne = () => {
   };
 
   return (
-    <div  className=" py-14">
-            <BackButton />
+    <div className=" py-14">
+      <BackButton />
       <div className="w-96 mx-auto text-center border border-gray-300 p-6 bg-gray-100 shadow-md rounded-lg">
         <h2 className="text-xl font-semibold text-gray-800">Método de Criddle Parcial Perenne</h2>
 
@@ -106,50 +126,49 @@ const BlaneyCriddleParcialPerenne = () => {
               onChange={(e) => setLatitud(e.target.value)}
               className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
             />
-            <select
-              onChange={(e) => setHemisferio(e.target.value)}
-              className="w-full p-2 mt-2 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-            >
-              <option value="">Seleccione la latitud</option>
-              <option value="Norte">Norte</option>
-              <option value="Sur">Sur</option>
-            </select>
           </div>
+
+          {/* LATITUD (Norte/Sur) */}
+          <select
+            value={hemisferio}
+            onChange={(e) => setHemisferio(e.target.value)}
+            className="w-full p-2 mt-2 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+          >
+            <option value="">Seleccione la latitud</option>
+            <option value="Norte">Norte</option>
+            <option value="Sur">Sur</option>
+          </select>
 
           {/* CULTIVO */}
-          <div className="flex flex-col">
-            <label className="text-gray-700 font-semibold">Cultivo:</label>
-            <select
-              onChange={(e) => setCultivo(e.target.value)}
-              className="w-full p-2 mt-1 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-            >
-              <option value="">Seleccione el cultivo</option>
-              {[
-                "Huerta de plantas caducas con cubierta",
-                "Huerta de plantas caducas sin cubierta",
-                "Nogal", "Alfalfa", "Aguacate", "Vid", "Pastos", "Huerta de cítricos"
-              ].map((cultivo, index) => (
-                <option key={index} value={index + 1}>{cultivo}</option>
-              ))}
-            </select>
-          </div>
+          <select
+            value={cultivo}
+            onChange={(e) => setCultivo(e.target.value)}
+            className="w-full p-2 mt-1 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+          >
+            <option value="">Seleccione el cultivo</option>
+            {[
+              "Huerta de plantas caducas con cubierta",
+              "Huerta de plantas caducas sin cubierta",
+              "Nogal", "Alfalfa", "Aguacate", "Vid", "Pastos", "Huerta de cítricos"
+            ].map((cultivo, index) => (
+              <option key={index} value={index + 1}>{cultivo}</option>
+            ))}
+          </select>
 
           {/* MES PARA ETP */}
-          <div className="flex flex-col">
-            <label className="text-gray-700 font-semibold">Mes para ETP:</label>
-            <select
-              onChange={(e) => setMesSiembra(e.target.value)}
-              className="w-full p-2 mt-1 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-            >
-              <option value="">Seleccione el mes de siembra</option>
-              {[
-                "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-                "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
-              ].map((mes, index) => (
-                <option key={index} value={index + 1}>{mes}</option>
-              ))}
-            </select>
-          </div>
+          <select
+            value={mesSiembra}
+            onChange={(e) => setMesSiembra(e.target.value)}
+            className="w-full p-2 mt-1 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+          >
+            <option value="">Seleccione el mes de siembra</option>
+            {[
+              "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+              "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+            ].map((mes, index) => (
+              <option key={index} value={index + 1}>{mes}</option>
+            ))}
+          </select>
 
           {/* TEMPERATURA DEL MES */}
           <div className="flex flex-col">

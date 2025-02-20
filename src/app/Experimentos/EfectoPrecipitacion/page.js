@@ -193,7 +193,7 @@ const EfectoPrecipitacion = () => {
           className="cursor-pointer text-gray-600 hover:text-gray-800"
           onClick={() => window.history.back()}
         />
-        <h1 className="text-2xl font-bold text-gray-800">Efecto de la Precipitación en la Tormenta</h1>
+        <h1 className="text-2xl font-bold text-gray-800">Efecto de la precipitación efectiva en la tormenta</h1>
       </div>
 
       {/* Contenedor principal con 3 columnas */}
@@ -304,7 +304,7 @@ const EfectoPrecipitacion = () => {
 
         {/* Sección de Imagen o Espacio Adicional */}
         <div className="p-4 flex justify-center items-center bg-gray-50 rounded-lg shadow">
-          <p className="text-gray-500 text-center">Aquí puedes agregar una imagen guía si es necesario.</p>
+          <img src="/images/imagenguia.jpg" alt="Efecto de la precipitación" className="w-full" />
         </div>
       </div>
 

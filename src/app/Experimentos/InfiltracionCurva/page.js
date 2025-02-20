@@ -1,6 +1,8 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
+import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const NumeroCurvaYTiempoConcentracion = () => {
     const [areaCuenca, setAreaCuenca] = useState('');
@@ -207,9 +209,8 @@ const NumeroCurvaYTiempoConcentracion = () => {
         setTcDefinitivo(null);
         setHidrogramaParams(null);
     };
-
     return (
-        <div>
+        <div className='py-8'>
             <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">
                 Cálculo del Número de Curva (CN) y Tiempo de Concentración
             </h1>
@@ -323,81 +324,83 @@ const NumeroCurvaYTiempoConcentracion = () => {
 
 
             {/* Resultados del Número de Curva (CN) */}
-            <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md border border-gray-300">
-                <h3 className="text-lg font-semibold text-gray-700 mb-4 text-center">
-                    Resultados del Número de Curva (CN)
-                </h3>
+            <div className='py-8'>
+                <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md border border-gray-300">
+                    <h3 className="text-lg font-semibold text-gray-700 mb-4 text-center">
+                        Resultados del Número de Curva (CN)
+                    </h3>
 
-                <div className="grid grid-cols-1 gap-4">
-                    <div className="flex items-center gap-2">
-                        <input
-                            type="radio"
-                            name="cnSelect"
-                            checked={selectedCheck === 'CN1'}
-                            onChange={() => setSelectedCheck('CN1')}
-                            className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
-                        />
-                        <label className="text-gray-600">CN1:</label>
-                        <input
-                            type="text"
-                            value={CN1 !== null ? CN1 : ''}
-                            readOnly
-                            className="flex-1 px-3 py-2 border rounded-md focus:outline-none bg-gray-100"
-                        />
-                    </div>
+                    <div className="grid grid-cols-1 gap-4">
+                        <div className="flex items-center gap-2">
+                            <input
+                                type="radio"
+                                name="cnSelect"
+                                checked={selectedCheck === 'CN1'}
+                                onChange={() => setSelectedCheck('CN1')}
+                                className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                            />
+                            <label className="text-gray-600">CN1:</label>
+                            <input
+                                type="text"
+                                value={CN1 !== null ? CN1 : ''}
+                                readOnly
+                                className="flex-1 px-3 py-2 border rounded-md focus:outline-none bg-gray-100"
+                            />
+                        </div>
 
-                    <div className="flex items-center gap-2">
-                        <input
-                            type="radio"
-                            name="cnSelect"
-                            checked={selectedCheck === 'CN2'}
-                            onChange={() => setSelectedCheck('CN2')}
-                            className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
-                        />
-                        <label className="text-gray-600">CN2:</label>
-                        <input
-                            type="text"
-                            value={CN2 !== null ? CN2 : ''}
-                            readOnly
-                            className="flex-1 px-3 py-2 border rounded-md focus:outline-none bg-gray-100"
-                        />
-                    </div>
+                        <div className="flex items-center gap-2">
+                            <input
+                                type="radio"
+                                name="cnSelect"
+                                checked={selectedCheck === 'CN2'}
+                                onChange={() => setSelectedCheck('CN2')}
+                                className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                            />
+                            <label className="text-gray-600">CN2:</label>
+                            <input
+                                type="text"
+                                value={CN2 !== null ? CN2 : ''}
+                                readOnly
+                                className="flex-1 px-3 py-2 border rounded-md focus:outline-none bg-gray-100"
+                            />
+                        </div>
 
-                    <div className="flex items-center gap-2">
-                        <input
-                            type="radio"
-                            name="cnSelect"
-                            checked={selectedCheck === 'CN3'}
-                            onChange={() => setSelectedCheck('CN3')}
-                            className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
-                        />
-                        <label className="text-gray-600">CN3:</label>
-                        <input
-                            type="text"
-                            value={CN3 !== null ? CN3 : ''}
-                            readOnly
-                            className="flex-1 px-3 py-2 border rounded-md focus:outline-none bg-gray-100"
-                        />
-                    </div>
+                        <div className="flex items-center gap-2">
+                            <input
+                                type="radio"
+                                name="cnSelect"
+                                checked={selectedCheck === 'CN3'}
+                                onChange={() => setSelectedCheck('CN3')}
+                                className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                            />
+                            <label className="text-gray-600">CN3:</label>
+                            <input
+                                type="text"
+                                value={CN3 !== null ? CN3 : ''}
+                                readOnly
+                                className="flex-1 px-3 py-2 border rounded-md focus:outline-none bg-gray-100"
+                            />
+                        </div>
 
-                    <div>
-                        <label className="text-gray-600 block mb-1">Precipitación Efectiva Pe (mm):</label>
-                        <input
-                            type="text"
-                            value={precipitacionEfectiva || ''}
-                            readOnly
-                            className="w-full px-3 py-2 border rounded-md focus:outline-none bg-gray-100"
-                        />
-                    </div>
+                        <div>
+                            <label className="text-gray-600 block mb-1">Precipitación Efectiva Pe (mm):</label>
+                            <input
+                                type="text"
+                                value={precipitacionEfectiva || ''}
+                                readOnly
+                                className="w-full px-3 py-2 border rounded-md focus:outline-none bg-gray-100"
+                            />
+                        </div>
 
-                    <div>
-                        <label className="text-gray-600 block mb-1">Retención Superficial (mm):</label>
-                        <input
-                            type="text"
-                            value={retencionSuperficial || ''}
-                            readOnly
-                            className="w-full px-3 py-2 border rounded-md focus:outline-none bg-gray-100"
-                        />
+                        <div>
+                            <label className="text-gray-600 block mb-1">Retención Superficial (mm):</label>
+                            <input
+                                type="text"
+                                value={retencionSuperficial || ''}
+                                readOnly
+                                className="w-full px-3 py-2 border rounded-md focus:outline-none bg-gray-100"
+                            />
+                        </div>
                     </div>
                 </div>
             </div>

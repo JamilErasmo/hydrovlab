@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
+
 const ExperimentoInfiltracion = () => {
     const [porosidadEfectiva, setPorosidadEfectiva] = useState('');
     const [porosidad, setPorosidad] = useState('');
@@ -127,10 +128,10 @@ const ExperimentoInfiltracion = () => {
     };
 
     return (
-        <div>
+        <div className="container mx-auto max-w-3xl p-4">
             {/* Contenedor Principal */}
-            <div className="bg-white p-6 shadow-md rounded-lg border border-gray-300">
-            <BackButton />
+            <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300 mt-6">
+                <BackButton />
 
                 {/* Título Principal */}
                 <h1 className="text-2xl font-bold text-gray-800 text-center mb-6">

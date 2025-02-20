@@ -711,15 +711,30 @@ const Mblaneyc = () => {
   // BOTÓN: DESCARGAR RESULTADOS => Simulado
   // ==================================================
   const ToExcel = () => {
-    console.log("Descargar resultados en Excel (simulado).");
-  };
+    // Construir el contenido CSV
+    let csvContent = "data:text/csv;charset=utf-8,";
+    // Encabezados
+    csvContent += "MESES,TEMPERATURA,Pi / Kti,Fi / FiKti\n";
 
-  // ==================================================
-  // RENDER
-  // ==================================================
+    // Recorrer cada fila y formar una línea CSV
+    storeDatos.forEach(row => {
+      const rowArray = [row.Columna1, row.Columna2, row.Columna3, row.Columna4];
+      csvContent += rowArray.join(",") + "\n";
+    });
+
+    // Crear un URI codificado con el contenido CSV
+    const encodedUri = encodeURI(csvContent);
+    // Crear un elemento temporal <a> para forzar la descarga
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "resultados.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
   return (
-    <div className="m-4">
-            <BackButton />
+    <div className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md border border-gray-300 mt-6">
+      <BackButton />
       <div className="text-center">
         <h1 className="text-2xl font-bold text-gray-800 uppercase">
           Método de Blaney Criddle Global

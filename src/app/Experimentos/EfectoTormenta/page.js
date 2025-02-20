@@ -185,14 +185,14 @@ const EfectoPrecipitacion = () => {
   };
 
   return (
-    <div className="app">
+    <div className="container mx-auto max-w-3xl p-4">
             <BackButton />
       {/* Contenedor Principal */}
       <div className="bg-white p-6 shadow-md rounded-lg border border-gray-300">
 
         {/* Encabezado */}
         <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">
-          Efecto de la Precipitación en la Tormenta
+          Efecto de la precipitación efectiva en la tormenta
         </h2>
 
         {/* Sección de Entrada de Datos y Resultados */}

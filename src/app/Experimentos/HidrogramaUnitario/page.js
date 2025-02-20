@@ -166,7 +166,7 @@ const HidrogramaUnitario = () => {
   };
 
   return (
-    <div className="app">
+    <div className="container mx-auto max-w-3xl p-4">
       {/* Contenedor Principal */}
       <div className="bg-white p-6 shadow-md rounded-lg border border-gray-300">
       <BackButton />

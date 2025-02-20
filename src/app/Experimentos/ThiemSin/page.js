@@ -129,7 +129,7 @@ const ThiemCalculations = () => {
   };
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div className='container mx-auto max-w-3xl p-4'>
             <BackButton />
       <h2 className="text-2xl font-bold text-blue-700 text-center uppercase tracking-wide">
         Régimen Permanente: Acuífero Confinado
@@ -302,7 +302,7 @@ const ThiemCalculations = () => {
         {/* Resultados */}
         <h3 className="text-xl font-semibold text-blue-700">Resultados:</h3>
         <p className="text-lg font-medium text-gray-800 mt-2">
-          {activeCalculation === 'Q' && `Caudal (Q): ${results.Q}`}
+        {activeCalculation === 'Q' && `Caudal (Q): ${results.Q !== null ? results.Q : ''}`}
           {activeCalculation === 'Z' && `Abatimiento (m): ${results.Z}`}
           {activeCalculation === 'T' && `Coef. de Transmisibilidad (T): ${results.T}`}
           {activeCalculation === 'R' && `Radio de influencia (m): ${results.R}`}

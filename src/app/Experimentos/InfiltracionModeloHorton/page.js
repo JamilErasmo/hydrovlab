@@ -1,7 +1,8 @@
 'use client';
 import React, { useState } from 'react';
-import Chart from 'chart.js/auto';
+import { Chart } from 'react-google-charts';
 import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
+
 const ExperimentoInfiltracion = () => {
     const [fo, setFo] = useState('');
     const [fc, setFc] = useState('');
@@ -84,7 +85,7 @@ const ExperimentoInfiltracion = () => {
     };
 
     return (
-        <div>
+        <div className="container mx-auto max-w-3xl p-4">
             {/* Contenedor Principal */}
             <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300 mt-6">
             <BackButton />
