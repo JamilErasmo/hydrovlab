@@ -118,7 +118,7 @@ const CurvaDeRemanso = () => {
     <div className="app">
             <BackButton />
       {/* Contenedor principal */}
-      <div className="bg-white p-6 shadow-md rounded-lg border border-gray-300">
+      <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md border border-gray-300 mt-6">
 
         {/* Título */}
         <h2 className="text-xl font-semibold text-gray-800 mb-4">Curva de Remanso (Tramos Fijos)</h2>

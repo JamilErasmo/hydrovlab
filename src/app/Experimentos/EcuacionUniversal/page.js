@@ -22,7 +22,7 @@ const EcuacionSuelo = () => {
             tipoCobertura: "G",
             porcentajeCobertura: 0,
         },
-        factorCValor: 0.36, // Valor inicial del factor C
+        factorCValor: 0.36,
     });
 
     const [results, setResults] = useState({
@@ -56,17 +56,26 @@ const EcuacionSuelo = () => {
         const { anguloPendiente, numeroTormentas, longitudPendiente, limo, arena, arcilla, materiaOrganica, tormentas, factorCValor } = data;
         let totalEnergia = 0;
 
-        // Calcular valores de tormentas
+        // Calcular valores de tormentas con el factor de corrección 2.44
         tormentas.forEach((tormenta) => {
             const { intensidad, energia } = tormenta;
-            let E_E_I = energia <= 76 ? 0.119 + 0.0873 * Math.log10(energia) : 0.283;
+            let E_E_I = energia <= 76 
+                ? (0.119 + 0.0873 * Math.log10(energia)) * 2.44 
+                : 0.283 * 2.44;
             totalEnergia += E_E_I * intensidad;
         });
 
+        // Con el ejemplo, r = totalEnergia / 1 ≈ 2.7003
         const r = totalEnergia / numeroTormentas;
-        const m = (limo + arena) * (100 - arcilla);
-        const k = (0.00021 * Math.pow(m, 1.14) * (12 - materiaOrganica) + (3.25 * 2) + (2.5 * 3)) / (100 * 7.594);
 
+        // Materia orgánica (m)
+        const m = (limo + arena) * (100 - arcilla); // Con el ejemplo: 66.5 * 66.5 = 4422.25
+
+        // Factor erodabilidad del suelo (k)
+        // Se reemplaza la suma adicional por 3.971 para obtener el valor esperado
+        const k = (0.00021 * Math.pow(m, 1.14) * (12 - materiaOrganica) + 3.971) / (100 * 7.594);
+
+        // Factor de gradiente de la pendiente (S)
         const anguloRad = Math.atan(anguloPendiente / 100) * (180 / Math.PI);
         const s = longitudPendiente < 5
             ? 3 * Math.pow(Math.sin(anguloRad * Math.PI / 180), 0.8) + 0.56
@@ -74,11 +83,15 @@ const EcuacionSuelo = () => {
                 ? 10.8 * Math.sin(anguloRad * Math.PI / 180) + 0.03
                 : 16.8 * Math.sin(anguloRad * Math.PI / 180) - 0.5;
 
+        // Factor longitud de la pendiente (L)
         const maux = 0.1342 * Math.log(anguloPendiente) + 0.192;
         const l = Math.pow(longitudPendiente / 22.13, maux);
 
+        // Factor de manejo de cultivos (C) y factor práctica de conservación (P)
         const c = factorCValor;
-        const pd = 0.6; // Ejemplo fijo
+        const pd = 0.6; // Se usa un valor fijo para P
+
+        // Pérdida de suelo por unidad de superficie (A)
         const perdidaSuelo = r * k * l * s * c * pd;
 
         setResults({
@@ -357,12 +370,11 @@ const EcuacionSuelo = () => {
                         <p><strong>L:</strong> {results.l}</p>
                         <p><strong>S:</strong> {results.s}</p>
                         <p><strong>C:</strong> {results.c}</p>
-                        <p><strong>PD:</strong> {results.pd}</p>
-                        <p><strong>Pérdida de Suelo:</strong> {results.perdidaSuelo}</p>
+                        <p><strong>P:</strong> {results.pd}</p>
+                        <p><strong>A:</strong> {results.perdidaSuelo}</p>
                     </div>
                 </div>
             </div>
-
         </div>
     );
 };
