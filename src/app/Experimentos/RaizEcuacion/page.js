@@ -50,7 +50,7 @@ const RaizEcuacion = () => {
 
     return (
         <div className="py-10">
-                  <BackButton />
+            <BackButton />
             <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300 max-w-lg mx-auto mt-6">
                 {/* Título */}
                 <h1 className="text-2xl font-bold text-blue-700 text-center mb-6">
@@ -111,6 +111,12 @@ const RaizEcuacion = () => {
                         Ejemplo
                     </button>
                     <button
+                        onClick={calcular}
+                        className="px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition text-center"
+                    >
+                        Calcular
+                    </button>
+                    <button
                         onClick={limpiarCampos}
                         className="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition"
                     >
@@ -119,13 +125,8 @@ const RaizEcuacion = () => {
                 </div>
 
                 {/* Botón Principal de Calcular */}
-                <div className="mt-4">
-                    <button
-                        onClick={calcular}
-                        className="w-full px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition"
-                    >
-                        Calcular
-                    </button>
+                <div className="mt-4 text-center">
+
                 </div>
 
                 {/* Resultados */}

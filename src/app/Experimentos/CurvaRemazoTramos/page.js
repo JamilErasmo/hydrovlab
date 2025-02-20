@@ -130,10 +130,10 @@ const CurvaDeRemanso = () => {
   };
 
   return (
-    <div className="app">
+    <div className="py-6">
       <BackButton />
       <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md border border-gray-300 mt-6">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">Curva de Remanso (Tramos Fijos)</h2>
+        <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">Curva de Remanso (Tramos Fijos)</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[
             { label: "Caudal Q (m³/s):", value: caudal, setter: setCaudal },
@@ -161,7 +161,7 @@ const CurvaDeRemanso = () => {
             </div>
           ))}
         </div>
-        <div className="mt-6 flex justify-between">
+        <div className="mt-6 flex justify-center space-x-4">
           <button
             onClick={cargarEjemplo}
             className="px-5 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"

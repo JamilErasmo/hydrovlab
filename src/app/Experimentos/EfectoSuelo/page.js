@@ -219,13 +219,13 @@ const EfectoSuelo = () => {
 
 
   return (
-    <div className="app">
+    <div className="container mx-auto max-w-3xl p-4">
             <BackButton />
       {/* <ArrowBackIosIcon
         className="text-gray-600 cursor-pointer hover:text-gray-800 transition"
         onClick={() => window.history.back()}
       /> */}
-      <h1 className="text-2xl font-bold text-gray-800">
+      <h1 className="text-2xl font-semibold text-gray-800 mb-4 text-center">
         Efecto del Uso del Suelo en la Tormenta
       </h1>
       {/* Contenedor principal */}
