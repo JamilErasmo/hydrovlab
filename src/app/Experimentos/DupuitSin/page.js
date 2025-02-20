@@ -150,7 +150,7 @@ const RegimenPermanente = () => {
   };
 
   return (
-    <div className="p-6 bg-white shadow-md rounded-lg">
+    <div className="container mx-auto max-w-3xl p-4">
             <BackButton />
       <h2 className="text-2xl font-bold text-blue-700 text-center uppercase tracking-wide">
         Régimen Permanente: Acuífero Libre
@@ -324,10 +324,10 @@ const RegimenPermanente = () => {
         {/* Resultados */}
         <h3 className="text-xl font-semibold text-blue-700">Resultados:</h3>
         <p className="text-lg font-medium text-gray-800 mt-2">
-          {activeCalculation === 'Q' && `Caudal (m³/día): ${results.Q}`}
-          {activeCalculation === 'Z' && `Abatimiento (m): ${results.Z}`}
-          {activeCalculation === 'K' && `Conductividad hidráulica (m/día): ${results.K}`}
-          {activeCalculation === 'R' && `Radio de influencia (m): ${results.R}`}
+          {activeCalculation === 'Q' && `Caudal (m³/día): ${results.Q !== null ? results.Q : ''}`}
+          {activeCalculation === 'Z' && `Abatimiento (m): ${results.Z !== null ? results.Z : ''}`}
+          {activeCalculation === 'K' && `Conductividad hidráulica (m/día): ${results.K !== null ? results.K : ''}`}
+          {activeCalculation === 'R' && `Radio de influencia (m): ${results.R !== null ? results.R : ''}`}
         </p>
       </div>
 

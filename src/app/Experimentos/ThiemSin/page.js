@@ -303,9 +303,9 @@ const ThiemCalculations = () => {
         <h3 className="text-xl font-semibold text-blue-700">Resultados:</h3>
         <p className="text-lg font-medium text-gray-800 mt-2">
         {activeCalculation === 'Q' && `Caudal (Q): ${results.Q !== null ? results.Q : ''}`}
-          {activeCalculation === 'Z' && `Abatimiento (m): ${results.Z}`}
-          {activeCalculation === 'T' && `Coef. de Transmisibilidad (T): ${results.T}`}
-          {activeCalculation === 'R' && `Radio de influencia (m): ${results.R}`}
+          {activeCalculation === 'Z' && `Abatimiento (m): ${results.Z !== null ? results.Z: ''}`}
+          {activeCalculation === 'T' && `Coef. de Transmisibilidad (T): ${results.T !== null ? results.T : ''}`}
+          {activeCalculation === 'R' && `Radio de influencia (m): ${results.R !== null ? results.R : ''}`}
         </p>
       </div>
 

@@ -265,7 +265,7 @@ const NuevoExperimento = () => {
 
 
     return (
-        <div className="p-8 min-h-screen">
+        <div className="container mx-auto max-w-3xl p-4">
                   <BackButton />
             <div className="p-6 bg-white rounded-2xl shadow-md border border-gray-300 space-y-6 max-w-lg mx-auto">
                 {/* Título Principal */}
