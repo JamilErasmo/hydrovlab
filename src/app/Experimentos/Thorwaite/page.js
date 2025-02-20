@@ -12,6 +12,13 @@ const Thorwaite = () => {
     const [iTotal, setITotal] = useState(0);
     const [a, setA] = useState(0);
 
+    // Arreglo con los nombres de los meses
+    const months = [
+        "Enero", "Febrero", "Marzo", "Abril",
+        "Mayo", "Junio", "Julio", "Agosto",
+        "Septiembre", "Octubre", "Noviembre", "Diciembre"
+    ];
+
     // Función para cargar el ejemplo
     const cargarEjemplo = () => {
         setLatitud(25.5);
@@ -66,6 +73,22 @@ const Thorwaite = () => {
         setA(a.toFixed(2));
     };
 
+    // Función para descargar la tabla en formato CSV
+    const downloadCSV = () => {
+        let csv = "Mes,Temperatura,Ij,Ka,Uj\n";
+        temperaturas.forEach((temp, index) => {
+            csv += `${months[index]},${temp},${ij[index].toFixed(2)},${ka[index]},${uj[index]}\n`;
+        });
+        const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", "tabla_resultados.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     return (
         <div className="py-10">
             <BackButton />
@@ -108,7 +131,7 @@ const Thorwaite = () => {
                         {temperaturas.map((temp, index) => (
                             <div key={index} className="flex flex-col">
                                 <label className="text-gray-700 font-medium">
-                                    Mes {index + 1}:
+                                    {`Mes ${months[index]}:`}
                                 </label>
                                 <input
                                     type="number"
@@ -118,7 +141,7 @@ const Thorwaite = () => {
                                         newTemps[index] = e.target.value;
                                         setTemperaturas(newTemps);
                                     }}
-                                    placeholder={`Temperatura mes ${index + 1}`}
+                                    placeholder={`Temperatura de ${months[index]}`}
                                     className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
                                 />
                             </div>
@@ -169,7 +192,7 @@ const Thorwaite = () => {
                                     {temperaturas.map((temp, index) => (
                                         <tr key={index} className="text-center border-t border-gray-300">
                                             <td className="px-4 py-2 border-r border-gray-300">
-                                                {`Mes ${index + 1}`}
+                                                {months[index]}
                                             </td>
                                             <td className="px-4 py-2 border-r border-gray-300">
                                                 {temp}
@@ -199,12 +222,18 @@ const Thorwaite = () => {
                                 </p>
                             </div>
                         </div>
-
+                        <div className="flex justify-center mt-6">
+                            <button
+                                onClick={downloadCSV}
+                                className="px-4 py-2 bg-indigo-500 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-600 transition"
+                            >
+                                Descargar Tabla CSV
+                            </button>
+                        </div>
                     </div>
                 )}
             </div>
         </div>
-
     );
 };
 
