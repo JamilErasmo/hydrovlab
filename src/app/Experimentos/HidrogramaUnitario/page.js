@@ -50,6 +50,7 @@ const HidrogramaUnitario = () => {
     triangular: null,
     scs: null,
   });
+  const [listing, setListing] = useState('');
 
   const handleChange = (e) => {
     setInputValues({
@@ -105,28 +106,34 @@ const HidrogramaUnitario = () => {
       caudalPico: qp.toFixed(3),
     });
 
+    // Datos para el gráfico triangular
     const triangularData = {
-      labels: [0, tp, tb],
+      labels: [0, tp.toFixed(3), tb.toFixed(3)],
       datasets: [
         {
           label: 'Hidrograma Triangular',
-          data: [0, qp, 0],
+          data: [0, qp.toFixed(3), 0],
           borderColor: 'rgba(75,192,192,1)',
           fill: false,
         },
       ],
     };
 
+    // Datos para el gráfico SCS basados en la versión original
+    const t_tp = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.8, 2.0, 2.2, 2.4, 2.6, 2.8, 3.0, 3.5, 4.0, 4.5, 5.0];
+    const Q_Qp = [0, 0.015, 0.075, 0.16, 0.28, 0.43, 0.6, 0.77, 0.89, 0.97,
+                  1.0, 0.98, 0.92, 0.84, 0.75, 0.65, 0.57, 0.43, 0.32, 0.24,
+                  0.18, 0.13, 0.098, 0.075, 0.036, 0.018, 0.009, 0.004];
+
+    const scsLabels = t_tp.map(val => (val * tp).toFixed(3));
+    const scsDataValues = Q_Qp.map(val => (val * qp).toFixed(3));
+
     const scsData = {
-      labels: Array.from({ length: 28 }, (_, i) => (i * tp / 27).toFixed(3)),
+      labels: scsLabels,
       datasets: [
         {
           label: 'Hidrograma SCS',
-          data: [
-            0, 0.015, 0.075, 0.16, 0.28, 0.43, 0.6, 0.77, 0.89, 0.97,
-            1.0, 0.98, 0.92, 0.84, 0.75, 0.65, 0.57, 0.43, 0.32, 0.24,
-            0.18, 0.13, 0.098, 0.075, 0.036, 0.018, 0.009, 0.004
-          ].map(val => (val * qp).toFixed(3)),
+          data: scsDataValues,
           borderColor: 'rgba(153,102,255,1)',
           fill: false,
         },
@@ -137,6 +144,15 @@ const HidrogramaUnitario = () => {
       triangular: triangularData,
       scs: scsData,
     });
+
+    // Generar listado de resultados (pares t y Q del gráfico SCS)
+    let listingText = "HIDROGRAMA UNITARIO DE MÁXIMA CRECIDA\n\n";
+    listingText += "Hidrograma SCS:\n\n";
+    listingText += "t(h)\t\tQ(m³/s/mm)\n";
+    for (let i = 0; i < scsLabels.length; i++) {
+      listingText += `${scsLabels[i]}\t\t${scsDataValues[i]}\n`;
+    }
+    setListing(listingText);
   };
 
   const clearFields = () => {
@@ -163,13 +179,14 @@ const HidrogramaUnitario = () => {
       triangular: null,
       scs: null,
     });
+    setListing('');
   };
 
   return (
     <div className="container mx-auto max-w-3xl p-4">
       {/* Contenedor Principal */}
       <div className="bg-white p-6 shadow-md rounded-lg border border-gray-300">
-      <BackButton />
+        <BackButton />
 
         {/* Encabezado */}
         <h1 className="text-2xl font-bold text-gray-800 text-center mb-6">
@@ -255,13 +272,10 @@ const HidrogramaUnitario = () => {
             </div>
           </div>
         </div>
-
       </div>
 
-
-      {/* Contenedor Principal */}
-      <div className="bg-white p-6 shadow-md rounded-lg border border-gray-300">
-
+      {/* Contenedor de Parámetros y Gráficos */}
+      <div className="bg-white p-6 shadow-md rounded-lg border border-gray-300 mt-6">
         {/* Sección de Parámetros */}
         <div className="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-300">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">
@@ -302,24 +316,52 @@ const HidrogramaUnitario = () => {
           {chartData.triangular && (
             <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300">
               <h3 className="text-lg font-semibold text-gray-700 mb-2">Hidrograma Triangular</h3>
-              <Line data={chartData.triangular} />
+              <Line
+                data={chartData.triangular}
+                options={{
+                  scales: {
+                    x: {
+                      title: { display: true, text: 't (h)' },
+                    },
+                    y: {
+                      title: { display: true, text: 'Q (m³/s)' },
+                    },
+                  },
+                }}
+              />
             </div>
           )}
 
           {chartData.scs && (
             <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300">
               <h3 className="text-lg font-semibold text-gray-700 mb-2">Hidrograma SCS</h3>
-              <Line data={chartData.scs} />
+              <Line
+                data={chartData.scs}
+                options={{
+                  scales: {
+                    x: {
+                      title: { display: true, text: 't (h)' },
+                    },
+                    y: {
+                      title: { display: true, text: 'Q (m³/s/mm)' },
+                    },
+                  },
+                }}
+              />
             </div>
           )}
         </div>
-
       </div>
 
+      {/* Sección del Listado de Resultados */}
+      {listing && (
+        <div className="mt-6 bg-gray-50 p-4 rounded-lg shadow border border-gray-300">
+          <h3 className="text-lg font-semibold text-gray-700 mb-2">Listado de Resultados</h3>
+          <pre className="whitespace-pre-wrap text-gray-800">{listing}</pre>
+        </div>
+      )}
     </div>
   );
-
 };
-
 
 export default HidrogramaUnitario;

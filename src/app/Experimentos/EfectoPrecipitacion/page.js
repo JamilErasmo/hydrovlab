@@ -18,7 +18,6 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 
-// Registro de elementos de Chart.js para las gráficas
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -50,8 +49,10 @@ const EfectoPrecipitacion = () => {
     tiempoBase: '',
     caudalPico: '',
   });
-  // Se actualiza chartData para incluir ambas gráficas
+  // Se guarda la información de las gráficas (triangular y SCS)
   const [chartData, setChartData] = useState(null);
+  // Estado para el listado de resultados
+  const [resultListing, setResultListing] = useState('');
   // Estado para mensajes de error
   const [error, setError] = useState('');
 
@@ -60,7 +61,6 @@ const EfectoPrecipitacion = () => {
       ...inputValues,
       [e.target.name]: e.target.value,
     });
-    // Limpiar error al modificar algún valor
     setError('');
   };
 
@@ -100,20 +100,21 @@ const EfectoPrecipitacion = () => {
   };
 
   const graficarHidrogramas = () => {
-    const { areaCuenca } = inputValues;
+    const { areaCuenca, duracionEfectiva, precipitacionEfectiva } = inputValues;
     const A = parseFloat(areaCuenca);
     const Tc = parseFloat(resultValues.tiempoConcentracion);
 
-    if (isNaN(A) || isNaN(Tc)) {
+    if (isNaN(A) || isNaN(Tc) || isNaN(parseFloat(duracionEfectiva)) || isNaN(parseFloat(precipitacionEfectiva))) {
       setError('Por favor, asegúrese de que todos los valores de entrada y el tiempo de concentración sean válidos.');
       return;
     }
     setError('');
     const tr = 0.6 * Tc;
-    const tp = parseFloat(inputValues.duracionEfectiva) / 2 + tr;
+    const tp = parseFloat(duracionEfectiva) / 2 + tr;
     const tb = 2.67 * tp;
     const qp = (0.208 * A) / tp;
-    const Qpico = qp * parseFloat(inputValues.precipitacionEfectiva);
+    // Qpico se calcula utilizando la precipitación efectiva
+    const Qpico = qp * parseFloat(precipitacionEfectiva);
 
     setHidrogramaValues({
       tiempoRetraso: roundToThree(tr),
@@ -140,17 +141,17 @@ const EfectoPrecipitacion = () => {
     };
 
     // Datos para el Hidrograma SCS
-    const scsCoefficients = [
-      0, 0.015, 0.075, 0.16, 0.28, 0.43, 0.6, 0.77, 0.89, 0.97,
+    // Se utilizan los arreglos originales de factores adimensionales
+    const t_tp = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.8, 2.0, 2.2, 2.4, 2.6, 2.8, 3.0, 3.5, 4.0, 4.5, 5.0];
+    const Q_Qp = [0, 0.015, 0.075, 0.16, 0.28, 0.43, 0.6, 0.77, 0.89, 0.97,
       1.0, 0.98, 0.92, 0.84, 0.75, 0.65, 0.57, 0.43, 0.32, 0.24,
-      0.18, 0.13, 0.098, 0.075, 0.036, 0.018, 0.009, 0.004
-    ];
+      0.18, 0.13, 0.098, 0.075, 0.036, 0.018, 0.009, 0.004];
     const scsData = {
-      labels: Array.from({ length: scsCoefficients.length }, (_, i) => roundToThree(i * tp / (scsCoefficients.length - 1))),
+      labels: t_tp.map(val => roundToThree(val * tp)),
       datasets: [
         {
           label: 'Hidrograma SCS',
-          data: scsCoefficients.map(val => roundToThree(val * qp)),
+          data: Q_Qp.map(val => roundToThree(val * Qpico)),
           borderColor: 'rgba(153,102,255,1)',
           fill: false,
         },
@@ -161,6 +162,14 @@ const EfectoPrecipitacion = () => {
       triangular: triangularData,
       scs: scsData,
     });
+
+    // Generar el listado de resultados para el Hidrograma SCS
+    let listing = "HIDROGRAMA SCS:\n\n";
+    listing += "t (h)\t\tQ (m³/s/mm)\n";
+    t_tp.forEach((factor, index) => {
+      listing += `${roundToThree(factor * tp)}\t\t${roundToThree(Q_Qp[index] * Qpico)}\n`;
+    });
+    setResultListing(listing);
   };
 
   const fillExampleValues = () => {
@@ -185,6 +194,7 @@ const EfectoPrecipitacion = () => {
       caudalPico: '',
     });
     setChartData(null);
+    setResultListing('');
     setError('');
   };
 
@@ -210,6 +220,7 @@ const EfectoPrecipitacion = () => {
       caudalPico: '',
     });
     setChartData(null);
+    setResultListing('');
     setError('');
   };
 
@@ -223,15 +234,16 @@ const EfectoPrecipitacion = () => {
           className="cursor-pointer text-gray-600 hover:text-gray-800"
           onClick={() => window.history.back()}
         />
-        <h1 className="text-2xl font-bold text-gray-800">Efecto de la precipitación efectiva en la tormenta</h1>
+        <h1 className="text-2xl font-bold text-gray-800">
+          Efecto de la precipitación efectiva en la tormenta
+        </h1>
       </div>
 
-      {/* Contenedor principal con 3 columnas */}
+      {/* Contenedor principal de Entrada, Resultados e Imagen */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 bg-white border border-gray-300 rounded-lg shadow-md max-w-5xl mx-auto">
-        {/* Sección de Entrada de Datos */}
+        {/* Entrada de Datos */}
         <div className="p-4 bg-gray-50 rounded-lg shadow">
           <h2 className="text-lg font-semibold text-gray-700 mb-4">Entrada de Datos</h2>
-          {/* Campos de Entrada */}
           <div className="flex flex-col gap-4">
             <label className="text-gray-600">Área de la Cuenca (km²):</label>
             <input
@@ -274,14 +286,12 @@ const EfectoPrecipitacion = () => {
               className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
             />
           </div>
-          {/* Botón de Calcular */}
           <button
             onClick={calcular}
             className="w-full mt-4 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
           >
             Calcular
           </button>
-          {/* Botones Secundarios */}
           <div className="flex justify-between mt-4">
             <button
               onClick={fillExampleValues}
@@ -298,14 +308,12 @@ const EfectoPrecipitacion = () => {
               <span>Limpiar</span>
             </button>
           </div>
-          {/* Mensaje de Error */}
           {error && <p className="text-red-500 text-center mt-4">{error}</p>}
         </div>
 
-        {/* Sección de Resultados */}
+        {/* Resultados */}
         <div className="p-4 bg-gray-50 rounded-lg shadow">
           <h2 className="text-lg font-semibold text-gray-700 mb-4">Resultados</h2>
-          {/* Resultados Calculados */}
           <div className="flex flex-col gap-3">
             <label className="text-gray-600">Fórmula de Kirpich (h):</label>
             <input type="text" value={resultValues.kirpich} readOnly className="w-full p-2 border border-gray-300 rounded-lg bg-gray-100" />
@@ -320,17 +328,17 @@ const EfectoPrecipitacion = () => {
           </div>
         </div>
 
-        {/* Sección de Imagen o Espacio Adicional */}
+        {/* Imagen */}
         <div className="p-4 flex justify-center items-center bg-gray-50 rounded-lg shadow">
           <img src="/images/imagenguia.jpg" alt="Efecto de la precipitación" className="w-full" />
         </div>
       </div>
 
+      {/* Sección de Parámetros y Gráficas */}
       <div className="grid grid-cols-1 gap-6 p-6 bg-white border border-gray-300 rounded-lg shadow-md max-w-5xl mx-auto">
-        {/* Sección de Parámetros */}
+        {/* Parámetros del Hidrograma */}
         <div className="p-4 bg-gray-50 rounded-lg shadow">
           <h2 className="text-lg font-semibold text-gray-700 mb-4">Parámetros para la Construcción del Hidrograma</h2>
-          {/* Entradas de Parámetros */}
           <div className="flex flex-col gap-4">
             <label className="text-gray-600">Tiempo de Retraso tr (h):</label>
             <input
@@ -361,7 +369,6 @@ const EfectoPrecipitacion = () => {
               className="w-full p-2 border border-gray-300 rounded-lg bg-gray-100"
             />
           </div>
-          {/* Botón de Graficar */}
           <button
             onClick={graficarHidrogramas}
             className="w-full mt-4 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
@@ -370,23 +377,47 @@ const EfectoPrecipitacion = () => {
           </button>
         </div>
 
-        {/* Sección de Gráficos */}
+        {/* Gráficas */}
         <div className="p-4">
           {chartData ? (
             <div className="grid grid-cols-1 gap-6">
               <div className="p-4 bg-white rounded-lg shadow">
                 <h3 className="text-lg font-semibold text-gray-700 mb-4 text-center">Hidrograma Triangular</h3>
-                <Line data={chartData.triangular} />
+                <Line
+                  data={chartData.triangular}
+                  options={{
+                    scales: {
+                      x: { title: { display: true, text: 't (h)' } },
+                      y: { title: { display: true, text: 'Q (m³/s)' } }
+                    }
+                  }}
+                />
               </div>
               <div className="p-4 bg-white rounded-lg shadow">
                 <h3 className="text-lg font-semibold text-gray-700 mb-4 text-center">Hidrograma SCS</h3>
-                <Line data={chartData.scs} />
+                <Line
+                  data={chartData.scs}
+                  options={{
+                    scales: {
+                      x: { title: { display: true, text: 't (h)' } },
+                      y: { title: { display: true, text: 'Q (m³/s/mm)' } }
+                    }
+                  }}
+                />
               </div>
             </div>
           ) : (
             <p className="text-center text-gray-500">No hay datos para graficar.</p>
           )}
         </div>
+
+        {/* Listado de Resultados */}
+        {resultListing && (
+          <div className="p-4 bg-gray-50 rounded-lg shadow border border-gray-300">
+            <h3 className="text-lg font-semibold text-gray-700 mb-4 text-center">Listado de Resultados (Hidrograma SCS)</h3>
+            <pre className="whitespace-pre-wrap text-gray-800">{resultListing}</pre>
+          </div>
+        )}
       </div>
     </div>
   );
