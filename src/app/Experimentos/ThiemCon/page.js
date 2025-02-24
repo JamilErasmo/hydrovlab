@@ -26,14 +26,14 @@ ChartJS.register(
 
 const NuevoExperimento = () => {
     const [inputs, setInputs] = useState({
-        nivelFreatico: 12,
-        caudal: 500,
-        transmisividad: 100,
-        radioPozo: 10,
-        distancia1: 100,
-        distancia2: 600,
-        descenso1: 2,
-        descenso2: 3,
+        nivelFreatico: '',
+        caudal: '',
+        transmisividad: '',
+        radioPozo: '',
+        distancia1: '',
+        distancia2: '',
+        descenso1: '',
+        descenso2: '',
     });
 
     const [results, setResults] = useState({
@@ -470,11 +470,11 @@ const NuevoExperimento = () => {
                             <p className="text-green-700 font-semibold">Abatimiento (m):</p>
                             <div className="text-gray-700">
                                 <p className="text-lg">
-                                    Z (m): Pozo de extracción: <span className="font-bold">{results.ZPozoExtraccion || '--'}</span>
+                                    Z (m): Pozo de extracción: <span className="font-bold">{results.ZPozoObservacion1 || '--'}</span>
                                 </p>
                                 <p className="text-lg">
                                     Z (m): Pozo de observación 1:{' '}
-                                    <span className="font-bold">{results.ZPozoObservacion1 || '--'}</span>
+                                    <span className="font-bold">{results.ZPozoExtraccion || '--'}</span>
                                 </p>
                             </div>
                         </div>
