@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
+import { Chart as ChartJS } from 'chart.js/auto';
+import { Line } from 'react-chartjs-2';
 
 const ThiemCalculations = () => {
   const [inputs, setInputs] = useState({
@@ -18,6 +20,10 @@ const ThiemCalculations = () => {
     T: null,
     R: null,
   });
+
+  const [labels, setLabels] = useState([]);
+  const [aguaObject, setAguaObject] = useState({});
+
   const [activeCalculation, setActiveCalculation] = useState('Q');
   const [error, setError] = useState('');
 
@@ -30,6 +36,33 @@ const ThiemCalculations = () => {
     setInputs({ ...inputs, [name]: value });
   };
 
+  const setGraphData = () => {
+    const radioInfluencia = inputs.radioInfluencia;
+    const dividedValue = radioInfluencia / 7;
+    const nivelFreatico = parseFloat(inputs.nivelFreatico);
+    const descenso = parseFloat(inputs.descenso);
+    const nivelAguaY = nivelFreatico - descenso;
+    const nivelAguaX = parseFloat(inputs.radioPozo) * 2;
+
+    if (Math.abs(dividedValue - 100) < Math.abs(dividedValue - 50)) {
+      setLabels(['0', '100', '200', '300', '400', '500', '600', '700']);
+    } else {
+      setLabels(['0', '50', '100', '150', '200', '250', '300', '350']);
+    }
+    setAguaObject(
+      {
+        label: 'Agua',
+        fill: true,
+        data: [
+          { x: 0, y: nivelAguaY },
+          { x: nivelAguaX, y: nivelAguaY }
+        ],
+        borderColor: 'rgb(56, 42, 157)',
+        backgroundColor: 'rgb(77, 30, 164)',
+        borderWidth: 1,
+      }
+    );
+  };
   const calculateQ = () => {
     const { nivelFreatico, descenso, transmisibilidad, radioPozo, radioInfluencia } = inputs;
     if (nivelFreatico && descenso && transmisibilidad && radioPozo && radioInfluencia) {
@@ -39,6 +72,7 @@ const ThiemCalculations = () => {
         Math.log(radioInfluencia / radioPozo)
       ).toFixed(2);
       setResults({ Q });
+      setGraphData();
     } else {
       setError('Por favor, complete todos los campos para calcular Q.');
       return;
@@ -142,6 +176,7 @@ const ThiemCalculations = () => {
       });
     }
   };
+
 
   return (
     <div className='container mx-auto max-w-3xl p-4'>
@@ -296,8 +331,8 @@ const ThiemCalculations = () => {
             }
             disabled={!activeCalculation}
             className={`px-6 py-2 rounded-lg font-semibold text-white transition ${activeCalculation
-                ? 'bg-blue-600 hover:bg-blue-700 shadow-md'
-                : 'bg-gray-400 cursor-not-allowed'
+              ? 'bg-blue-600 hover:bg-blue-700 shadow-md'
+              : 'bg-gray-400 cursor-not-allowed'
               }`}
           >
             Calcular
@@ -320,10 +355,42 @@ const ThiemCalculations = () => {
         <h3 className="text-xl font-semibold text-blue-700">Resultados:</h3>
         <p className="text-lg font-medium text-gray-800 mt-2">
           {activeCalculation === 'Q' && `Caudal (Q): ${results.Q !== null ? results.Q : ''}`}
-          {activeCalculation === 'Z' && `Abatimiento (m): ${results.Z !== null ? results.Z: ''}`}
+          {activeCalculation === 'Z' && `Abatimiento (m): ${results.Z !== null ? results.Z : ''}`}
           {activeCalculation === 'T' && `Coef. de Transmisibilidad (T): ${results.T !== null ? results.T : ''}`}
           {activeCalculation === 'R' && `Radio de influencia (m): ${results.R !== null ? results.R : ''}`}
         </p>
+        <Line
+          options={{
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }}
+          data={{
+            labels: labels,
+            datasets: [
+              {
+                label: 'linea entrecortada',
+                fill: false,
+                data: [12, 12, 12, 12],
+                borderDash: [5, 5],
+                borderColor: 'rgb(4, 0, 255)',
+                borderWidth: 2,
+              },
+              aguaObject,
+              {
+                label: 'Caudal de extracción (Q)',
+                data: [, 14, 14, 14],
+                fill: true,
+                borderColor: 'rgb(23, 200, 23)',
+                backgroundColor: 'rgb(229, 191, 154)',
+                borderWidth: 5,
+              },
+            ]
+          }
+          } />
+
       </div>
     </div>
   );
