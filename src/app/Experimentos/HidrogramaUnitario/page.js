@@ -1,6 +1,5 @@
 'use client';
 import React, { useState } from 'react';
-import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 import CalculateIcon from '@mui/icons-material/Calculate';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -51,6 +50,9 @@ const HidrogramaUnitario = () => {
     scs: null,
   });
   const [listing, setListing] = useState('');
+
+  // Función para redondear a tres decimales
+  const roundToThree = (num) => Math.round(num * 1000) / 1000;
 
   const handleChange = (e) => {
     setInputValues({
@@ -106,13 +108,24 @@ const HidrogramaUnitario = () => {
       caudalPico: qp.toFixed(3),
     });
 
-    // Datos para el gráfico triangular
+    // Generación del Hidrograma Triangular con interpolación lineal (101 puntos)
+    const numPointsTri = 101;
+    const triangularLabels = Array.from({ length: numPointsTri }, (_, i) =>
+      roundToThree((i * tb) / (numPointsTri - 1))
+    );
+    const triangularDataValues = triangularLabels.map((t) => {
+      if (t <= tp) {
+        return roundToThree((qp / tp) * t);
+      } else {
+        return roundToThree((qp / (tb - tp)) * (tb - t));
+      }
+    });
     const triangularData = {
-      labels: [0, tp.toFixed(3), tb.toFixed(3)],
+      labels: triangularLabels.map((val) => val.toFixed(3)),
       datasets: [
         {
           label: 'Hidrograma Triangular',
-          data: [0, qp.toFixed(3), 0],
+          data: triangularDataValues,
           borderColor: 'rgba(75,192,192,1)',
           fill: false,
         },
@@ -125,8 +138,8 @@ const HidrogramaUnitario = () => {
                   1.0, 0.98, 0.92, 0.84, 0.75, 0.65, 0.57, 0.43, 0.32, 0.24,
                   0.18, 0.13, 0.098, 0.075, 0.036, 0.018, 0.009, 0.004];
 
-    const scsLabels = t_tp.map(val => (val * tp).toFixed(3));
-    const scsDataValues = Q_Qp.map(val => (val * qp).toFixed(3));
+    const scsLabels = t_tp.map((val) => (val * tp).toFixed(3));
+    const scsDataValues = Q_Qp.map((val) => (val * qp).toFixed(3));
 
     const scsData = {
       labels: scsLabels,
@@ -183,105 +196,98 @@ const HidrogramaUnitario = () => {
   };
 
   return (
-    <div className="container mx-auto max-w-3xl p-4">
-      {/* Contenedor Principal */}
-      <div className="bg-white p-6 shadow-md rounded-lg border border-gray-300">
-        <BackButton />
-
-        {/* Encabezado */}
-        <h1 className="text-2xl font-bold text-gray-800 text-center mb-6">
-          Hidrograma Unitario de Máxima Crecida
+    <div className="container mx-auto max-w-5xl p-4">
+      {/* Encabezado centrado sin la flecha */}
+      <div className="text-center mb-6">
+        <h1 className="text-2xl font-bold text-gray-800">
+          Hidrograma Unitario de Máxima Crecidad
         </h1>
+      </div>
 
-        {/* Sección de Entrada de Datos y Resultados */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-          {/* Sección de Entrada de Datos */}
-          <div className="bg-gray-50 p-6 rounded-lg shadow">
-            <h3 className="text-xl font-semibold text-gray-800 mb-4">Entrada de Datos</h3>
-
-            <div className="space-y-4">
-              {[
-                { label: "Área de la Cuenca (km²):", name: "areaCuenca", value: inputValues.areaCuenca },
-                { label: "Longitud del Cauce (km):", name: "longitudCauce", value: inputValues.longitudCauce },
-                { label: "Pendiente Media del Cauce (m/m):", name: "pendienteMedia", value: inputValues.pendienteMedia }
-              ].map((item, index) => (
-                <div key={index} className="flex flex-col">
-                  <label className="text-gray-700 font-medium">{item.label}</label>
-                  <input
-                    type="text"
-                    name={item.name}
-                    value={item.value}
-                    onChange={handleChange}
-                    className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                  />
-                </div>
-              ))}
-            </div>
-
-            {/* Botón para calcular */}
+      {/* Sección de Entrada de Datos, Resultados e Imagen */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 bg-white border border-gray-300 rounded-lg shadow-md mx-auto">
+        {/* Entrada de Datos */}
+        <div className="bg-gray-50 p-6 rounded-lg shadow">
+          <h3 className="text-xl font-semibold text-gray-800 mb-4">Entrada de Datos</h3>
+          <div className="space-y-4">
+            {[
+              { label: "Área de la Cuenca (km²):", name: "areaCuenca", value: inputValues.areaCuenca },
+              { label: "Longitud del Cauce (km):", name: "longitudCauce", value: inputValues.longitudCauce },
+              { label: "Pendiente Media del Cauce (m/m):", name: "pendienteMedia", value: inputValues.pendienteMedia }
+            ].map((item, index) => (
+              <div key={index} className="flex flex-col">
+                <label className="text-gray-700 font-medium">{item.label}</label>
+                <input
+                  type="text"
+                  name={item.name}
+                  value={item.value}
+                  onChange={handleChange}
+                  className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                />
+              </div>
+            ))}
+          </div>
+          <button
+            onClick={calculate}
+            className="mt-6 w-full px-5 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition"
+          >
+            Calcular
+          </button>
+          <div className="mt-4 flex justify-between">
             <button
-              onClick={calculate}
-              className="mt-6 w-full px-5 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition"
+              onClick={fillExampleValues}
+              className="flex items-center px-5 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
             >
-              Calcular
+              <CalculateIcon className="mr-2" />
+              Ejemplo
             </button>
-
-            {/* Botones secundarios */}
-            <div className="mt-4 flex justify-between">
-              <button
-                onClick={fillExampleValues}
-                className="flex items-center px-5 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
-              >
-                <CalculateIcon className="mr-2" />
-                Ejemplo
-              </button>
-
-              <button
-                onClick={clearFields}
-                className="flex items-center px-5 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition"
-              >
-                <DeleteIcon className="mr-2" />
-                Limpiar
-              </button>
-            </div>
+            <button
+              onClick={clearFields}
+              className="flex items-center px-5 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition"
+            >
+              <DeleteIcon className="mr-2" />
+              Limpiar
+            </button>
           </div>
+        </div>
 
-          {/* Sección de Resultados */}
-          <div className="bg-white p-6 rounded-lg shadow">
-            <h3 className="text-xl font-semibold text-gray-800 mb-4">Resultados</h3>
-
-            <div className="space-y-4">
-              {[
-                { label: "Fórmula de Kirpich (h):", value: resultValues.kirpich },
-                { label: "Fórmula Californiana del U.S.B.R (h):", value: resultValues.california },
-                { label: "Fórmula de Giandotti (h):", value: resultValues.giandotti },
-                { label: "Fórmula de Témez (h):", value: resultValues.temez },
-                { label: "Tiempo de Concentración Definitivo (h):", value: resultValues.tiempoConcentracion }
-              ].map((item, index) => (
-                <div key={index} className="flex flex-col">
-                  <label className="text-gray-700 font-medium">{item.label}</label>
-                  <input
-                    type="text"
-                    value={item.value}
-                    readOnly
-                    className="w-full p-2 mt-1 border border-gray-300 rounded-lg bg-gray-100 text-center"
-                  />
-                </div>
-              ))}
-            </div>
+        {/* Resultados */}
+        <div className="bg-white p-6 rounded-lg shadow">
+          <h3 className="text-xl font-semibold text-gray-800 mb-4">Resultados</h3>
+          <div className="space-y-4">
+            {[
+              { label: "Fórmula de Kirpich (h):", value: resultValues.kirpich },
+              { label: "Fórmula Californiana del U.S.B.R (h):", value: resultValues.california },
+              { label: "Fórmula de Giandotti (h):", value: resultValues.giandotti },
+              { label: "Fórmula de Témez (h):", value: resultValues.temez },
+              { label: "Tiempo de Concentración Definitivo (h):", value: resultValues.tiempoConcentracion }
+            ].map((item, index) => (
+              <div key={index} className="flex flex-col">
+                <label className="text-gray-700 font-medium">{item.label}</label>
+                <input
+                  type="text"
+                  value={item.value}
+                  readOnly
+                  className="w-full p-2 mt-1 border border-gray-300 rounded-lg bg-gray-100 text-center"
+                />
+              </div>
+            ))}
           </div>
+        </div>
+
+        {/* Imagen */}
+        <div className="p-6 flex justify-center items-center bg-gray-50 rounded-lg shadow">
+          <img src="/images/imagenguia.jpg" alt="Efecto de la precipitación" className="w-full" />
         </div>
       </div>
 
       {/* Contenedor de Parámetros y Gráficos */}
-      <div className="bg-white p-6 shadow-md rounded-lg border border-gray-300 mt-6">
+      <div className="bg-white p-6 shadow-md rounded-lg border border-gray-300 mt-6 mx-auto">
         {/* Sección de Parámetros */}
         <div className="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-300">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">
             Parámetros para la Construcción del Hidrograma
           </h2>
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
               { label: "Tiempo de Retraso tr (h):", value: hidrogramaValues.tiempoRetraso },
@@ -301,8 +307,6 @@ const HidrogramaUnitario = () => {
               </div>
             ))}
           </div>
-
-          {/* Botón para Generar Hidrogramas */}
           <button
             onClick={generateHidrogramas}
             className="mt-6 w-full px-5 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
@@ -311,8 +315,8 @@ const HidrogramaUnitario = () => {
           </button>
         </div>
 
-        {/* Sección de Gráficos */}
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Sección de Gráficos (en una sola columna) */}
+        <div className="mt-6 grid grid-cols-1 gap-6">
           {chartData.triangular && (
             <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300">
               <h3 className="text-lg font-semibold text-gray-700 mb-2">Hidrograma Triangular</h3>
@@ -320,18 +324,13 @@ const HidrogramaUnitario = () => {
                 data={chartData.triangular}
                 options={{
                   scales: {
-                    x: {
-                      title: { display: true, text: 't (h)' },
-                    },
-                    y: {
-                      title: { display: true, text: 'Q (m³/s)' },
-                    },
+                    x: { title: { display: true, text: 't (h)' } },
+                    y: { title: { display: true, text: 'Q (m³/s)' } },
                   },
                 }}
               />
             </div>
           )}
-
           {chartData.scs && (
             <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300">
               <h3 className="text-lg font-semibold text-gray-700 mb-2">Hidrograma SCS</h3>
@@ -339,12 +338,8 @@ const HidrogramaUnitario = () => {
                 data={chartData.scs}
                 options={{
                   scales: {
-                    x: {
-                      title: { display: true, text: 't (h)' },
-                    },
-                    y: {
-                      title: { display: true, text: 'Q (m³/s/mm)' },
-                    },
+                    x: { title: { display: true, text: 't (h)' } },
+                    y: { title: { display: true, text: 'Q (m³/s/mm)' } },
                   },
                 }}
               />

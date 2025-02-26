@@ -246,90 +246,100 @@ const EfectoPrecipitacion = () => {
   };
 
   return (
-    <div className="container mx-auto max-w-3xl p-4">
+    <div className="container mx-auto p-4">
       <BackButton />
-
-      {/* Sección de Entrada y Resultados */}
-      <div className="bg-white p-6 shadow-md rounded-lg border border-gray-300">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">
+      {/* Título del Experimento */}
+      <div className="flex items-center gap-4 mb-6">
+        <ArrowBackIosIcon 
+          className="cursor-pointer text-gray-600 hover:text-gray-800" 
+          onClick={() => window.history.back()} 
+        />
+        <h1 className="text-2xl font-bold text-gray-800">
           Efecto de la duración en la tormenta
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Entrada de Datos */}
-          <div className="bg-gray-50 p-6 rounded-lg shadow">
-            <h3 className="text-xl font-semibold text-gray-800 mb-4">Entrada de Datos</h3>
-            <div className="space-y-4">
-              {[
-                { label: "Área de la Cuenca (km²):", name: "areaCuenca", value: inputValues.areaCuenca },
-                { label: "Longitud del Cauce (km):", name: "longitudCauce", value: inputValues.longitudCauce },
-                { label: "Pendiente Media del Cauce (m/m):", name: "pendienteMedia", value: inputValues.pendienteMedia },
-                { label: "Duración Efectiva (h):", name: "duracionEfectiva", value: inputValues.duracionEfectiva }
-              ].map((item, index) => (
-                <div key={index} className="flex flex-col">
-                  <label className="text-gray-700 font-medium">{item.label}</label>
-                  <input
-                    type="text"
-                    name={item.name}
-                    value={item.value}
-                    onChange={handleChange}
-                    className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                  />
-                </div>
-              ))}
-            </div>
-            <button
-              onClick={calcular}
-              className="mt-6 w-full px-5 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition"
-            >
-              Calcular
-            </button>
-            <div className="mt-4 flex justify-between">
-              <button
-                onClick={fillExampleValues}
-                className="flex items-center px-5 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
-              >
-                <CalculateIcon className="mr-2" />
-                Ejemplo
-              </button>
-              <button
-                onClick={clearFields}
-                className="flex items-center px-5 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition"
-              >
-                <DeleteIcon className="mr-2" />
-                Limpiar
-              </button>
-            </div>
-            {error && <p className="text-red-500 text-center mt-4">{error}</p>}
-          </div>
+        </h1>
+      </div>
 
-          {/* Resultados de los cálculos */}
-          <div className="bg-white p-6 rounded-lg shadow">
-            <h3 className="text-xl font-semibold text-gray-800 mb-4">Resultados</h3>
-            <div className="space-y-4">
-              {[
-                { label: "Fórmula de Kirpich (h):", value: resultValues.kirpich },
-                { label: "Fórmula Californiana del U.S.B.R (h):", value: resultValues.california },
-                { label: "Fórmula de Giandotti (h):", value: resultValues.giandotti },
-                { label: "Fórmula de Témez (h):", value: resultValues.temez },
-                { label: "Tiempo de Concentración Definitivo (h):", value: resultValues.tiempoConcentracion }
-              ].map((item, index) => (
-                <div key={index} className="flex flex-col">
-                  <label className="text-gray-700 font-medium">{item.label}</label>
-                  <input
-                    type="text"
-                    value={item.value}
-                    readOnly
-                    className="w-full p-2 mt-1 border border-gray-300 rounded-lg bg-gray-100 text-center"
-                  />
-                </div>
-              ))}
-            </div>
+      {/* Sección de Entrada, Resultados e Imagen */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 bg-white border border-gray-300 rounded-lg shadow-md max-w-5xl mx-auto">
+        {/* Entrada de Datos */}
+        <div className="bg-gray-50 p-6 rounded-lg shadow">
+          <h3 className="text-xl font-semibold text-gray-800 mb-4">Entrada de Datos</h3>
+          <div className="space-y-4">
+            {[
+              { label: "Área de la Cuenca (km²):", name: "areaCuenca", value: inputValues.areaCuenca },
+              { label: "Longitud del Cauce (km):", name: "longitudCauce", value: inputValues.longitudCauce },
+              { label: "Pendiente Media del Cauce (m/m):", name: "pendienteMedia", value: inputValues.pendienteMedia },
+              { label: "Duración Efectiva (h):", name: "duracionEfectiva", value: inputValues.duracionEfectiva }
+            ].map((item, index) => (
+              <div key={index} className="flex flex-col">
+                <label className="text-gray-700 font-medium">{item.label}</label>
+                <input
+                  type="text"
+                  name={item.name}
+                  value={item.value}
+                  onChange={handleChange}
+                  className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                />
+              </div>
+            ))}
           </div>
+          <button
+            onClick={calcular}
+            className="mt-6 w-full px-5 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition"
+          >
+            Calcular
+          </button>
+          <div className="mt-4 flex justify-between">
+            <button
+              onClick={fillExampleValues}
+              className="flex items-center px-5 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
+            >
+              <CalculateIcon className="mr-2" />
+              Ejemplo
+            </button>
+            <button
+              onClick={clearFields}
+              className="flex items-center px-5 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition"
+            >
+              <DeleteIcon className="mr-2" />
+              Limpiar
+            </button>
+          </div>
+          {error && <p className="text-red-500 text-left mt-4">{error}</p>}
+        </div>
+
+        {/* Resultados de los cálculos */}
+        <div className="bg-white p-6 rounded-lg shadow">
+          <h3 className="text-xl font-semibold text-gray-800 mb-4">Resultados</h3>
+          <div className="space-y-4">
+            {[
+              { label: "Fórmula de Kirpich (h):", value: resultValues.kirpich },
+              { label: "Fórmula Californiana del U.S.B.R (h):", value: resultValues.california },
+              { label: "Fórmula de Giandotti (h):", value: resultValues.giandotti },
+              { label: "Fórmula de Témez (h):", value: resultValues.temez },
+              { label: "Tiempo de Concentración Definitivo (h):", value: resultValues.tiempoConcentracion }
+            ].map((item, index) => (
+              <div key={index} className="flex flex-col">
+                <label className="text-gray-700 font-medium text-left">{item.label}</label>
+                <input
+                  type="text"
+                  value={item.value}
+                  readOnly
+                  className="w-full p-2 mt-1 border border-gray-300 rounded-lg bg-gray-100"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Imagen */}
+        <div className="p-6 flex justify-center items-center bg-gray-50 rounded-lg shadow">
+          <img src="/images/imagenguia.jpg" alt="Efecto de la precipitación" className="w-full" />
         </div>
       </div>
 
-      {/* Sección de Hidrograma y Parámetros */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 border border-gray-300 rounded-lg shadow-md max-w-5xl mx-auto mt-6">
+      {/* Sección de Parámetros y Gráficas (en una sola columna) */}
+      <div className="grid grid-cols-1 gap-6 bg-white p-6 border border-gray-300 rounded-lg shadow-md max-w-5xl mx-auto mt-6">
         {/* Parámetros para el Hidrograma */}
         <div className="bg-gray-50 p-6 rounded-lg shadow">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">
@@ -343,12 +353,12 @@ const EfectoPrecipitacion = () => {
               { label: "Caudal Pico Qp (m³/s):", value: hidrogramaValues.caudalPico }
             ].map((item, index) => (
               <div key={index} className="flex flex-col">
-                <label className="text-gray-700 font-medium">{item.label}</label>
+                <label className="text-gray-700 font-medium text-left">{item.label}</label>
                 <input
                   type="text"
                   value={item.value}
                   readOnly
-                  className="w-full p-2 mt-1 border border-gray-300 rounded-lg bg-gray-100 text-center"
+                  className="w-full p-2 mt-1 border border-gray-300 rounded-lg bg-gray-100"
                 />
               </div>
             ))}
@@ -365,19 +375,19 @@ const EfectoPrecipitacion = () => {
         <div className="bg-white p-6 rounded-lg shadow space-y-6">
           {chartData ? (
             <div>
-              <h3 className="text-lg font-semibold text-gray-700 mb-4 text-center">Hidrograma Triangular</h3>
+              <h3 className="text-lg font-semibold text-gray-700 mb-4 text-left">Hidrograma Triangular</h3>
               <Line data={chartData} options={chartOptions} />
             </div>
           ) : (
-            <p className="text-center text-gray-500">No hay datos para graficar el Hidrograma Triangular.</p>
+            <p className="text-left text-gray-500">No hay datos para graficar el Hidrograma Triangular.</p>
           )}
           {chartDataAdim ? (
             <div>
-              <h3 className="text-lg font-semibold text-gray-700 mb-4 text-center">Hidrograma Adimensional</h3>
+              <h3 className="text-lg font-semibold text-gray-700 mb-4 text-left">Hidrograma Adimensional</h3>
               <Line data={chartDataAdim} options={chartOptions} />
             </div>
           ) : (
-            <p className="text-center text-gray-500">No hay datos para graficar el Hidrograma Adimensional.</p>
+            <p className="text-left text-gray-500">No hay datos para graficar el Hidrograma Adimensional.</p>
           )}
         </div>
       </div>
@@ -385,17 +395,17 @@ const EfectoPrecipitacion = () => {
       {/* Datos Finales y Tabla del Hidrograma del S.C.S */}
       {chartDataAdim && (
         <div className="bg-white p-6 mt-6 rounded-lg shadow-md border border-gray-300">
-          <h3 className="text-xl font-semibold text-gray-800 mb-4 text-center">HIDROGRAMA DEL S.C.S</h3>
-          <div className="text-center font-medium mb-4">
+          <h3 className="text-xl font-semibold text-gray-800 mb-4 text-left">HIDROGRAMA DEL S.C.S</h3>
+          <div className="text-left font-medium mb-4">
             EFECTO DE LA DURACIÓN EN LA TORMENTA
           </div>
-          <div className="mb-4 text-center">
+          <div className="mb-4 text-left">
             <p>de(h)= {inputValues.duracionEfectiva}</p>
             <p>tp(h)= {hidrogramaValues.tiempoPico}</p>
             <p>tb(h)= {hidrogramaValues.tiempoBase}</p>
             <p>Qp(m³/s)= {hidrogramaValues.caudalPico}</p>
           </div>
-          <table className="min-w-full text-center">
+          <table className="min-w-full text-left">
             <thead>
               <tr>
                 <th className="px-4 py-2 border">t(h)</th>

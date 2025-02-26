@@ -39,7 +39,7 @@ const EfectoSuelo = () => {
     tipoSuelo: ''
   });
   // Estado para la selección de CN (opciones: "CN1", "CN2", "CN3")
-  const [selectedCN, setSelectedCN] = useState("CN2"); // Por defecto: CN2 Suelo intermedio
+  const [selectedCN, setSelectedCN] = useState("CN2");
   // Estados para los CN calculados
   const [cnValues, setCnValues] = useState({
     CN1: '',
@@ -48,8 +48,8 @@ const EfectoSuelo = () => {
   });
   // Estados para los cálculos hidrológicos generales
   const [calcValues, setCalcValues] = useState({
-    Tc: '',       // Tiempo de concentración definitivo (h)
-    pEfectiva: '',// Precipitación efectiva (mm)
+    Tc: '',
+    pEfectiva: '',
     tr: '',
     d_e: '',
     tp: '',
@@ -73,6 +73,11 @@ const EfectoSuelo = () => {
   const [resultListing, setResultListing] = useState('');
   // Estado para mensajes de error
   const [error, setError] = useState('');
+  // Estado para el modal de la tabla CN
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Función para redondear a tres decimales
+  const roundToThree = (num) => Math.round(num * 1000) / 1000;
 
   // Manejo de cambios en los inputs
   const handleChange = (e) => {
@@ -86,8 +91,6 @@ const EfectoSuelo = () => {
     setSelectedCN(e.target.value);
   };
 
-  const roundToThree = (num) => Math.round(num * 1000) / 1000;
-
   // Fórmula para calcular la precipitación efectiva:
   // Pe = ((Pt/10 - 508/CN + 5.08)^2 / (Pt/10 + 2032/CN - 20.32)) * 10
   const calculatePEfectiva = (pt, CN) => {
@@ -97,7 +100,6 @@ const EfectoSuelo = () => {
   };
 
   // Función para calcular el CN base
-  // Para este ejemplo, si "Sin cultivos" se asigna 77
   const calculateCN2 = () => {
     const { usoTierra, pendienteTerreno, tipoSuelo } = inputValues;
     let CN_2 = 0;
@@ -184,11 +186,10 @@ const EfectoSuelo = () => {
       return;
     }
     // Cálculos hidrológicos:
-    const tr = 0.6 * Tc;                           // Tiempo de retrazo
-    const d_e = 2 * Math.sqrt(Tc);                   // Duración en exceso
-    const tp = d_e / 2 + tr;                       // Tiempo pico
-    const tb = 2.67 * tp;                          // Tiempo base
-    // Usamos el factor 0.208 para obtener Qpico ≈256.927 m³/s
+    const tr = 0.6 * Tc;
+    const d_e = 2 * Math.sqrt(Tc);
+    const tp = d_e / 2 + tr;
+    const tb = 2.67 * tp;
     const qp = (0.208 * area) / tp;
     const Qpico = qp * pEfectiva;
     setCalcValues(prev => ({
@@ -200,13 +201,24 @@ const EfectoSuelo = () => {
       Qpico: roundToThree(Qpico)
     }));
   
-    // Datos para la gráfica del Hidrograma Triangular
+    // Generar la gráfica del Hidrograma Triangular usando 101 puntos
+    const numPointsTri = 101;
+    const triangularLabels = Array.from({ length: numPointsTri }, (_, i) =>
+      roundToThree((i * tb) / (numPointsTri - 1))
+    );
+    const triangularDataValues = triangularLabels.map(t => {
+      if (t <= tp) {
+        return roundToThree((Qpico / tp) * t);
+      } else {
+        return roundToThree((Qpico / (tb - tp)) * (tb - t));
+      }
+    });
     const triangularData = {
-      labels: [0, tp.toFixed(3), tb.toFixed(3)],
+      labels: triangularLabels.map(val => val.toFixed(3)),
       datasets: [
         {
           label: 'Hidrograma Triangular',
-          data: [0, Qpico.toFixed(3), 0],
+          data: triangularDataValues,
           borderColor: 'rgba(75,192,192,1)',
           fill: false,
         },
@@ -301,102 +313,112 @@ const EfectoSuelo = () => {
         Efecto del Uso del Suelo en la Tormenta
       </h1>
   
-      {/* Sección de Entrada de Datos */}
+      {/* Sección de Entrada de Datos con imagen al lado */}
       <div className="bg-white p-6 shadow-md rounded-lg border border-gray-300">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">Entrada de Datos</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Área de la Cuenca */}
-          <div className="flex flex-col">
-            <label className="text-gray-700 font-medium">Área de la Cuenca (km²):</label>
-            <input type="text" name="areaCuenca" value={inputValues.areaCuenca} onChange={handleChange}
-              className="w-full p-2 border border-gray-300 rounded-lg" />
+          {/* Columna de Inputs */}
+          <div className="grid grid-cols-1 gap-4">
+            {/* ... Aquí van los inputs y selects ... */}
+            <div className="flex flex-col">
+              <label className="text-gray-700 font-medium">Área de la Cuenca (km²):</label>
+              <input type="text" name="areaCuenca" value={inputValues.areaCuenca} onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded-lg" />
+            </div>
+            <div className="flex flex-col">
+              <label className="text-gray-700 font-medium">Longitud del Cauce (km):</label>
+              <input type="text" name="longitudCauce" value={inputValues.longitudCauce} onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded-lg" />
+            </div>
+            <div className="flex flex-col">
+              <label className="text-gray-700 font-medium">Pendiente Media del Cauce (m/m):</label>
+              <input type="text" name="pendienteMedia" value={inputValues.pendienteMedia} onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded-lg" />
+            </div>
+            <div className="flex flex-col">
+              <label className="text-gray-700 font-medium">Precipitación Total Pt (mm):</label>
+              <input type="text" name="precipitacionTotal" value={inputValues.precipitacionTotal} onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded-lg" />
+            </div>
+            <div className="flex flex-col">
+              <label className="text-gray-700 font-medium">Uso de la Tierra y Cobertura:</label>
+              <select name="usoTierra" value={inputValues.usoTierra} onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded-lg bg-white">
+                <option value="" disabled hidden>Seleccione una opción</option>
+                <option value="Sin cultivos">Sin cultivos</option>
+                <option value="Cultivos en surcos">Cultivos en surcos</option>
+                <option value="Cereales">Cereales</option>
+                <option value="Leguminosas">Leguminosas</option>
+              </select>
+            </div>
+            <div className="flex flex-col">
+              <label className="text-gray-700 font-medium">Tratamiento del Suelo:</label>
+              <select name="tratamientoSuelo" value={inputValues.tratamientoSuelo} onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded-lg bg-white">
+                <option value="" disabled hidden>Seleccione una opción</option>
+                <option value="Surcos rectos">Surcos rectos</option>
+                <option value="Contorneo">Contorneo</option>
+                <option value="Terrazas">Terrazas</option>
+                <option value="No definido">No definido</option>
+              </select>
+            </div>
+            <div className="flex flex-col">
+              <label className="text-gray-700 font-medium">Pendiente del Terreno (%):</label>
+              <select name="pendienteTerreno" value={inputValues.pendienteTerreno} onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded-lg bg-white">
+                <option value="" disabled hidden>Seleccione una opción</option>
+                <option value="No definido">No definido</option>
+                <option value=">1%">Mayor a 1%</option>
+                <option value="<1%">Menor a 1%</option>
+              </select>
+            </div>
+            <div className="flex flex-col">
+              <label className="text-gray-700 font-medium">Tipo de Suelo:</label>
+              <select name="tipoSuelo" value={inputValues.tipoSuelo} onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded-lg bg-white">
+                <option value="" disabled hidden>Seleccione una opción</option>
+                <option value="Tipo A">Tipo A</option>
+                <option value="Tipo B">Tipo B</option>
+                <option value="Tipo C">Tipo C</option>
+                <option value="Tipo D">Tipo D</option>
+              </select>
+            </div>
           </div>
-          {/* Longitud del Cauce */}
-          <div className="flex flex-col">
-            <label className="text-gray-700 font-medium">Longitud del Cauce (km):</label>
-            <input type="text" name="longitudCauce" value={inputValues.longitudCauce} onChange={handleChange}
-              className="w-full p-2 border border-gray-300 rounded-lg" />
-          </div>
-          {/* Pendiente Media del Cauce */}
-          <div className="flex flex-col">
-            <label className="text-gray-700 font-medium">Pendiente Media del Cauce (m/m):</label>
-            <input type="text" name="pendienteMedia" value={inputValues.pendienteMedia} onChange={handleChange}
-              className="w-full p-2 border border-gray-300 rounded-lg" />
-          </div>
-          {/* Precipitación Total */}
-          <div className="flex flex-col">
-            <label className="text-gray-700 font-medium">Precipitación Total Pt (mm):</label>
-            <input type="text" name="precipitacionTotal" value={inputValues.precipitacionTotal} onChange={handleChange}
-              className="w-full p-2 border border-gray-300 rounded-lg" />
-          </div>
-          {/* Uso de la Tierra y Cobertura */}
-          <div className="flex flex-col">
-            <label className="text-gray-700 font-medium">Uso de la Tierra y Cobertura:</label>
-            <select name="usoTierra" value={inputValues.usoTierra} onChange={handleChange}
-              className="w-full p-2 border border-gray-300 rounded-lg bg-white">
-              <option value="" disabled hidden>Seleccione una opción</option>
-              <option value="Sin cultivos">Sin cultivos</option>
-              <option value="Cultivos en surcos">Cultivos en surcos</option>
-              <option value="Cereales">Cereales</option>
-              <option value="Leguminosas">Leguminosas</option>
-            </select>
-          </div>
-          {/* Tratamiento del Suelo */}
-          <div className="flex flex-col">
-            <label className="text-gray-700 font-medium">Tratamiento del Suelo:</label>
-            <select name="tratamientoSuelo" value={inputValues.tratamientoSuelo} onChange={handleChange}
-              className="w-full p-2 border border-gray-300 rounded-lg bg-white">
-              <option value="" disabled hidden>Seleccione una opción</option>
-              <option value="Surcos rectos">Surcos rectos</option>
-              <option value="Contorneo">Contorneo</option>
-              <option value="Terrazas">Terrazas</option>
-              <option value="No definido">No definido</option>
-            </select>
-          </div>
-          {/* Pendiente del Terreno */}
-          <div className="flex flex-col">
-            <label className="text-gray-700 font-medium">Pendiente del Terreno (%):</label>
-            <select name="pendienteTerreno" value={inputValues.pendienteTerreno} onChange={handleChange}
-              className="w-full p-2 border border-gray-300 rounded-lg bg-white">
-              <option value="" disabled hidden>Seleccione una opción</option>
-              <option value="No definido">No definido</option>
-              <option value=">1%">Mayor a 1%</option>
-              <option value="<1%">Menor a 1%</option>
-            </select>
-          </div>
-          {/* Tipo de Suelo */}
-          <div className="flex flex-col">
-            <label className="text-gray-700 font-medium">Tipo de Suelo:</label>
-            <select name="tipoSuelo" value={inputValues.tipoSuelo} onChange={handleChange}
-              className="w-full p-2 border border-gray-300 rounded-lg bg-white">
-              <option value="" disabled hidden>Seleccione una opción</option>
-              <option value="Tipo A">Tipo A</option>
-              <option value="Tipo B">Tipo B</option>
-              <option value="Tipo C">Tipo C</option>
-              <option value="Tipo D">Tipo D</option>
-            </select>
+          {/* Columna de Imagen y botón para ver la tabla CN */}
+          <div className="flex flex-col items-center">
+            <img src="/images/imagenguia.jpg" alt="Efecto de la precipitación" className="w-full" />
+            <button 
+              onClick={() => setIsModalOpen(true)}
+              className="mt-2 px-2 py-1 bg-gray-700 text-white rounded text-sm"
+            >
+              Ver tabla CN
+            </button>
           </div>
         </div>
   
         {/* Botonera y datos calculados */}
         <div className="mt-6">
-          <div className="flex flex-col gap-4">
-            <button onClick={calcular}
-              className="w-full px-5 py-2 bg-green-500 text-white rounded-lg">
+          <div className="flex gap-2">
+            <button
+              onClick={calcular}
+              className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-green-500 text-white rounded-lg"
+            >
               Calcular
             </button>
-            <div className="flex justify-between">
-              <button onClick={fillExampleValues}
-                className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg">
-                <CalculateIcon className="mr-2" />Ejemplo
-              </button>
-              <button onClick={clearFields}
-                className="flex items-center gap-2 px-4 py-2 bg-red-500 text-white rounded-lg">
-                <DeleteIcon className="mr-2" />Limpiar
-              </button>
-            </div>
+            <button
+              onClick={fillExampleValues}
+              className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-lg"
+            >
+              <CalculateIcon className="mr-1" />Ejemplo
+            </button>
+            <button
+              onClick={clearFields}
+              className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-red-500 text-white rounded-lg"
+            >
+              <DeleteIcon className="mr-1" />Limpiar
+            </button>
           </div>
-          {error && <p className="text-red-500 text-center mt-4">{error}</p>}
+          {error && <p className="text-red-500 mt-4">{error}</p>}
           {/* Datos de Entrada Calculados */}
           <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
             {[
@@ -437,7 +459,7 @@ const EfectoSuelo = () => {
         </div>
       </div>
   
-      {/* Sección de Resultados Generales (Tc calculados con las 4 fórmulas) */}
+      {/* Sección de Resultados Generales */}
       <div className="bg-white p-6 shadow-md rounded-lg border border-gray-300 mt-6">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">Resultados</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -458,8 +480,7 @@ const EfectoSuelo = () => {
       </div>
   
       {/* Sección de Parámetros y Gráficas */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 shadow-md rounded-lg border border-gray-300 mt-6">
-        {/* Parámetros para la Construcción del Hidrograma */}
+      <div className="grid grid-cols-1 gap-6 bg-white p-6 shadow-md rounded-lg border border-gray-300 mt-6">
         <div className="bg-gray-50 p-6 rounded-lg shadow">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">
             Parámetros para la Construcción del Hidrograma
@@ -484,7 +505,6 @@ const EfectoSuelo = () => {
             Graficar Hidrogramas
           </button>
         </div>
-        {/* Gráficas */}
         <div className="flex flex-col gap-6">
           {chartData.triangular && (
             <div className="bg-white p-4 shadow rounded-lg">
@@ -511,13 +531,33 @@ const EfectoSuelo = () => {
         </div>
       </div>
   
-      {/* Listado Final de Resultados del Hidrograma */}
+      {/* Listado Final de Resultados */}
       <div className="bg-white p-6 shadow-md rounded-lg border border-gray-300 mt-6">
         <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">Datos del Hidrograma</h2>
         <pre className="whitespace-pre-wrap text-gray-800">
 {resultListing}
         </pre>
       </div>
+  
+      {/* Modal para ver la tabla CN */}
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          {/* Fondo semitransparente */}
+          <div 
+            className="absolute inset-0 bg-black opacity-50" 
+            onClick={() => setIsModalOpen(false)}
+          ></div>
+          <div className="bg-white p-4 rounded-lg relative z-10 max-w-md mx-auto">
+            <button 
+              onClick={() => setIsModalOpen(false)}
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+            >
+              Cerrar
+            </button>
+            <img src="/images/tablaCN.jpg" alt="Tabla CN" className="max-w-full max-h-full" />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
