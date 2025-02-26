@@ -21,8 +21,9 @@ const ThiemCalculations = () => {
     R: null,
   });
 
-  const [labels, setLabels] = useState([]);
   const [aguaObject, setAguaObject] = useState({});
+  const [tierraObject, setTierraObject] = useState({});
+  const [lineaObject, setLineaObject] = useState({});
 
   const [activeCalculation, setActiveCalculation] = useState('Q');
   const [error, setError] = useState('');
@@ -44,11 +45,6 @@ const ThiemCalculations = () => {
     const nivelAguaY = nivelFreatico - descenso;
     const nivelAguaX = parseFloat(inputs.radioPozo) * 2;
 
-    if (Math.abs(dividedValue - 100) < Math.abs(dividedValue - 50)) {
-      setLabels(['0', '100', '200', '300', '400', '500', '600', '700']);
-    } else {
-      setLabels(['0', '50', '100', '150', '200', '250', '300', '350']);
-    }
     setAguaObject(
       {
         label: 'Agua',
@@ -62,6 +58,42 @@ const ThiemCalculations = () => {
         borderWidth: 1,
       }
     );
+    setTierraObject(
+      {
+        label: 'Caudal de extracción (Q)',
+        // data: [, 14, 14, 14],
+        data: [
+          { x: nivelAguaX, y: nivelFreatico + 2 },
+          { x: radioInfluencia, y: nivelFreatico + 2 }
+        ],
+        fill: true,
+        borderColor: 'rgb(23, 200, 23)',
+        backgroundColor: 'rgb(229, 191, 154)',
+        borderWidth: 5,
+      },
+    );
+    setLineaObject(
+      {
+        label: 'linea entrecortada',
+        fill: false,
+        data: [
+          { x: 0, y: nivelFreatico },
+          { x: radioInfluencia, y: nivelFreatico }
+        ],
+        borderDash: [5, 5],
+        borderColor: 'rgb(4, 0, 255)',
+        borderWidth: 2,
+      }
+    );
+
+    // {
+    //   label: 'linea entrecortada',
+    //   fill: false,
+    //   data: [12, 12, 12, 12],
+    //   borderDash: [5, 5],
+    //   borderColor: 'rgb(4, 0, 255)',
+    //   borderWidth: 2,
+    // },
   };
   const calculateQ = () => {
     const { nivelFreatico, descenso, transmisibilidad, radioPozo, radioInfluencia } = inputs;
@@ -364,29 +396,19 @@ const ThiemCalculations = () => {
             scales: {
               y: {
                 beginAtZero: true
+              },
+              x: {
+                beginAtZero: true,
+                type: 'linear'
               }
             }
           }}
           data={{
-            labels: labels,
+            // labels: labels,
             datasets: [
-              {
-                label: 'linea entrecortada',
-                fill: false,
-                data: [12, 12, 12, 12],
-                borderDash: [5, 5],
-                borderColor: 'rgb(4, 0, 255)',
-                borderWidth: 2,
-              },
+              lineaObject,
               aguaObject,
-              {
-                label: 'Caudal de extracción (Q)',
-                data: [, 14, 14, 14],
-                fill: true,
-                borderColor: 'rgb(23, 200, 23)',
-                backgroundColor: 'rgb(229, 191, 154)',
-                borderWidth: 5,
-              },
+              tierraObject
             ]
           }
           } />
