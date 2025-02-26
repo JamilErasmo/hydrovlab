@@ -19,6 +19,8 @@ const ExperimentoInfiltracion = () => {
     const [profundidadAguaInfiltrada, setProfundidadAguaInfiltrada] = useState('');
     const [calcularFInicial, setCalcularFInicial] = useState(false);
     const [error, setError] = useState('');
+    // Estado para el modal de la imagen del experimento (desde el encabezado de Datos de Entrada)
+    const [isExperimentoModalOpen, setIsExperimentoModalOpen] = useState(false);
 
     const cargarEjemplo = () => {
         setPorosidadEfectiva(0.486);
@@ -135,35 +137,57 @@ const ExperimentoInfiltracion = () => {
             <BackButton />
             {/* Título Principal */}
             <h1 className="text-2xl font-bold text-gray-800 text-center mb-6">
-                Experimento de Infiltración
+                Infiltración Modelo GREEN AMPT
             </h1>
 
-            {/* Sección de Entrada de Datos */}
+            {/* Sección de Datos de Entrada */}
             <div className="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-300">
-                <h3 className="text-xl font-semibold text-gray-800 mb-4">Datos de Entrada</h3>
+                {/* Encabezado con título y botón para mostrar imagen del experimento */}
+                <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-xl font-semibold text-gray-800">Datos de Entrada</h3>
+                    <button
+                        onClick={() => setIsExperimentoModalOpen(true)}
+                        className="mt-2 px-2 py-1 bg-gray-700 text-white rounded text-sm"
+                    >
+                        Mostrar Tabla
+                    </button>
+                </div>
+                {/* Grid de dos columnas: a la izquierda los inputs y a la derecha la imagen */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {[
-                        { label: "Porosidad Efectiva:", value: porosidadEfectiva, setter: setPorosidadEfectiva },
-                        { label: "Porosidad:", value: porosidad, setter: setPorosidad },
-                        { label: "Cabeza de Succión en el Frente Mojado (cm):", value: cabezaSuccion, setter: setCabezaSuccion },
-                        { label: "Conductividad Hidráulica (K) (cm/h):", value: conductividadHidraulica, setter: setConductividadHidraulica },
-                        { label: "Tiempo (horas):", value: tiempo, setter: setTiempo },
-                        { label: "Saturación Efectiva Se:", value: saturacionEfectiva, setter: setSaturacionEfectiva }
-                    ].map((item, index) => (
-                        <div key={index} className="flex flex-col">
-                            <label className="text-gray-700 font-medium">{item.label}</label>
-                            <input
-                                type="number"
-                                value={item.value}
-                                onChange={(e) => item.setter(e.target.value)}
-                                className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                            />
-                        </div>
-                    ))}
+                    <div className="grid grid-cols-1 gap-6">
+                        {[
+                            { label: "Porosidad Efectiva:", value: porosidadEfectiva, setter: setPorosidadEfectiva },
+                            { label: "Porosidad:", value: porosidad, setter: setPorosidad },
+                            { label: "Cabeza de Succión en el Frente Mojado (cm):", value: cabezaSuccion, setter: setCabezaSuccion },
+                            { label: "Conductividad Hidráulica (K) (cm/h):", value: conductividadHidraulica, setter: setConductividadHidraulica },
+                            { label: "Tiempo (horas):", value: tiempo, setter: setTiempo },
+                            { label: "Saturación Efectiva Se:", value: saturacionEfectiva, setter: setSaturacionEfectiva }
+                        ].map((item, index) => (
+                            <div key={index} className="flex flex-col">
+                                <label className="text-gray-700 font-medium">{item.label}</label>
+                                <input
+                                    type="number"
+                                    value={item.value}
+                                    onChange={(e) => item.setter(e.target.value)}
+                                    className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                                />
+                            </div>
+                        ))}
+                    </div>
+                    <div className="flex flex-col items-center">
+                        <img
+                            src="/images/imageGreenAmpt.jpg"
+                            alt="Imagen de Datos de Entrada"
+                            className="w-full rounded-lg"
+                        />
+                        <p className="mt-2 text-sm text-gray-600 text-center">
+                            Este modelo requiere estimaciones de la Conductividad Hidráulica (K), de la Porosidad (n) y de la Cabeza de Succión del Suelo en el Frente Mojado, esto lo podemos hacer mediante la sigueinte tabla.
+                        </p>
+                    </div>
                 </div>
             </div>
 
-            {/* Sección de Botones para Ejemplo, Calcular y Limpiar */}
+            {/* Sección de Botones */}
             <div className="mt-6 flex justify-center gap-4">
                 <button
                     onClick={cargarEjemplo}
@@ -188,40 +212,52 @@ const ExperimentoInfiltracion = () => {
             {/* Mensaje de Error */}
             {error && <p className="text-red-500 text-center mt-4">{error}</p>}
 
-            {/* Resultados de la Primera Parte */}
-            <div className="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-300 mt-6">
-                <h3 className="text-xl font-semibold text-gray-800 mb-4">Resultados</h3>
-                <div className="text-gray-700 space-y-2">
-                    <p className="text-lg font-medium">
-                        Contenido Residual de Humedad del Suelo:
-                        <span className="font-bold text-blue-700"> {contenidoResidualHumedad || '--'}</span>
-                    </p>
-                    <p className="text-lg font-medium">
-                        Cambio en el Contenido de Humedad:
-                        <span className="font-bold text-blue-700"> {cambioContenidoHumedad || '--'}</span>
-                    </p>
-                </div>
-                <div className="mt-4 flex items-center gap-3">
-                    <input
-                        type="checkbox"
-                        checked={calcularFInicial}
-                        onChange={handleCheckChange}
-                        className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
-                    />
-                    <label className="text-gray-800 font-medium">F(t) = kt Calculado</label>
-                </div>
-                <div className="mt-4 flex flex-col">
-                    <label className="text-gray-700 font-medium">F(t) Valor Inicial (Opcional):</label>
-                    <div className="flex items-center gap-2">
-                        <input
-                            type="number"
-                            value={fInicial}
-                            onChange={(e) => setFInicial(e.target.value)}
-                            placeholder="Opcional"
-                            className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                        />
-                        <span className="text-gray-700">cm</span>
+            {/* Resultados de la Primera Parte y su imagen */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                <div className="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-300">
+                    <h3 className="text-xl font-semibold text-gray-800 mb-4">Resultados</h3>
+                    <div className="text-gray-700 space-y-2">
+                        <p className="text-lg font-medium">
+                            Contenido Residual de Humedad del Suelo:
+                            <span className="font-bold text-blue-700"> {contenidoResidualHumedad || '--'}</span>
+                        </p>
+                        <p className="text-lg font-medium">
+                            Cambio en el Contenido de Humedad:
+                            <span className="font-bold text-blue-700"> {cambioContenidoHumedad || '--'}</span>
+                        </p>
                     </div>
+                    <div className="mt-4 flex items-center gap-3">
+                        <input
+                            type="checkbox"
+                            checked={calcularFInicial}
+                            onChange={handleCheckChange}
+                            className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+                        />
+                        <label className="text-gray-800 font-medium">F(t) = kt Calculado</label>
+                    </div>
+                    <div className="mt-4 flex flex-col">
+                        <label className="text-gray-700 font-medium">F(t) Valor Inicial (Opcional):</label>
+                        <div className="flex items-center gap-2">
+                            <input
+                                type="number"
+                                value={fInicial}
+                                onChange={(e) => setFInicial(e.target.value)}
+                                placeholder="Opcional"
+                                className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                            />
+                            <span className="text-gray-700">cm</span>
+                        </div>
+                    </div>
+                </div>
+                <div className="flex flex-col items-center">
+                    <img
+                        src="/images/imageGreenAmpt2.jpg"
+                        alt="Imagen de Resultados"
+                        className="w-full rounded-lg"
+                    />
+                    <p className="mt-2 text-sm text-gray-600 text-center">
+                    Perfiles de humedad del suelo antes, durante y despues del encharcamiento.
+                    </p>
                 </div>
             </div>
 
@@ -276,6 +312,29 @@ const ExperimentoInfiltracion = () => {
                     </p>
                 </div>
             </div>
+
+            {/* Modal para la Imagen del Experimento */}
+            {isExperimentoModalOpen && (
+                <div className="fixed inset-0 flex items-center justify-center z-50">
+                    <div
+                        className="absolute inset-0 bg-black opacity-50"
+                        onClick={() => setIsExperimentoModalOpen(false)}
+                    ></div>
+                    <div className="bg-white p-4 rounded-lg relative z-10 max-w-md mx-auto">
+                        <button
+                            onClick={() => setIsExperimentoModalOpen(false)}
+                            className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+                        >
+                            Cerrar
+                        </button>
+                        <img
+                            src="/images/tablaGreenAmpt.jpg"
+                            alt="Imagen Experimento"
+                            className="max-w-full max-h-full"
+                        />
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

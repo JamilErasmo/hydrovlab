@@ -22,7 +22,7 @@ const EcuacionSuelo = () => {
       tipoAltura: "Sin dosel apreciable",
       cobertura: 25,
       tipoCobertura: "G",
-      porcentajeCobertura: "0", // Se inicializa como cadena para el select
+      porcentajeCobertura: "0",
     },
     factorCValor: 0.36,
   });
@@ -37,6 +37,10 @@ const EcuacionSuelo = () => {
     pd: 0,
     perdidaSuelo: 0,
   });
+
+  // Estado para controlar el modal emergente y la imagen que se mostrará
+  const [showModal, setShowModal] = useState(false);
+  const [modalImage, setModalImage] = useState('');
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -89,16 +93,10 @@ const EcuacionSuelo = () => {
       totalEnergia += E_E_I * intensidad;
     });
 
-    // Con el ejemplo, r = totalEnergia / número de tormentas
     const r = totalEnergia / numeroTormentas;
-
-    // Materia orgánica (m)
     const m = (limo + arena) * (100 - arcilla);
-
-    // Factor de erodabilidad del suelo (k)
     const k = (0.00021 * Math.pow(m, 1.14) * (12 - materiaOrganica) + 3.971) / (100 * 7.594);
 
-    // Factor gradiente de la pendiente (S)
     const anguloRad = Math.atan(anguloPendiente / 100) * (180 / Math.PI);
     const s =
       longitudPendiente < 5
@@ -107,15 +105,11 @@ const EcuacionSuelo = () => {
         ? 10.8 * Math.sin(anguloRad * Math.PI / 180) + 0.03
         : 16.8 * Math.sin(anguloRad * Math.PI / 180) - 0.5;
 
-    // Factor longitud de la pendiente (L)
     const maux = 0.1342 * Math.log(anguloPendiente) + 0.192;
     const l = Math.pow(longitudPendiente / 22.13, maux);
 
-    // Factor de manejo de cultivos (C) y factor práctica de conservación (P)
     const c = parseFloat(data.factorCValor);
-    const pd = 0.6; // Valor fijo para P
-
-    // Pérdida de suelo por unidad de superficie (A)
+    const pd = 0.6;
     const perdidaSuelo = r * k * l * s * c * pd;
 
     setResults({
@@ -202,127 +196,211 @@ const EcuacionSuelo = () => {
 
   return (
     <div>
-      {/* Sección de entrada de datos */}
+      {/* Sección de Ingreso de Datos */}
       <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md border border-gray-300 mt-6">
-        <h1 className="text-2xl font-bold text-center text-gray-700 mb-6">Ecuación Universal de Pérdida del Suelo</h1>
+        <h1 className="text-2xl font-bold text-center text-gray-700 mb-6">
+          Ecuación Universal de Pérdida del Suelo
+        </h1>
+        <h2 className="text-xl font-bold text-gray-700 mb-4">Ingreso de Datos</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Entradas numéricas */}
-          <div className="space-y-2">
-            <label className="block text-gray-600">Ángulo de Inclinación de la Pendiente (grados):</label>
-            <input
-              type="number"
-              name="anguloPendiente"
-              value={data.anguloPendiente}
-              onChange={handleInputChange}
-              className="w-full p-2 border border-gray-300 rounded-md"
-            />
+        {/* Contenedor Flex para inputs numéricos e imágenes */}
+        <div className="flex flex-col md:flex-row gap-4">
+          {/* Inputs numéricos */}
+          <div className="flex-1">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="block text-gray-600">
+                  Ángulo de Inclinación de la Pendiente (grados):
+                </label>
+                <input
+                  type="number"
+                  name="anguloPendiente"
+                  value={data.anguloPendiente}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                />
 
-            <label className="block text-gray-600">Número de Tormentas Erosivas:</label>
-            <input
-              type="number"
-              name="numeroTormentas"
-              value={data.numeroTormentas}
-              onChange={handleInputChange}
-              className="w-full p-2 border border-gray-300 rounded-md"
-            />
+                <label className="block text-gray-600">
+                  Número de Tormentas Erosivas:
+                </label>
+                <input
+                  type="number"
+                  name="numeroTormentas"
+                  value={data.numeroTormentas}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                />
 
-            <label className="block text-gray-600">Longitud de la Pendiente (λ m):</label>
-            <input
-              type="number"
-              name="longitudPendiente"
-              value={data.longitudPendiente}
-              onChange={handleInputChange}
-              className="w-full p-2 border border-gray-300 rounded-md"
-            />
+                <label className="block text-gray-600">
+                  Longitud de la Pendiente (λ m):
+                </label>
+                <input
+                  type="number"
+                  name="longitudPendiente"
+                  value={data.longitudPendiente}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-gray-600">Limo (%):</label>
+                <input
+                  type="number"
+                  name="limo"
+                  value={data.limo}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                />
+
+                <label className="block text-gray-600">Arena (%):</label>
+                <input
+                  type="number"
+                  name="arena"
+                  value={data.arena}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                />
+
+                <label className="block text-gray-600">Arcilla (%):</label>
+                <input
+                  type="number"
+                  name="arcilla"
+                  value={data.arcilla}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                />
+
+                <label className="block text-gray-600">
+                  Materia Orgánica (MO %):
+                </label>
+                <input
+                  type="number"
+                  name="materiaOrganica"
+                  value={data.materiaOrganica}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                />
+              </div>
+            </div>
           </div>
 
-          <div className="space-y-2">
-            <label className="block text-gray-600">Limo (%):</label>
-            <input
-              type="number"
-              name="limo"
-              value={data.limo}
-              onChange={handleInputChange}
-              className="w-full p-2 border border-gray-300 rounded-md"
+          {/* Imágenes sin descripción */}
+          <div className="flex flex-col gap-4">
+            <img
+              src="/images/imageEcuacionUniversal.jpg"
+              alt=""
+              className="w-full max-w-xs rounded-md"
             />
-
-            <label className="block text-gray-600">Arena (%):</label>
-            <input
-              type="number"
-              name="arena"
-              value={data.arena}
-              onChange={handleInputChange}
-              className="w-full p-2 border border-gray-300 rounded-md"
-            />
-
-            <label className="block text-gray-600">Arcilla (%):</label>
-            <input
-              type="number"
-              name="arcilla"
-              value={data.arcilla}
-              onChange={handleInputChange}
-              className="w-full p-2 border border-gray-300 rounded-md"
-            />
-
-            <label className="block text-gray-600">Materia Orgánica (MO %):</label>
-            <input
-              type="number"
-              name="materiaOrganica"
-              value={data.materiaOrganica}
-              onChange={handleInputChange}
-              className="w-full p-2 border border-gray-300 rounded-md"
+            <img
+              src="/images/imageEcuacionUniversal2.jpg"
+              alt=""
+              className="w-full max-w-xs rounded-md"
             />
           </div>
         </div>
+      </div>
 
-        {/* Selección de factores generales */}
-        <h3 className="text-lg font-semibold text-gray-700 mt-6">Selecciones</h3>
+      {/* Sección de Selecciones */}
+      <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md border border-gray-300 mt-6">
+        <h3 className="text-lg font-semibold text-gray-700 mb-4">Selecciones</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Factor de Prácticas de Conservación (P) */}
           <div>
-            <label className="block text-gray-600">Factor de Prácticas de Conservación (P):</label>
-            <select
-              name="conservacion"
-              value={data.factores.conservacion}
-              onChange={(e) => handleFactorChange(e, "factores")}
-              className="w-full p-2 border border-gray-300 rounded-md"
-            >
-              <option value="Cultivo en contorno">Cultivo en contorno</option>
-              <option value="Siembra directa">Siembra directa</option>
-              <option value="Terraceo">Terraceo</option>
-            </select>
+            <label className="block text-gray-600">
+              Factor de Prácticas de Conservación (P):
+            </label>
+            <div className="flex items-center gap-2">
+              <select
+                name="conservacion"
+                value={data.factores.conservacion}
+                onChange={(e) => handleFactorChange(e, "factores")}
+                className="w-full p-2 border border-gray-300 rounded-md"
+              >
+                <option value="Cultivo en contorno">Cultivo en contorno</option>
+                <option value="Siembra directa">Siembra directa</option>
+                <option value="Terraceo">Terraceo</option>
+              </select>
+              <button
+                onClick={() => {
+                  setModalImage('/images/imageEcuacionUniversal3.jpg');
+                  setShowModal(true);
+                }}
+                className="mt-2 px-2 py-1 bg-gray-700 text-white rounded text-sm"
+              >
+                Tabla
+              </button>
+            </div>
           </div>
 
+          {/* Permeabilidad (P) */}
           <div>
             <label className="block text-gray-600">Permeabilidad (P):</label>
-            <select
-              name="permeabilidad"
-              value={data.factores.permeabilidad}
-              onChange={(e) => handleFactorChange(e, "factores")}
-              className="w-full p-2 border border-gray-300 rounded-md"
-            >
-              <option value="Muy lenta (<0.12 cm/h)">Muy lenta (&lt;0.12 cm/h)</option>
-              <option value="Lenta (0.12-2.0 cm/h)">Lenta (0.12-2.0 cm/h)</option>
-              <option value="Moderada (2.0-6.0 cm/h)">Moderada (2.0-6.0 cm/h)</option>
-              <option value="Rápida (6.0-12.5 cm/h)">Rápida (6.0-12.5 cm/h)</option>
-              <option value="Muy rápida (12.5-25 cm/h)">Muy rápida (12.5-25 cm/h)</option>
-              <option value="Extremadamente rápida (>25 cm/h)">Extremadamente rápida (&gt;25 cm/h)</option>
-            </select>
+            <div className="flex items-center gap-2">
+              <select
+                name="permeabilidad"
+                value={data.factores.permeabilidad}
+                onChange={(e) => handleFactorChange(e, "factores")}
+                className="w-full p-2 border border-gray-300 rounded-md"
+              >
+                <option value="Muy lenta (<0.12 cm/h)">
+                  Muy lenta (&lt;0.12 cm/h)
+                </option>
+                <option value="Lenta (0.12-2.0 cm/h)">
+                  Lenta (0.12-2.0 cm/h)
+                </option>
+                <option value="Moderada (2.0-6.0 cm/h)">
+                  Moderada (2.0-6.0 cm/h)
+                </option>
+                <option value="Rápida (6.0-12.5 cm/h)">
+                  Rápida (6.0-12.5 cm/h)
+                </option>
+                <option value="Muy rápida (12.5-25 cm/h)">
+                  Muy rápida (12.5-25 cm/h)
+                </option>
+                <option value="Extremadamente rápida (>25 cm/h)">
+                  Extremadamente rápida (&gt;25 cm/h)
+                </option>
+              </select>
+              <button
+                onClick={() => {
+                  setModalImage('/images/imageEcuacionUniversal4.jpg');
+                  setShowModal(true);
+                }}
+                className="mt-2 px-2 py-1 bg-gray-700 text-white rounded text-sm"
+              >
+                Tabla
+              </button>
+            </div>
           </div>
 
+          {/* Estructura del Suelo (E) */}
           <div>
-            <label className="block text-gray-600">Estructura del Suelo (E):</label>
-            <select
-              name="estructura"
-              value={data.factores.estructura}
-              onChange={(e) => handleFactorChange(e, "factores")}
-              className="w-full p-2 border border-gray-300 rounded-md"
-            >
-              <option value="Muy fina granular">Muy fina granular</option>
-              <option value="Fina">Fina</option>
-              <option value="Mediana">Mediana</option>
-              <option value="Gruesa">Gruesa</option>
-            </select>
+            <label className="block text-gray-600">
+              Estructura del Suelo (E):
+            </label>
+            <div className="flex items-center gap-2">
+              <select
+                name="estructura"
+                value={data.factores.estructura}
+                onChange={(e) => handleFactorChange(e, "factores")}
+                className="w-full p-2 border border-gray-300 rounded-md"
+              >
+                <option value="Muy fina granular">Muy fina granular</option>
+                <option value="Fina">Fina</option>
+                <option value="Mediana">Mediana</option>
+                <option value="Gruesa">Gruesa</option>
+              </select>
+              <button
+                onClick={() => {
+                  setModalImage('/images/imageEcuacionUniversal5.jpg');
+                  setShowModal(true);
+                }}
+                className="mt-2 px-2 py-1 bg-gray-700 text-white rounded text-sm"
+              >
+                Tabla
+              </button>
+            </div>
           </div>
         </div>
 
@@ -378,7 +456,9 @@ const EcuacionSuelo = () => {
           </div>
 
           <div>
-            <label className="block text-gray-600">Porcentaje de Cobertura (%):</label>
+            <label className="block text-gray-600">
+              Porcentaje de Cobertura (%):
+            </label>
             <select
               name="porcentajeCobertura"
               value={data.factorC.porcentajeCobertura}
@@ -395,16 +475,28 @@ const EcuacionSuelo = () => {
           </div>
         </div>
 
+        {/* Campo Valor del Factor C con botón al costado */}
         <div className="mt-6">
           <label className="block text-gray-600">Valor del Factor C:</label>
-          <input
-            type="number"
-            name="factorCValor"
-            value={data.factorCValor}
-            onChange={handleInputChange}
-            step="0.01"
-            className="w-full p-2 border border-gray-300 rounded-md"
-          />
+          <div className="flex items-center gap-2">
+            <input
+              type="number"
+              name="factorCValor"
+              value={data.factorCValor}
+              onChange={handleInputChange}
+              step="0.01"
+              className="w-full p-2 border border-gray-300 rounded-md"
+            />
+            <button
+              onClick={() => {
+                setModalImage('/images/imageEcuacionUniversal6.jpg');
+                setShowModal(true);
+              }}
+              className="mt-2 px-2 py-1 bg-gray-700 text-white rounded text-sm"
+            >
+              Tabla
+            </button>
+          </div>
         </div>
       </div>
 
@@ -438,59 +530,86 @@ const EcuacionSuelo = () => {
               <p className="text-gray-700">
                 <span className="font-semibold">
                   FACTOR EROSIVIDAD DE LA LLUVIA (R) (MJ.MM.HA-1.H-1.AÑO-1):
-                </span> {results.r}
+                </span>{" "}
+                {results.r}
               </p>
             </div>
             <div className="p-4 bg-white rounded-lg shadow">
               <p className="text-gray-700">
-                <span className="font-semibold">MATERIA ORGÁNICA:</span> {results.m}
+                <span className="font-semibold">MATERIA ORGÁNICA:</span>{" "}
+                {results.m}
               </p>
             </div>
             <div className="p-4 bg-white rounded-lg shadow">
               <p className="text-gray-700">
                 <span className="font-semibold">
                   FACTOR ERODABILIDAD DEL SUELO (K) (T.HA.H.MJ-1.HA-1.MM-1):
-                </span> {results.k}
+                </span>{" "}
+                {results.k}
               </p>
             </div>
             <div className="p-4 bg-white rounded-lg shadow">
               <p className="text-gray-700">
                 <span className="font-semibold">
                   FACTOR LONGITUD DE LA PENDIENTE (L) (ADIMENSIONAL):
-                </span> {results.l}
+                </span>{" "}
+                {results.l}
               </p>
             </div>
             <div className="p-4 bg-white rounded-lg shadow">
               <p className="text-gray-700">
                 <span className="font-semibold">
                   FACTOR GRADIENTE DE LA PENDIENTE (S) (ADIMENSIONAL):
-                </span> {results.s}
+                </span>{" "}
+                {results.s}
               </p>
             </div>
             <div className="p-4 bg-white rounded-lg shadow">
               <p className="text-gray-700">
                 <span className="font-semibold">
                   FACTOR DE MANEJO DE CULTIVOS (C) (ADIMENSIONAL):
-                </span> {results.c}
+                </span>{" "}
+                {results.c}
               </p>
             </div>
             <div className="p-4 bg-white rounded-lg shadow">
               <p className="text-gray-700">
                 <span className="font-semibold">
                   FACTOR PRÁCTICA DE CONSERVACIÓN DE SUELOS (P) (ADIMENSIONAL):
-                </span> {results.pd}
+                </span>{" "}
+                {results.pd}
               </p>
             </div>
             <div className="p-4 bg-white rounded-lg shadow">
               <p className="text-gray-700">
                 <span className="font-semibold">
                   PÉRDIDA DE SUELO POR UNIDAD DE SUPERFICIE (A:) (T.HA-1.AÑO-1):
-                </span> {results.perdidaSuelo}
+                </span>{" "}
+                {results.perdidaSuelo}
               </p>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Modal emergente */}
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-4 rounded-lg relative">
+            <button
+              onClick={() => setShowModal(false)}
+              className="absolute top-2 right-2 text-gray-700 font-bold"
+            >
+              X
+            </button>
+            <img
+              src={modalImage}
+              alt=""
+              className="max-w-full max-h-full rounded-md"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

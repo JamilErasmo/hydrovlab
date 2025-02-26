@@ -69,7 +69,6 @@ const HidrogramaExperimento = () => {
         setError('');
         const intervalos = Array.from({ length: parseInt(numDatos) }, (_, i) => (i + 1) * parseFloat(intervalosTiempo));
         setListX(intervalos);
-        // Se omite el mensaje de éxito para mantener la consistencia.
     };
 
     const agregarAltura = () => {
@@ -134,6 +133,8 @@ const HidrogramaExperimento = () => {
                 <h1 className="text-2xl font-bold text-gray-800 text-center mb-6">
                     Infiltración - Método Índice de Infiltración Media
                 </h1>
+
+                {/* Bloque Datos de Entrada */}
                 <div className="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-300 mb-6">
                     <h3 className="text-xl font-semibold text-gray-800 mb-4">Datos de Entrada</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -153,6 +154,20 @@ const HidrogramaExperimento = () => {
                         ))}
                     </div>
                 </div>
+
+                {/* Imagen Intermedia 1 */}
+                <div className="mb-6 flex flex-col items-center">
+                    <img
+                        src="/images/imageIndiceFi.jpg"
+                        alt="Descripción imagen intermedia 1"
+                        className="w-full max-w-md rounded-lg"
+                    />
+                    <p className="mt-2 text-sm text-gray-600 text-center">
+                    En el hidrográma tienen que ser colocados los puntos necesarios que indica en el esquema.
+                    </p>
+                </div>
+
+                {/* Bloque Coordenadas del Triángulo */}
                 <div className="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-300 mb-6">
                     <h3 className="text-xl font-semibold text-gray-800 mb-4">Coordenadas del Triángulo</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -176,6 +191,18 @@ const HidrogramaExperimento = () => {
                         ))}
                     </div>
                 </div>
+
+                {/* Imagen Intermedia 2 (más pequeña) */}
+                <div className="mb-6 flex flex-col items-center">
+                    <img
+                        src="/images/imageIndiceFi2.jpg"
+                        alt="Descripción imagen intermedia 2"
+                        className="w-full max-w-sm rounded-lg" 
+                    />
+                    
+                </div>
+
+                {/* Bloque Hietograma */}
                 <div className="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-300 mb-6">
                     <h3 className="text-xl font-semibold text-gray-800 mb-4">Hietograma</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -224,6 +251,8 @@ const HidrogramaExperimento = () => {
                         ))}
                     </ul>
                 </div>
+
+                {/* Controles (Ejemplo, Calcular y Limpiar) */}
                 <div className="flex justify-center gap-4">
                     <button
                         onClick={cargarEjemplo}
@@ -245,7 +274,8 @@ const HidrogramaExperimento = () => {
                     </button>
                 </div>
                 {error && <p className="text-red-500 text-center mt-4">{error}</p>}
-                <div className="mt-6 p-6 bg-gray-50 rounded-lg shadow-md border border-gray-300 text-center">
+                {/* Resultados Centrados */}
+                <div className="mt-6 max-w-2xl mx-auto p-6 bg-gray-50 rounded-lg shadow-md border border-gray-300 text-center">
                     <h3 className="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Resultados</h3>
                     <p className="text-lg font-medium text-gray-700">
                         Volumen de Escurrimiento Directo: <span className="font-bold text-blue-700">{volumenEscurrimientoDirecto || ''}</span>
