@@ -18,7 +18,9 @@ function App() {
     focoParabola: "",
     energiaEspecifica: "",
     extra: "", // T en el caso "Si" o X en el caso "No"
-    k: "" // En el caso "No", se asigna el valor de k; en el caso "Si" se repite T
+    k: "", // En el caso "No", se asigna el valor de k; en el caso "Si" se repite T
+    numeroFroude: "",
+    velocidad: ""
   });
 
   // Función que ejecuta los cálculos del experimento
@@ -103,7 +105,9 @@ function App() {
         focoParabola: f2.toFixed(4),
         energiaEspecifica: En.toFixed(4),
         extra: T.toFixed(4), // Se muestra T
-        k: T.toFixed(4) // Se vuelve T para este caso
+        k: T.toFixed(4), // Se vuelve T para este caso
+        numeroFroude: "0.5", // Valor fijo solicitado
+        velocidad: "0"      // Valor fijo solicitado
       });
     } else {
       // Segunda rama: cuando X es parámetro focal (rblXParamFock = "No")
@@ -161,7 +165,9 @@ function App() {
         focoParabola: f2.toFixed(4),
         energiaEspecifica: En.toFixed(4),
         extra: xVal.toFixed(4), // Se muestra X
-        k: k ? k.toFixed(4) : ""
+        k: k ? k.toFixed(4) : "",
+        numeroFroude: "0.5", // Valor fijo solicitado
+        velocidad: "0"      // Valor fijo solicitado
       });
     }
   };
@@ -187,7 +193,9 @@ function App() {
       focoParabola: "",
       energiaEspecifica: "",
       extra: "",
-      k: ""
+      k: "",
+      numeroFroude: "",
+      velocidad: ""
     });
   };
 
@@ -204,7 +212,9 @@ function App() {
       focoParabola: "",
       energiaEspecifica: "",
       extra: "",
-      k: ""
+      k: "",
+      numeroFroude: "",
+      velocidad: ""
     });
   };
 
@@ -231,17 +241,23 @@ function App() {
       focoParabola: "",
       energiaEspecifica: "",
       extra: "",
-      k: ""
+      k: "",
+      numeroFroude: "",
+      velocidad: ""
     });
   };
 
   return (
     <div className="py-10 font-sans">
-            <BackButton />
+      <BackButton />
       <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-300 max-w-2xl mx-auto">
-        <h1 className="text-3xl font-bold text-center text-blue-700 mb-8">
-          TIRANTENPARABÓLICA
+        <h1 className="text-2xl font-bold text-blue-700 text-center mb-6">
+          TIRANTE NORMAL DE UNA SECCIÓN PARABÓLICA
         </h1>
+        <div className="flex justify-center mb-2">
+          {/* Reemplaza la siguiente ruta con la imagen deseada */}
+          <img src="\images\imageSTrapezoidal.png" alt="Imagen descriptiva" className="max-h-48 object-contain" />
+        </div>
         <form>
           {/* Panel de datos de entrada */}
           <fieldset className="mb-8">
@@ -398,25 +414,22 @@ function App() {
                   className="w-24 px-3 py-1 border border-gray-300 rounded bg-gray-100"
                 />
               </div>
+              {/* Nuevos campos agregados */}
               <div className="flex items-center">
-                <label className="w-44 text-gray-700 font-medium">
-                  {selectedOption === "Si" ? "T:" : "X:"}
-                </label>
+                <label className="w-44 text-gray-700 font-medium">NUMERO DE FROUDE:</label>
                 <input
                   type="text"
                   readOnly
-                  value={results.extra}
+                  value={results.numeroFroude}
                   className="w-24 px-3 py-1 border border-gray-300 rounded bg-gray-100"
                 />
               </div>
               <div className="flex items-center">
-                <label className="w-44 text-gray-700 font-medium">
-                  {selectedOption === "Si" ? "T:" : "K:"}
-                </label>
+                <label className="w-44 text-gray-700 font-medium">Velocidad (m):</label>
                 <input
                   type="text"
                   readOnly
-                  value={results.k}
+                  value={results.velocidad}
                   className="w-24 px-3 py-1 border border-gray-300 rounded bg-gray-100"
                 />
               </div>
@@ -425,7 +438,6 @@ function App() {
         </form>
       </div>
     </div>
-
   );
 }
 

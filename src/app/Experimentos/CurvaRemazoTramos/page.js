@@ -76,7 +76,7 @@ const CurvaDeRemanso = () => {
 
     const M = Math.sqrt(1 + Z ** 2);
     const resultadosCalculados = [];
-    resultadosCalculados.push({ x: X1.toFixed(0), y: Y1.toFixed(3) });
+    resultadosCalculados.push({ x: X1.toFixed(0), y: Y1.toFixed(15) });
 
     let i = 0;
     let currentX = X1;
@@ -122,7 +122,7 @@ const CurvaDeRemanso = () => {
       currentY = Y2;
       currentX += X;
 
-      resultadosCalculados.push({ x: currentX.toFixed(0), y: currentY.toFixed(3) });
+      resultadosCalculados.push({ x: currentX.toFixed(0), y: currentY.toFixed(15) });
       i++;
     }
 
@@ -134,6 +134,16 @@ const CurvaDeRemanso = () => {
       <BackButton />
       <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md border border-gray-300 mt-6">
         <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">Curva de Remanso (Tramos Fijos)</h2>
+        
+        {/* Espacio para imagen y entrada de datos */}
+        <div className="mb-4">
+          <div className="flex justify-center mb-2">
+            {/* Coloca aquí tu imagen reemplazando la ruta */}
+            <img src="\images\imageCurvaRemanso.png" alt="Imagen descriptiva" className="max-h-48 object-contain" />
+          </div>
+          <h3 className="text-lg font-semibold text-left">Entrada de datos</h3>
+        </div>
+        
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[
             { label: "Caudal Q (m³/s):", value: caudal, setter: setCaudal },
@@ -187,9 +197,9 @@ const CurvaDeRemanso = () => {
 
       {resultados.length > 0 && (
         <div className="bg-white p-6 shadow-md rounded-lg border border-gray-300 mt-6">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">Resultados</h2>
-          <div className="overflow-x-auto">
-            <table className="w-full border border-gray-400 bg-white shadow-md rounded-lg text-gray-700">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">Resultados</h2>
+          <div className="overflow-x-auto flex justify-center">
+            <table className="table-auto border border-gray-400 bg-white shadow-md rounded-lg text-gray-700">
               <thead>
                 <tr className="bg-gray-200">
                   <th className="p-3 border border-gray-400">Distancia X (m)</th>

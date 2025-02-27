@@ -17,9 +17,10 @@ const ExperimentoFournier = () => {
 
   // Función para cargar valores de ejemplo
   const cargarEjemplo = () => {
-    setP(90);
-    setPp(50);
+    
     setH(20);
+    setPp(50);
+    setP(90);
     setAlfa(1000);
     setError("");
   };
@@ -85,9 +86,9 @@ const ExperimentoFournier = () => {
             <label className="text-gray-700 font-medium">Caudal Q (m³/seg):</label>
             <input
               type="number"
-              value={p}
+              value={h}
               onChange={(e) => {
-                setP(e.target.value);
+                setH(e.target.value);
                 setError("");
               }}
               placeholder="Ingresa un valor"
@@ -115,9 +116,9 @@ const ExperimentoFournier = () => {
             <label className="text-gray-700 font-medium">Factor a:</label>
             <input
               type="number"
-              value={h}
+              value={p}
               onChange={(e) => {
-                setH(e.target.value);
+                setP(e.target.value);
                 setError("");
               }}
               placeholder="Ingresa un valor"

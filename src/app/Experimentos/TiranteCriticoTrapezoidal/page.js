@@ -62,7 +62,10 @@ const TiranteCriticoTrapezoidal = () => {
                 <h1 className="text-2xl font-bold text-blue-700 text-center mb-6">
                     Tirante Crítico en Sección Trapezoidal
                 </h1>
-
+                <div className="flex justify-center mb-2">
+                        {/* Reemplaza la siguiente ruta con la imagen deseada */}
+                        <img src="\images\imageSTrapezoidal.png" alt="Imagen descriptiva" className="max-h-48 object-contain" />
+                </div>
                 <div className="space-y-4">
                     <h3 className="text-xl font-semibold text-gray-800">Datos de Entrada</h3>
 

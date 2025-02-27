@@ -47,9 +47,9 @@ const TiranteConjugadoCircular = () => {
     return area;
   };
 
-  // Función para calcular la energía
+  // Función para calcular la energía (E1) antes del salto
   const calcularEnergia = (Q, tirante, diametro) => {
-    const g = 9.81; // Gravedad
+    const g = 9.81;
     const area = calcularArea(tirante, diametro);
     const energia = tirante + (Math.pow(Q, 2) / (2 * g * Math.pow(area, 2)));
     return energia;
@@ -90,6 +90,9 @@ const TiranteConjugadoCircular = () => {
       const C2 = K1 * Math.pow(N1, 2);
       const C3 = N1 / y1;
 
+      // Energía antes del salto (E1)
+      const E1 = y1 + Math.pow(Q, 2) / (19.62 * Math.pow(A1, 2));
+
       // Iteración para ajustar el valor del tirante (y2)
       let y = y2;
       let diff = 1;
@@ -125,19 +128,24 @@ const TiranteConjugadoCircular = () => {
 
       const finalY2 = y; // Tirante ajustado
 
-      // Cálculo de las energías E1 y E2
-      const E1 = y1 + Math.pow(Q, 2) / (19.62 * Math.pow(A1, 2));
+      // Cálculo de parámetros para el tirante final
       const finalParams = calcParams(finalY2);
       const A2 = finalParams.A;
-      const E2 = finalY2 + Math.pow(Q, 2) / (19.62 * Math.pow(A2, 2));
-      const E3 = Math.abs(E1 - E2);
+
+      // Energía después del salto (parte cinética)
+      const kinAfter = Math.pow(Q, 2) / (19.62 * Math.pow(A2, 2));
+      // Se define la energía E reportada como el tirante final (E = finalY2)
+      const E_print = finalY2;
+      // Pérdida de energía E3
+      const E3 = Math.abs(E1 - (finalY2 + kinAfter));
+      // Altura del resalto hidráulico
       const y3 = Math.abs(finalY2 - y1);
 
       // Determinar si el flujo es subcrítico o supercrítico
       const mensajeFlujo = finalY2 > y1 ? "El tirante es subcrítico" : "El tirante es supercrítico";
 
       setResultados({
-        energiaE: E2.toFixed(14),
+        energiaE: E_print.toFixed(14),
         perdidaEnergiaE3: E3.toFixed(16),
         alturaResaltoY3: y3.toFixed(14),
         mensajeFlujo,
@@ -159,7 +167,6 @@ const TiranteConjugadoCircular = () => {
 
         {/* Sección de Datos de Entrada */}
         <div className="space-y-4">
-          {/* Caudal Q */}
           <div className="flex flex-col">
             <label className="text-gray-700 font-medium">
               Caudal Q (m³/s):
@@ -169,11 +176,10 @@ const TiranteConjugadoCircular = () => {
               value={caudal}
               onChange={(e) => setCaudal(e.target.value)}
               placeholder="Ingresa el caudal"
-              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
             />
           </div>
 
-          {/* Diámetro D */}
           <div className="flex flex-col">
             <label className="text-gray-700 font-medium">
               Diámetro D (m):
@@ -183,11 +189,10 @@ const TiranteConjugadoCircular = () => {
               value={diametro}
               onChange={(e) => setDiametro(e.target.value)}
               placeholder="Ingresa el diámetro"
-              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
             />
           </div>
 
-          {/* Tirante Conjugado Y1 */}
           <div className="flex flex-col">
             <label className="text-gray-700 font-medium">
               Tirante Conjugado Y1 (m):
@@ -197,11 +202,10 @@ const TiranteConjugadoCircular = () => {
               value={tiranteConjugado}
               onChange={(e) => setTiranteConjugado(e.target.value)}
               placeholder="Ingresa el tirante conjugado"
-              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
             />
           </div>
 
-          {/* Valor Inicial del Tirante Y2 */}
           <div className="flex flex-col">
             <label className="text-gray-700 font-medium">
               Valor Inicial del Tirante Y2 (m):
@@ -211,7 +215,7 @@ const TiranteConjugadoCircular = () => {
               value={tiranteInicial}
               onChange={(e) => setTiranteInicial(e.target.value)}
               placeholder="Ingresa el valor inicial"
-              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
             />
           </div>
         </div>
@@ -253,7 +257,7 @@ const TiranteConjugadoCircular = () => {
               PERDIDA DE ENERGÍA E3: <span className="font-bold text-blue-700">{resultados.perdidaEnergiaE3}</span>
             </p>
             <p className="text-lg font-medium text-gray-700">
-              ALTURA DEL RESALTO HIDRÁULICO Y3: <span className="font-bold text-blue-700">{resultados.alturaResaltoY3} m</span>
+              ALTURA DEL RESALTO HIDRÁULICO Y3 (m): <span className="font-bold text-blue-700">{resultados.alturaResaltoY3} m</span>
             </p>
             <p className="text-lg font-medium text-gray-700">
               {resultados.mensajeFlujo}

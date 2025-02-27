@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
 const Experimento = () => {
     const [data, setData] = useState({
-        Q: 1.5,
-        b: 1,
-        z: 0,
-        y: 1,
-        n: 0.014,
-        s: 0.001,
-        Er: 0.0001,
+        Q: "",
+        b: "",
+        z: "",
+        y: "",
+        n: "",
+        s: "",
+        Er: "",
     });
     const [results, setResults] = useState({
         yResult: '',
@@ -100,9 +100,12 @@ const Experimento = () => {
                   <BackButton />
             <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300 max-w-2xl mx-auto mt-6">
                 <h1 className="text-3xl font-bold text-blue-700 text-center mb-6">
-                    Análisis Tirante N Sec Trapezoidal
+                    Tirante Normal Sección Trapezoidal
                 </h1>
-
+                <div className="flex justify-center mb-2">
+                        {/* Reemplaza la siguiente ruta con la imagen deseada */}
+                        <img src="\images\imageSTrapezoidal.png" alt="Imagen descriptiva" className="max-h-48 object-contain" />
+                </div>
                 <div className="mb-6">
                     <h3 className="text-xl font-semibold text-gray-800 mb-4">Datos de Entrada</h3>
                     <div className="mb-4">
@@ -202,16 +205,16 @@ const Experimento = () => {
                     <div className="p-6 bg-gray-50 rounded-lg shadow-md border border-gray-300">
                         <h2 className="text-xl font-semibold text-gray-800 mb-4">Resultados</h2>
                         <p className="text-lg text-gray-700">
-                            <strong>Tirante y:</strong> {results.yResult}
+                            <strong>Foco de Parabola (m):</strong> {results.yResult}
                         </p>
                         <p className="text-lg text-gray-700">
-                            <strong>Velocidad V:</strong> {results.V}
+                            <strong>Energía Específica (m):</strong> {results.V}
                         </p>
                         <p className="text-lg text-gray-700">
-                            <strong>Número de Froude F1:</strong> {results.F1}
+                            <strong>Número de Froude:</strong> {results.F1}
                         </p>
                         <p className="text-lg text-gray-700">
-                            <strong>Energía Específica E1:</strong> {results.E1}
+                            <strong>Velocidad (m):</strong> {results.E1}
                         </p>
                     </div>
                 )}

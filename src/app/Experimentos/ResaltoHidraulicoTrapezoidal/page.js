@@ -82,7 +82,13 @@ const TiranteConjugadoSTrapezoidal = () => {
             <h1 className="text-2xl font-bold text-blue-700 text-center mb-6">
                 Análisis de Tirante Conjugado - Sección Trapezoidal
             </h1>
-
+            <div className="mb-4">
+                    <div className="flex justify-center mb-2">
+                        {/* Reemplaza la siguiente ruta con la imagen deseada */}
+                        <img src="\images\imageSTrapezoidal.png" alt="Imagen descriptiva" className="max-h-48 object-contain" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-left">Datos de entrada</h3>
+                </div>
             {/* Sección de Datos de Entrada */}
             <div className="space-y-4">
                 <div className="flex flex-col">

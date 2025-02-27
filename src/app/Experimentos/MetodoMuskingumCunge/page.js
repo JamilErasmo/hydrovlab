@@ -1,7 +1,7 @@
 // src/MuskingumCunge.js
 'use client';
-import React, { useState } from 'react';
-import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
+import React, { useState, useRef } from 'react';
+import BackButton from "@/components/BackButton";
 import {
   LineChart,
   Line,
@@ -18,16 +18,19 @@ import { saveAs } from 'file-saver';
 const MuskingumCunge = () => {
   // Estado para los datos del formulario
   const [formData, setFormData] = useState({
-    Qp: '',            // Caudal Máximo (Qp) (m³/s)
-    Qb: '',            // Caudal Base (Qb) (m³/s)
-    So: '',            // Pendiente media (So) (m/m)
-    Ap: '',            // Área del cauce (Ap) (m²)
-    Tp: '',            // Ancho del cauce (Tp) (m)
-    beta: '',          // Exponente de proporción (β)
-    longitudTramo: '', // Longitud del tramo (C) en km
-    intervaloDt: '',   // Intervalo de tiempo (Dt) en horas
-    iteraciones: '',   // Número de iteraciones extra
+    Qp: '',
+    Qb: '',
+    So: '',
+    Ap: '',
+    Tp: '',
+    beta: '',
+    longitudTramo: '',
+    intervaloDt: '',
+    iteraciones: '',
   });
+
+  // Nuevo estado para mostrar mensaje de importación
+  const [importStatus, setImportStatus] = useState('');
 
   // Estado para los resultados de los cálculos
   const [calcOutputs, setCalcOutputs] = useState({
@@ -46,13 +49,6 @@ const MuskingumCunge = () => {
   });
 
   // Estado para los datos de la tabla (storeDatos)
-  // La tabla tendrá 6 columnas:
-  //   Columna1: Caudal de Entrada (Qe)
-  //   Columna2: Tiempo (horas)
-  //   Columna3: C₀·Qe₂
-  //   Columna4: C₁·Qe₁
-  //   Columna5: C₂·Qs₁
-  //   Columna6: Caudal de Salida (Qs)
   const [rows, setRows] = useState([]);
 
   // Estado para mensajes de error
@@ -65,6 +61,9 @@ const MuskingumCunge = () => {
   // Estado para mostrar/ocultar la gráfica
   const [showGraph, setShowGraph] = useState(false);
 
+  // Referencia para el input de archivo
+  const fileInputRef = useRef(null);
+
   // Manejo de cambios en el formulario
   const handleFormChange = (e) => {
     const { name, value } = e.target;
@@ -72,7 +71,6 @@ const MuskingumCunge = () => {
   };
 
   // Función para cargar datos de ejemplo
-  // Datos de formulario y muestra 20 filas con Qe (DatosDePrueba y DatosDePruebaE1)
   const loadSampleData = () => {
     setFormData({
       Qp: '1000',
@@ -81,8 +79,8 @@ const MuskingumCunge = () => {
       Ap: '400',
       Tp: '100',
       beta: '1.6',
-      longitudTramo: '14.4', // km
-      intervaloDt: '1',       // horas
+      longitudTramo: '14.4',
+      intervaloDt: '1',
       iteraciones: '5',
     });
     const sampleQe = [
@@ -91,18 +89,18 @@ const MuskingumCunge = () => {
       95.2, 82.6
     ];
     const sampleRows = sampleQe.map(val => ({
-      Columna1: val,
-      Columna2: 0,
+      Columna1: val, // Caudal de Entrada (Qe)
+      Columna2: 0,   // Tiempo
       Columna3: 0,
       Columna4: 0,
       Columna5: 0,
-      Columna6: 0,
+      Columna6: 0,   // Caudal de Salida (Qs)
     }));
     setRows(sampleRows);
     setErrorMessage('');
   };
 
-  // Función para agregar un nuevo dato a la tabla (IngresarDato)
+  // Función para agregar un nuevo dato a la tabla
   const ingresarDato = (val) => {
     const newRow = {
       Columna1: parseFloat(val),
@@ -126,16 +124,15 @@ const MuskingumCunge = () => {
 
     // Conversión y cálculo de parámetros básicos
     const B1 = parseFloat(Qp);
-    // eslint-disable-next-line no-unused-vars
     const B2 = parseFloat(Qb);
     const B3 = parseFloat(So);
     const B4 = parseFloat(Ap);
     const B5 = parseFloat(Tp);
     const B6 = parseFloat(beta);
-    const B7 = parseFloat(longitudTramo); // en km
-    const C7 = B7 * 1000;                // en metros
-    const B8 = parseFloat(intervaloDt);  // en horas
-    const C8 = B8 * 3600;                // en segundos
+    const B7 = parseFloat(longitudTramo);
+    const C7 = B7 * 1000;
+    const B8 = parseFloat(intervaloDt);
+    const C8 = B8 * 3600;
 
     // Cálculos según la fórmula original
     const B10 = B1 / B4;
@@ -166,10 +163,10 @@ const MuskingumCunge = () => {
       coefC0C1C2: (B17 + B18 + B19).toFixed(3),
     });
 
-    // Actualización de la tabla de datos (storeDatos)
+    // Actualización de la tabla de datos
     let newRows = [...rows];
     const numFilas = newRows.length;
-    const Dt = B8; // intervalo en horas
+    const Dt = B8;
     let SUM = 0;
     const iter = parseInt(iteraciones, 10);
     if (numFilas === 0) {
@@ -179,12 +176,10 @@ const MuskingumCunge = () => {
     const ce = parseFloat(newRows[0].Columna1);
     const ceUltimo = parseFloat(newRows[numFilas - 1].Columna1);
 
-    // Se itera sobre la tabla, agregando "iteraciones extra" al final
     for (let i = 0; i < numFilas + iter; i++) {
       if (i < newRows.length) {
         newRows[i].Columna2 = SUM.toFixed(2);
       } else {
-        // Si no existe la fila, se agrega una nueva con caudal igual al último
         newRows.push({
           Columna1: ceUltimo,
           Columna2: SUM.toFixed(2),
@@ -247,6 +242,7 @@ const MuskingumCunge = () => {
     setRows([]);
     setErrorMessage('');
     setShowGraph(false);
+    setImportStatus('');
   };
 
   // Exportar datos a Excel
@@ -284,23 +280,76 @@ const MuskingumCunge = () => {
     setShowAddModal(false);
   };
 
+  // Función para importar datos desde un archivo txt con el orden:
+  // Qp, Qb, So, Ap, Tp, beta, longitudTramo, intervaloDt, iteraciones
+  const handleFileImport = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const text = ev.target.result;
+      const lines = text.split('\n').map(line => line.trim()).filter(line => line !== '');
+      if (lines.length === 9) {
+        const newFormData = {
+          Qp: lines[0].replace(',', '.'),
+          Qb: lines[1].replace(',', '.'),
+          So: lines[2].replace(',', '.'),
+          Ap: lines[3].replace(',', '.'),
+          Tp: lines[4].replace(',', '.'),
+          beta: lines[5].replace(',', '.'),
+          longitudTramo: lines[6].replace(',', '.'),
+          intervaloDt: lines[7].replace(',', '.'),
+          iteraciones: lines[8].replace(',', '.'),
+        };
+        setFormData(newFormData);
+        setImportStatus('Datos importados');
+      } else {
+        setErrorMessage("El archivo debe contener 9 líneas en el siguiente orden:\nQp, Qb, So, Ap, Tp, beta, longitudTramo, intervaloDt, iteraciones.");
+        setImportStatus('');
+      }
+    };
+    reader.readAsText(file);
+  };
+
   return (
     <div style={{ padding: '20px' }}>
       <BackButton />
       {/* Contenedor de Datos de Entrada */}
       <div className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md border border-gray-300 mt-6">
-
         {/* Título Principal */}
         <h1 className="text-2xl font-bold text-blue-700 text-center uppercase tracking-wide mb-4">
           Método de Muskingum – Cunge
         </h1>
 
-        {/* Mensaje de Error */}
-        {errorMessage && (
-          <div className="text-red-600 text-sm font-semibold text-center mb-4">
-            {errorMessage}
-          </div>
-        )}
+        {/* Imagen entre el título y los datos de entrada */}
+        <div className="flex justify-center mb-4">
+          <img 
+            src="\images\imageMuskingumCunge.png" 
+            alt="Imagen del experimento" 
+            className="w-1/2 object-contain" 
+          />
+        </div>
+
+        {/* Botón para importar datos desde archivo TXT */}
+        <div className="flex flex-col items-center mb-4">
+          <button
+            onClick={() => fileInputRef.current.click()}
+            className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg shadow-md transition duration-300"
+          >
+            Importar Datos
+          </button>
+          <input 
+            type="file" 
+            accept=".txt" 
+            ref={fileInputRef} 
+            style={{ display: 'none' }} 
+            onChange={handleFileImport}
+          />
+          {/* Mensaje de confirmación */}
+          {importStatus && (
+            <span className="mt-2 text-green-600 text-sm">{importStatus}</span>
+          )}
+        </div>
 
         {/* Subtítulo */}
         <h2 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">
@@ -333,18 +382,13 @@ const MuskingumCunge = () => {
             </div>
           ))}
         </div>
-
       </div>
 
       {/* Panel de Cálculos */}
       <div className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md border border-gray-300 mt-6">
-
-        {/* Título */}
         <h2 className="text-xl font-semibold text-blue-700 text-center mb-4">
           Cálculos
         </h2>
-
-        {/* Contenedor de Resultados */}
         <div className="grid grid-cols-2 gap-4 text-gray-700 text-sm">
           {[
             { label: "Velocidad (V, m/s):", value: calcOutputs.vel },
@@ -366,32 +410,32 @@ const MuskingumCunge = () => {
             </div>
           ))}
         </div>
-
       </div>
 
       {/* Botones Generales */}
       <div className="flex justify-center gap-4 my-6">
         <button
           onClick={loadSampleData}
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition duration-300">
-          EJEMPLO
+          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition duration-300"
+        >
+          Ejemplo
         </button>
-
         <button
           onClick={calcular}
-          className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg shadow-md transition duration-300">
+          className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg shadow-md transition duration-300"
+        >
           Calcular
         </button>
-
         <button
           onClick={nuevoEjercicio}
-          className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg shadow-md transition duration-300">
+          className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg shadow-md transition duration-300"
+        >
           Nuevo Ejercicio
         </button>
-
         <button
           onClick={exportToExcel}
-          className="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg shadow-md transition duration-300">
+          className="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg shadow-md transition duration-300"
+        >
           Exportar a Excel
         </button>
       </div>
@@ -413,15 +457,12 @@ const MuskingumCunge = () => {
             <h3 className="text-lg font-semibold mb-4 text-center">
               Ingresar Dato - Caudal Entrada (Qe)
             </h3>
-
             <input
               type="number"
               value={newRowValue}
               onChange={(e) => setNewRowValue(e.target.value)}
               className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-
-            {/* Botones */}
             <div className="flex justify-end gap-4 mt-4">
               <button
                 onClick={() => { setShowAddModal(false); setNewRowValue(''); }}
@@ -429,7 +470,6 @@ const MuskingumCunge = () => {
               >
                 Cancelar
               </button>
-
               <button
                 onClick={handleAddNewRow}
                 className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition duration-300"
@@ -441,10 +481,9 @@ const MuskingumCunge = () => {
         </div>
       )}
 
-      {/* Contenedor de la Tabla */}
-      <div className="mb-6 overflow-x-auto">
+      {/* Contenedor de la Tabla con ancho máximo */}
+      <div className="max-w-4xl mx-auto mb-6 overflow-x-auto">
         <h2 className="text-lg font-semibold text-blue-700 text-center mb-4">Datos</h2>
-
         <table className="w-full border border-gray-300 text-sm text-gray-700">
           <thead>
             <tr className="bg-blue-600 text-white">
@@ -471,7 +510,6 @@ const MuskingumCunge = () => {
         </table>
       </div>
 
-
       {/* Botón para Ver/Ocultar la Gráfica */}
       <div className="flex justify-center mb-6">
         <button
@@ -482,47 +520,47 @@ const MuskingumCunge = () => {
         </button>
       </div>
 
-      {/* Contenedor de la Gráfica */}
+      {/* Sección de Gráfica única que muestra ambos caudales */}
       {showGraph && rows.length > 0 && (
-        <div className="flex justify-center items-center flex-col mt-8">
+        <div className="max-w-2xl mx-auto mt-8">
           <h3 className="text-xl font-bold text-blue-700 text-center mb-6">
-            Gráfica de Caudal Salida (Qs)
+            Caudal de Entrada (Qe) y Salida (Qs)
           </h3>
-
-          {/* Contenedor Responsive */}
-          <div className="w-full md:w-3/4 lg:w-1/2 bg-white shadow-md p-4 rounded-lg">
-            <ResponsiveContainer width="100%" height={500}> {/* Aumenta la altura */}
-              <LineChart data={rows} margin={{ top: 20, right: 30, left: 50, bottom: 30 }}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis
-                  dataKey="Columna2"
-                  label={{ value: 'Tiempo (horas)', position: 'insideBottom', offset: -5 }}
-                />
-                <YAxis
-                  label={{ value: 'Caudal Salida (Qs)', angle: -90, position: 'insideLeft' }}
-                  domain={[0, 1500]} // Establece el límite superior en 1500
-                  tick={{ fontSize: 14 }} // Aumenta el tamaño de los números del eje Y
-                  width={80} // Aumenta el ancho del eje Y
-                />
-                <Tooltip />
-                <Legend />
-                <Line
-                  type="monotone"
-                  dataKey="Columna6"
-                  name="Qs"
-                  stroke="#8884d8"
-                  dot={{ r: 4 }} // Muestra todos los puntos
-                  activeDot={{ r: 6 }} // Punto resaltado al pasar el mouse
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
+          <ResponsiveContainer width="100%" height={400}>
+            <LineChart data={rows} margin={{ top: 20, right: 30, left: 50, bottom: 30 }}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis 
+                dataKey="Columna2" 
+                label={{ value: 'Tiempo (horas)', position: 'insideBottom', offset: -5 }} 
+              />
+              <YAxis 
+                label={{ value: 'Caudal (m³/s)', angle: -90, position: 'insideLeft' }} 
+                domain={[0, 1500]} 
+                tick={{ fontSize: 14 }} 
+                width={60} 
+              />
+              <Tooltip />
+              <Legend />
+              <Line 
+                type="monotone" 
+                dataKey="Columna6" 
+                name="Qs (Salida)" 
+                stroke="#8884d8" 
+                dot={{ r: 4 }} 
+                activeDot={{ r: 6 }} 
+              />
+              <Line 
+                type="monotone" 
+                dataKey="Columna1" 
+                name="Qe (Entrada)" 
+                stroke="#FF0000" 
+                dot={{ r: 4 }} 
+                activeDot={{ r: 6 }} 
+              />
+            </LineChart>
+          </ResponsiveContainer>
         </div>
       )}
-
-
-
-
     </div>
   );
 };

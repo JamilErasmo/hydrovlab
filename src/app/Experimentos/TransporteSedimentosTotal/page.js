@@ -43,21 +43,25 @@ const calculateSedimentTransport = (A, P, U, t, S_percent, Dm_mm, ps) => {
 };
 
 const TransporteSedimentos = () => {
-    const [A, setA] = useState();
-    const [P, setP] = useState();
-    const [U, setU] = useState();
-    const [t, setT] = useState();
-    const [S, setS] = useState();
-    const [Dm, setDm] = useState();
-    const [ps, setPs] = useState();
+    const [A, setA] = useState('');
+    const [P, setP] = useState('');
+    const [U, setU] = useState('');
+    const [t, setT] = useState('');
+    const [S, setS] = useState('');
+    const [Dm, setDm] = useState('');
+    const [ps, setPs] = useState('');
 
     const [results, setResults] = useState({});
 
     const handleCalculate = () => {
         if (
-            !isNaN(A) && !isNaN(P) && !isNaN(U) &&
-            !isNaN(t) && !isNaN(S) && !isNaN(Dm) &&
-            !isNaN(ps)
+            !isNaN(A) && A !== '' &&
+            !isNaN(P) && P !== '' &&
+            !isNaN(U) && U !== '' &&
+            !isNaN(t) && t !== '' &&
+            !isNaN(S) && S !== '' &&
+            !isNaN(Dm) && Dm !== '' &&
+            !isNaN(ps) && ps !== ''
         ) {
             const result = calculateSedimentTransport(A, P, U, t, S, Dm, ps);
             setResults(result);
@@ -88,11 +92,21 @@ const TransporteSedimentos = () => {
     };
 
     return (
-        <div className='container mx-auto p-4'>
+        <div className="container mx-auto p-4">
             <div className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md border border-gray-300 mt-6">
+                {/* Título */}
                 <h1 className="text-2xl font-bold text-center mb-6 text-gray-800">
-                    Calculadora de Transporte de Sedimentos
+                    Transporte de Sedimentos en Suspensión
                 </h1>
+
+                {/* Espacio para la imagen */}
+                <div className="flex justify-center mb-6">
+                    <img
+                        src="\images\imageTSedimentos.jpg"
+                        alt="Imagen del experimento"
+                        className="w-1/2 object-contain"
+                    />
+                </div>
 
                 {/* Datos de Entrada */}
                 <div className="space-y-4">
@@ -199,23 +213,26 @@ const TransporteSedimentos = () => {
                 </div>
             </div>
 
+            {/* Resultados */}
             {Object.keys(results).length > 0 && (
                 <div className="mt-6 p-6 bg-gray-100 rounded-lg shadow-md border border-gray-300 max-w-xl mx-auto">
                     <h2 className="text-xl font-bold text-gray-800 mb-4 text-center">Resultados</h2>
                     <ul className="space-y-2 text-gray-700">
                         <li className="p-2 bg-white rounded-md shadow-sm">
-                            <strong>Concentración de Sedimentos en Suspensión:</strong> {results.gBS_ppm.toFixed(6)} <span className="text-gray-500">(gBS ppm)</span>
+                            <strong>Concentración de Sedimentos en Suspensión:</strong>{" "}
+                            {results.gBS_ppm.toFixed(6)} <span className="text-gray-500">(gBS ppm)</span>
                         </li>
                         <li className="p-2 bg-white rounded-md shadow-sm">
-                            <strong>Cantidad de Sedimentos en Suspensión:</strong> {results.gBS_kgf_s.toFixed(6)} <span className="text-gray-500">(kgf/s)</span>
+                            <strong>Cantidad de Sedimentos en Suspensión:</strong>{" "}
+                            {results.gBS_kgf_s.toFixed(6)} <span className="text-gray-500">(kgf/s)</span>
                         </li>
                         <li className="p-2 bg-white rounded-md shadow-sm">
-                            <strong>Cantidad de Sedimentos en Suspensión Q:</strong> {results.Q_m3_s.toFixed(2)} <span className="text-gray-500">(m³/s)</span>
+                            <strong>Cantidad de Sedimentos en Suspensión Q:</strong>{" "}
+                            {results.Q_m3_s.toFixed(2)} <span className="text-gray-500">(m³/s)</span>
                         </li>
                     </ul>
                 </div>
             )}
-
         </div>
     );
 };
