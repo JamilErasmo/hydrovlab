@@ -62,7 +62,7 @@ export default function Navbar() {
                 className="h-8 w-8 mr-2 object-contain"
               />
               <Link href="/" className="text-2xl font-bold text-blue-600">
-                HYDROVLAB
+                HydroVLab
               </Link>
             </div>
             <div className="hidden sm:block sm:ml-6">
