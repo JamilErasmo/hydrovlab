@@ -111,12 +111,12 @@ const CurvaRemansoBakhmeteffUnico = () => {
 
     setResultado({
       Y: Y_target.toFixed(3),
-      U: U.toFixed(15),
-      V: V.toFixed(15),
-      funU: funU.toFixed(15),
-      funV: funV.toFixed(15),
-      DELTAX: DELTAX.toFixed(14),
-      L: L.toFixed(14)
+      U: U.toFixed(3),
+      V: V.toFixed(3),
+      funU: funU.toFixed(3),
+      funV: funV.toFixed(3),
+      DELTAX: DELTAX.toFixed(3),
+      L: L.toFixed(3)
     });
   };
 

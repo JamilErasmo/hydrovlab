@@ -1,12 +1,18 @@
 'use client';
 import React, { useState } from 'react';
 import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
+
 const TiranteCriticoCircular = () => {
     const [caudal, setCaudal] = useState('');
     const [diametro, setDiametro] = useState('');
     const [tiranteInicial, setTiranteInicial] = useState('');
     const [tiranteCritico, setTiranteCritico] = useState(null);
     const [errorVisible, setErrorVisible] = useState(false);
+
+    // Función que trunca un número a 3 decimales sin redondear
+    const truncateTo3 = (num) => {
+        return (Math.trunc(num * 1000) / 1000).toFixed(3);
+    };
 
     // Función para cargar el ejemplo con los valores dados
     const cargarEjemplo = () => {
@@ -60,20 +66,21 @@ const TiranteCriticoCircular = () => {
             }
         } while (Math.abs(y1 - y) > 0.0001);
 
-        setTiranteCritico(y.toFixed(15));
+        // Se utiliza la función truncateTo3 para obtener 3 decimales sin redondear
+        setTiranteCritico(truncateTo3(y));
     };
 
     return (
         <div className='py-10'>
-                  <BackButton />
+            <BackButton />
             <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300 max-w-2xl mx-auto mt-6">
                 <h1 className="text-2xl font-bold text-blue-700 text-center mb-6">
                     Tirante Crítico en Sección Circular
                 </h1>
                 <div className="flex justify-center mb-2">
-                        {/* Reemplaza la siguiente ruta con la imagen deseada */}
-                        <img src="\images\imageSTrapezoidal.png" alt="Imagen descriptiva" className="max-h-48 object-contain" />
-                    </div>
+                    {/* Reemplaza la siguiente ruta con la imagen deseada */}
+                    <img src="\images\imageSTrapezoidal.png" alt="Imagen descriptiva" className="max-h-48 object-contain" />
+                </div>
                 <div className="mb-6">
                     <h3 className="text-xl font-semibold text-gray-800 mb-4">Datos de Entrada</h3>
                     <label className="block text-gray-700 font-medium">Caudal Q (m³/s):</label>
@@ -140,7 +147,6 @@ const TiranteCriticoCircular = () => {
                 )}
             </div>
         </div>
-
     );
 };
 

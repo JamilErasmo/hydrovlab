@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según corresponda
 
 const ExperimentoCircular = () => {
   const [data, setData] = useState({
@@ -17,6 +17,9 @@ const ExperimentoCircular = () => {
     f2: '',
     En: ''
   });
+
+  // Función que trunca un número a 3 decimales sin redondear
+  const truncateTo3 = (num) => (Math.trunc(num * 1000) / 1000).toFixed(3);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -76,10 +79,10 @@ const ExperimentoCircular = () => {
     const En = y_final + Math.pow(v, 2) / 19.62;
 
     setResults({
-      yResult: y_final.toFixed(15),
-      v: v.toFixed(15),
-      f2: f2.toFixed(15),
-      En: En.toFixed(15)
+      yResult: truncateTo3(y_final),
+      v: truncateTo3(v),
+      f2: truncateTo3(f2),
+      En: truncateTo3(En)
     });
   };
 
@@ -177,16 +180,16 @@ const ExperimentoCircular = () => {
 
         <div className="flex justify-center gap-4 mb-6">
           <button
-            onClick={calcular}
-            className="px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition"
-          >
-            Calcular
-          </button>
-          <button
             onClick={cargarEjemplo}
             className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
           >
             Cargar Ejemplo
+          </button>
+          <button
+            onClick={calcular}
+            className="px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition"
+          >
+            Calcular
           </button>
           <button
             onClick={limpiar}

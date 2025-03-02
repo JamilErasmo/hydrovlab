@@ -45,7 +45,8 @@ const RaizEcuacion = () => {
 
         } while (Math.abs(f1) > er);
 
-        setResultado(y.toFixed(6));
+        // Se muestra el resultado con 3 decimales
+        setResultado(y.toFixed(3));
     };
 
     return (
@@ -128,11 +129,6 @@ const RaizEcuacion = () => {
                     >
                         Limpiar
                     </button>
-                </div>
-
-                {/* Botón Principal de Calcular */}
-                <div className="mt-4 text-center">
-
                 </div>
 
                 {/* Resultados */}

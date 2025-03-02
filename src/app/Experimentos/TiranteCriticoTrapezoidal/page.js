@@ -4,13 +4,15 @@ import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ub
 
 const TiranteCriticoTrapezoidal = () => {
     const [errorVisible, setErrorVisible] = useState(false);
-
     const [caudal, setCaudal] = useState('');
     const [anchoSolera, setAnchoSolera] = useState('');
     const [talud, setTalud] = useState('');
     const [tiranteInicial, setTiranteInicial] = useState('');
     const [errorDeseado, setErrorDeseado] = useState('');
     const [tiranteCritico, setTiranteCritico] = useState(null);
+
+    // Función que trunca un número a 3 decimales sin redondear
+    const truncateTo3 = (num) => (Math.trunc(num * 1000) / 1000).toFixed(3);
 
     // Función para cargar el ejemplo con los valores dados
     const cargarEjemplo = () => {
@@ -52,19 +54,20 @@ const TiranteCriticoTrapezoidal = () => {
             y = y1;
         } while (Math.abs(F) >= Er);
 
-        setTiranteCritico(y.toFixed(15));
+        // Se trunca a 3 decimales sin redondear
+        setTiranteCritico(truncateTo3(y));
     };
 
     return (
         <div className="py-10">
-                  <BackButton />
+            <BackButton />
             <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300 max-w-2xl mx-auto mt-6">
                 <h1 className="text-2xl font-bold text-blue-700 text-center mb-6">
                     Tirante Crítico en Sección Trapezoidal
                 </h1>
                 <div className="flex justify-center mb-2">
-                        {/* Reemplaza la siguiente ruta con la imagen deseada */}
-                        <img src="\images\imageSTrapezoidal.png" alt="Imagen descriptiva" className="max-h-48 object-contain" />
+                    {/* Reemplaza la siguiente ruta con la imagen deseada */}
+                    <img src="\images\imageSTrapezoidal.png" alt="Imagen descriptiva" className="max-h-48 object-contain" />
                 </div>
                 <div className="space-y-4">
                     <h3 className="text-xl font-semibold text-gray-800">Datos de Entrada</h3>
@@ -139,6 +142,7 @@ const TiranteCriticoTrapezoidal = () => {
                         </p>
                     </div>
                 )}
+
                 {errorVisible && (
                     <div className="mt-6 p-4 bg-red-100 rounded-lg border border-red-300">
                         <p className="text-red-700 font-medium">
@@ -148,7 +152,6 @@ const TiranteCriticoTrapezoidal = () => {
                 )}
             </div>
         </div>
-
     );
 };
 

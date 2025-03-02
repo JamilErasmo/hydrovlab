@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
-import BackButton from "@/components/BackButton"; // Ajusta la ruta según la ubicación
+import BackButton from "@/components/BackButton"; // Ajusta la ruta según corresponda
+
 const Experimento = () => {
     const [data, setData] = useState({
         Q: "",
@@ -17,6 +18,9 @@ const Experimento = () => {
         F1: '',
         E1: ''
     });
+
+    // Función que trunca un número a 3 decimales sin redondear
+    const truncateTo3 = (num) => (Math.trunc(num * 1000) / 1000).toFixed(3);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -52,10 +56,10 @@ const Experimento = () => {
         } while (Math.abs(F) >= Er);
 
         setResults({
-            yResult: y.toFixed(15),
-            V: V.toFixed(15),
-            F1: F1.toFixed(15),
-            E1: E1.toFixed(15),
+            yResult: truncateTo3(y),
+            V: truncateTo3(V),
+            F1: truncateTo3(F1),
+            E1: truncateTo3(E1),
         });
     };
 
@@ -97,14 +101,14 @@ const Experimento = () => {
 
     return (
         <div className='py-10'>
-                  <BackButton />
+            <BackButton />
             <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300 max-w-2xl mx-auto mt-6">
                 <h1 className="text-3xl font-bold text-blue-700 text-center mb-6">
                     Tirante Normal Sección Trapezoidal
                 </h1>
                 <div className="flex justify-center mb-2">
-                        {/* Reemplaza la siguiente ruta con la imagen deseada */}
-                        <img src="\images\imageSTrapezoidal.png" alt="Imagen descriptiva" className="max-h-48 object-contain" />
+                    {/* Reemplaza la siguiente ruta con la imagen deseada */}
+                    <img src="\images\imageSTrapezoidal.png" alt="Imagen descriptiva" className="max-h-48 object-contain" />
                 </div>
                 <div className="mb-6">
                     <h3 className="text-xl font-semibold text-gray-800 mb-4">Datos de Entrada</h3>
@@ -182,16 +186,16 @@ const Experimento = () => {
 
                 <div className="flex justify-center gap-4 mb-6">
                     <button
-                        onClick={calcular}
-                        className="px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition"
-                    >
-                        Calcular
-                    </button>
-                    <button
                         onClick={cargarEjemplo}
                         className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition"
                     >
                         Cargar Ejemplo
+                    </button>
+                    <button
+                        onClick={calcular}
+                        className="px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition"
+                    >
+                        Calcular
                     </button>
                     <button
                         onClick={limpiar}
@@ -220,7 +224,6 @@ const Experimento = () => {
                 )}
             </div>
         </div>
-
     );
 };
 

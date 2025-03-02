@@ -76,7 +76,8 @@ const CurvaDeRemanso = () => {
 
     const M = Math.sqrt(1 + Z ** 2);
     const resultadosCalculados = [];
-    resultadosCalculados.push({ x: X1.toFixed(0), y: Y1.toFixed(15) });
+    // Se formatea a 3 decimales
+    resultadosCalculados.push({ x: X1.toFixed(3), y: Y1.toFixed(3) });
 
     let i = 0;
     let currentX = X1;
@@ -122,7 +123,8 @@ const CurvaDeRemanso = () => {
       currentY = Y2;
       currentX += X;
 
-      resultadosCalculados.push({ x: currentX.toFixed(0), y: currentY.toFixed(15) });
+      // Se formatea a 3 decimales
+      resultadosCalculados.push({ x: currentX.toFixed(3), y: currentY.toFixed(3) });
       i++;
     }
 

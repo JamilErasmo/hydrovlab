@@ -144,10 +144,11 @@ const TiranteConjugadoCircular = () => {
       // Determinar si el flujo es subcrítico o supercrítico
       const mensajeFlujo = finalY2 > y1 ? "El tirante es subcrítico" : "El tirante es supercrítico";
 
+      // Formatear todos los resultados a 3 decimales
       setResultados({
-        energiaE: E_print.toFixed(14),
-        perdidaEnergiaE3: E3.toFixed(16),
-        alturaResaltoY3: y3.toFixed(14),
+        energiaE: E_print.toFixed(3),
+        perdidaEnergiaE3: E3.toFixed(3),
+        alturaResaltoY3: y3.toFixed(3),
         mensajeFlujo,
       });
     } catch (error) {
@@ -220,7 +221,7 @@ const TiranteConjugadoCircular = () => {
           </div>
         </div>
 
-        {/* Botones Secundarios */}
+        {/* Botones agrupados y centrados */}
         <div className="flex justify-center gap-4 mt-6">
           <button
             onClick={cargarEjemplo}
@@ -229,20 +230,16 @@ const TiranteConjugadoCircular = () => {
             Ejemplo
           </button>
           <button
+            onClick={calcular}
+            className="px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition"
+          >
+            Calcular
+          </button>
+          <button
             onClick={limpiarCampos}
             className="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition"
           >
             Limpiar
-          </button>
-        </div>
-
-        {/* Botón de Calcular */}
-        <div className="mt-4">
-          <button
-            onClick={calcular}
-            className="w-full px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition"
-          >
-            Calcular
           </button>
         </div>
 
@@ -259,8 +256,8 @@ const TiranteConjugadoCircular = () => {
             <p className="text-lg font-medium text-gray-700">
               ALTURA DEL RESALTO HIDRÁULICO Y3 (m): <span className="font-bold text-blue-700">{resultados.alturaResaltoY3} m</span>
             </p>
-            <p className="text-lg font-medium text-gray-700">
-              {resultados.mensajeFlujo}
+            <p className="text-lg font-medium">
+              <span className="font-bold text-blue-600">{resultados.mensajeFlujo}</span>
             </p>
           </div>
         )}
